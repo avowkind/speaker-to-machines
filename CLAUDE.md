@@ -27,3 +27,17 @@ This is an SFIA-style AI skills framework built for self-assessment. It lets can
 2. Do a consistency pass on the 277 descriptors: verb patterns per level, overlaps (e.g. SUPV/DELG, CTXM/INST, AUTV level 2/SUPV), and the thin INTP 6–7 and CLML 7 entries.
 3. Fork the PD tool: read data/skills.json (same tree shape as json_source.json); show level text inline and the examples layer; add a profile mode (import/export profile JSON with dates and evidence); a target overlay for gap analysis; a history view of snapshots; a 12-month staleness flag on last_practised; and remove SFIA JSON from the fork.
 4. Open questions: weighting of evidence types in gap analysis (built > used > learned); whether PERS and HOME should merge.
+
+## Agent skills
+
+### Issue tracker
+
+Local markdown files under `.scratch/<feature>/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five roles (needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix), recorded as a `Status:` line. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
