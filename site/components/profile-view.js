@@ -62,7 +62,7 @@ export class ProfileView extends LitElement {
                       ${s.badge.evidence.map(
                         (e) => html`<li>
                           ${e.date} · ${e.type}: ${e.note}${e.tools?.length ? ` (${e.tools.join(', ')})` : ''}
-                          ${safeLink(e.link) ? html`<a href=${safeLink(e.link)}>link</a>` : nothing}
+                          ${safeLink(e.link) ? html`<a href=${safeLink(e.link)} rel="noopener noreferrer">link</a>` : nothing}
                         </li>`,
                       )}
                     </ul>`

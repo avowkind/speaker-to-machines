@@ -10,6 +10,7 @@ import { validateSchema } from './schema.js';
 import { isDate, compareDates } from './dates.js';
 import { LOGBOOK_SCHEMA, currentCode, inFrameworkOrder, levelProblem } from './logbook.js';
 import { skillByCode } from './framework.js';
+import { safeLink } from './links.js';
 import logbookSchema from '../schemas/logbook.schema.json' with { type: 'json' };
 import targetSchema from '../schemas/target.schema.json' with { type: 'json' };
 
@@ -91,6 +92,8 @@ export function importLogbook(fw, text) {
     e.codes.forEach((/** @type {string} */ c, /** @type {number} */ j) => {
       if (!skillByCode(fw, currentCode(fw, c))) errors.push(`evidence.${i}.codes.${j}: ${c} is not a skill in this framework`);
     });
+    if (!e.note.trim()) errors.push(`evidence.${i}.note: an evidence item needs a note saying what was done`);
+    if (e.link !== undefined && !safeLink(e.link)) errors.push(`evidence.${i}.link: a link must be a web address starting http:// or https://`);
     if (ids.has(e.id)) errors.push(`evidence.${i}.id: ${e.id} is used by more than one evidence item`);
     ids.add(e.id);
   });

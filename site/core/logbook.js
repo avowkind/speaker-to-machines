@@ -317,6 +317,19 @@ const BUILDING = new Set(['built', 'taught']);
 const LEADING = new Set(['taught', 'published']);
 
 /**
+ * What evidence a level's badge needs, in words, for telling a person what to add.
+ * @param {number} level
+ * @returns {string}
+ */
+export function evidenceNeeded(level) {
+  if (level === 1) return 'any evidence';
+  if (level === 2) return 'used, built, taught or published evidence';
+  if (level === 3) return 'used, built, taught or published evidence spanning at least three months';
+  if (level <= 5) return 'built or taught evidence';
+  return 'taught or published evidence';
+}
+
+/**
  * The evidence that meets a level's rule (ADR 0003), or none if the rule is
  * not met: any type at 1; used, built, taught or published at 2-3, spanning at
  * least three months at 3; built or taught at 4-5; taught or published at 6-7.
@@ -661,4 +674,16 @@ export function buildPositionDescription(fw, target) {
     };
   });
   return { name: target.name, framework: { name: fw.framework.name, version: fw.framework.version }, levels };
+}
+
+/**
+ * The target with one target level's priority changed.
+ * @param {Target} target
+ * @param {string} code
+ * @param {Priority} priority
+ * @returns {Target}
+ */
+export function withTargetPriority(target, code, priority) {
+  if (!target.levels.some((l) => l.code === code)) throw new Error(`the target has no level for ${code}`);
+  return { ...target, levels: target.levels.map((l) => (l.code === code ? { ...l, priority } : l)) };
 }

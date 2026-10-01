@@ -1,6 +1,7 @@
 import { LitElement, html, nothing } from 'lit';
 import { safeLink } from '../core/links.js';
 import { levelInfo } from '../core/framework.js';
+import { evidenceNeeded } from '../core/logbook.js';
 
 /**
  * The skill-by-level grid. Shows each skill's level range, with one tickable
@@ -201,7 +202,7 @@ export class ClaimsGrid extends LitElement {
   /** @param {number} level */
   evidenceHint(level) {
     const info = this.framework && levelInfo(this.framework, level);
-    const needs = level === 1 ? 'any evidence' : level <= 2 ? 'used, built, taught or published evidence' : level === 3 ? 'used, built, taught or published evidence spanning at least three months' : level <= 5 ? 'built or taught evidence' : 'taught or published evidence';
+    const needs = evidenceNeeded(level);
     return `Level ${level} needs ${needs}${info ? ` (for example: ${info.evidence.replace(/\.$/, '').toLowerCase()})` : ''}.`;
   }
 

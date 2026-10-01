@@ -95,7 +95,7 @@ test('a file that fits the schema but not the framework is refused', () => {
     'framework_version: "0.1"',
     'evidence:',
     '  - { id: e1, date: "2026-02-30", codes: [ZZZZ], type: used, note: x }',
-    '  - { id: e1, date: "2026-01", codes: [INST], type: used, note: y }',
+    '  - { id: e1, date: "2026-01", codes: [INST], type: used, note: " ", link: "javascript:alert(1)" }',
     'snapshots:',
     '  - { date: "2026-09-30", claims: [ { code: WRIT, level: 1 }, { code: INST, level: 2 }, { code: INST, level: 3 } ] }',
     '  - { date: "2026-09-30", claims: [] }',
@@ -104,6 +104,8 @@ test('a file that fits the schema but not the framework is refused', () => {
   assert.deepEqual(result.ok ? [] : result.errors, [
     'evidence.0.date: "2026-02-30" is not a date',
     'evidence.0.codes.0: ZZZZ is not a skill in this framework',
+    'evidence.1.note: an evidence item needs a note saying what was done',
+    'evidence.1.link: a link must be a web address starting http:// or https://',
     'evidence.1.id: e1 is used by more than one evidence item',
     'snapshots.0.claims.0: WRIT has no level 1 (its levels are 2-3)',
     'snapshots.0.claims.2: INST is claimed more than once in this snapshot',

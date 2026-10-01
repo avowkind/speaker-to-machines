@@ -9,6 +9,7 @@ import {
   removeTarget,
   startLogbook,
   withTargetLevel,
+  withTargetPriority,
 } from '../site/core/logbook.js';
 import { fixtureFramework } from './helpers/fixtures.js';
 
@@ -35,6 +36,8 @@ test('a target is built by ticking target levels and marking each essential or d
   ]);
   assert.deepEqual(withTargetLevel(fw, t, 'INST', null, 'essential').levels.map((l) => l.code), ['LEAD']);
   assert.throws(() => withTargetLevel(fw, t, 'WRIT', 1, 'essential'), /WRIT has no level 1/);
+  assert.deepEqual(withTargetPriority(t, 'LEAD', 'desirable').levels[1], { code: 'LEAD', level: 4, priority: 'desirable' });
+  assert.throws(() => withTargetPriority(t, 'WRIT', 'desirable'), /no level for WRIT/);
 });
 
 test('a target encodes as its name and code-level pairs, with essential levels marked', () => {

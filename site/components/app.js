@@ -20,6 +20,7 @@ import {
   updateEvidence,
   withClaim,
   withTargetLevel,
+  withTargetPriority,
 } from '../core/logbook.js';
 import { localToday } from '../core/dates.js';
 import { exportLogbook, exportProfile, exportTarget, importLogbook, importTarget } from '../core/files.js';
@@ -657,7 +658,7 @@ export class App extends LitElement {
             withTargetLevel(this.fw, t, e.detail.code, e.detail.level, t.levels.find((l) => l.code === e.detail.code)?.priority ?? 'essential'),
           )}
         @target-priority=${(/** @type {CustomEvent<{ code: string, priority: 'essential' | 'desirable' }>} */ e) =>
-          this.changeTarget((t) => ({ ...t, levels: t.levels.map((l) => (l.code === e.detail.code ? { ...l, priority: e.detail.priority } : l)) }))}
+          this.changeTarget((t) => withTargetPriority(t, e.detail.code, e.detail.priority))}
         @target-rename=${(/** @type {CustomEvent<{ name: string }>} */ e) => {
           const name = e.detail.name.trim();
           if (name) this.changeTarget((t) => ({ ...t, name }));
