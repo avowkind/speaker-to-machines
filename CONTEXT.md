@@ -38,9 +38,17 @@ The dated list of current tools and models attached to a skill, refreshed withou
 One person's record against the framework: their evidence log, snapshots and targets.
 _Avoid_: profile, account, user data
 
+**Logbook file**:
+The YAML file holding a whole logbook. It is the master copy, kept wherever the person chooses; the site and agents both read and write it, and the browser holds only a working copy.
+_Avoid_: export, backup
+
 **Evidence item**:
 A dated record of something the person did, tagged with one or more skill codes, typed as learned, used, built, taught or published, optionally naming the tools used.
 _Avoid_: proof, artefact
+
+**Private evidence**:
+An evidence item the person marks private. It counts towards badges like any other item, but outputs show only its date, type and skill codes, never its note, link or tools.
+_Avoid_: hidden evidence, confidential
 
 **Evidence log**:
 The list of all evidence items in a logbook. The person may edit or delete items; badges are recomputed.

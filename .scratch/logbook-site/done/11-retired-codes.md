@@ -12,3 +12,7 @@ Spec: ../spec.md
 - [x] Evidence items keep the code they were logged under but count for the replacement skill (dates, badges)
 - [x] The worker is told which codes were mapped on import
 - [x] Core tests use a fixture framework that retires a code and cover links, logbook files and targets
+
+## Comments
+
+Shipped in ae927d7.

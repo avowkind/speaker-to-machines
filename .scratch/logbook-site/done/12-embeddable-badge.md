@@ -12,3 +12,7 @@ Spec: ../spec.md
 - [x] It makes no network request except to the given profile source
 - [x] It shows the skill, level, title and cited evidence, and works on a page outside the site
 - [x] An example page shows both ways of embedding
+
+## Comments
+
+Shipped in e834530.

@@ -16,3 +16,7 @@ Spec: ../spec.md
 - [x] A Node test using the built-in runner shows a fixture skill with a missing level fails with an error naming the file, field and rule
 - [x] The Python build and render scripts, the generated skills JSON and the levels JSON are deleted
 - [x] CLAUDE.md (build command and descriptor conventions) and the README layout describe the YAML files and Node commands
+
+## Comments
+
+Shipped in 59f0dcd.

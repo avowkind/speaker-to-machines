@@ -15,3 +15,7 @@ Spec: ../spec.md
 - [x] The core ranks gaps (target level minus latest claim) by priority, then size
 - [x] The core lists evidence gaps, where the claim meets the target but the badge does not, separately
 - [x] Core tests cover gap ranking, evidence gaps and target URL and YAML round-trips
+
+## Comments
+
+Shipped in 6d13134.

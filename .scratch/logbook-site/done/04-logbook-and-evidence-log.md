@@ -16,3 +16,7 @@ Spec: ../spec.md
 - [x] The core derives first used and last practised per skill from non-learned evidence; year-month dates compare as the first of the month
 - [x] A worker can override first used or last practised per skill, and overrides win
 - [x] Core tests cover derivation with and without overrides, and with learning excluded
+
+## Comments
+
+Shipped in 8fbf420.

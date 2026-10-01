@@ -12,3 +12,7 @@ Spec: ../spec.md
 - [x] A print-ready HTML profile renders in the light DOM with print styles, using titles by default and plain level names as an option
 - [x] The profile exports as YAML with quoted dates and codes
 - [x] Saving as PDF from the browser's print dialog gives a clean document
+
+## Comments
+
+Shipped in e35392b.

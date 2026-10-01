@@ -15,3 +15,7 @@ Spec: ../spec.md
 - [x] The site shows when the logbook was last exported and nudges when there are unexported changes
 - [x] The logbook's framework version is shown next to the current framework version
 - [x] A worker can import a claims link into their logbook as a new snapshot
+
+## Comments
+
+Shipped in 8d18c8f.

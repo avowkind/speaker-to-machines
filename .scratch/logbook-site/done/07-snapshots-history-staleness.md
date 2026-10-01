@@ -14,3 +14,7 @@ Spec: ../spec.md
 - [x] The core flags a claim stale when its skill was last practised more than 12 months before the snapshot's date, honouring overrides
 - [x] Stale claims are flagged on the grid and in history
 - [x] Core tests cover copy-on-new, refused edits, deletion, badges as at a date and staleness boundaries
+
+## Comments
+
+Shipped in 4f25111.

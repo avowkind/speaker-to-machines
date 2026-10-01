@@ -12,3 +12,7 @@ Spec: ../spec.md
 - [x] A print-ready HTML position description renders in the light DOM using plain level names, essential before desirable
 - [x] It works from a target link or file with no logbook in the browser
 - [x] Core tests cover the model
+
+## Comments
+
+Shipped in 8b56d06.

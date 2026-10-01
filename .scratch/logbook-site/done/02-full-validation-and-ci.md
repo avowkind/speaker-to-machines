@@ -18,3 +18,7 @@ Spec: ../spec.md
 - [x] A validate-only command exists for contributors and CI
 - [x] Fixture data directories, one per rule, each produce exactly the expected errors; the real data passes
 - [x] A CI workflow runs validation and all tests on every pull request
+
+## Comments
+
+Shipped in 8c34583.

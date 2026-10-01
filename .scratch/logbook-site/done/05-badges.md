@@ -13,3 +13,7 @@ Spec: ../spec.md
 - [x] Core tests cover each rule's boundaries, including the three-month span, built evidence counting at 3, and a claim of 5 with a year of use giving a badge at 3
 - [x] The grid shows badges with the level title, marks the unevidenced levels, and lets the worker see the cited evidence
 - [x] Badges recompute when evidence is edited or deleted
+
+## Comments
+
+Shipped in 4cbe7f5.

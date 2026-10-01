@@ -17,3 +17,7 @@ Spec: ../spec.md
 - [x] Only a URL adapter touches the location hash; it updates as levels are ticked
 - [x] Opening a link shows its claims on the grid, clearly labelled as plain claims with no badges
 - [x] JSDoc types are checked by tsc --noEmit in CI
+
+## Comments
+
+Shipped in b617ff7.

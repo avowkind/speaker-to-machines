@@ -24,11 +24,8 @@ This is an AI skills framework built for self-assessment. It lets candidates and
 - Tools and products go in data/examples.yaml, never in a skill file. Validation fails if skill text names an example item; if an item is an everyday word or generic technique, list it under generic_terms there.
 - After editing, run: npm run build (or npm run validate to check only), then npm test
 
-## Next steps (in rough order)
-1. Andrew fills in a real logbook against all 53 skills, to find mis-pitched levels and overlapping skills.
-2. Do a consistency pass on the 277 descriptors: verb patterns per level, overlaps (e.g. SUPV/DELG, CTXM/INST, AUTV level 2/SUPV), and the thin INTP 6–7 and CLML 7 entries.
-3. Build the static site: read the generated site/framework.json; show level text inline and the examples layer; import/export of a person's record (claims, evidence, dates); a target overlay for gap analysis; a history view of snapshots; a 12-month staleness flag on last practised.
-4. Open question: whether PERS and HOME should merge.
+## Next steps
+The logbook site is built (`.scratch/logbook-site/`). The roadmap is `.scratch/roadmap.md`: v0.2 agent-kept logbook (logbook file as master copy, ADR 0007; private evidence; an installable logbook skill), v0.3 readable anywhere, v0.4 keeping current, plus a content track (Andrew's logbook, the descriptor consistency pass, the PERS/HOME decision).
 
 Domain terms are in CONTEXT.md (logbook, claim, evidenced claim, badge, snapshot, target, profile). Use them, not "profile site" or "tool".
 
