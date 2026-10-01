@@ -139,6 +139,18 @@ export function importLogbook(fw, text) {
 }
 
 /**
+ * The profile as YAML, for agents or a person's own repository.
+ * @param {import('./logbook.js').Profile} profile
+ * @returns {string}
+ */
+export function exportProfile(profile) {
+  return toYaml(
+    profile,
+    `${profile.framework.name} profile${profile.person ? ` of ${profile.person}` : ''}, as of ${profile.as_of}.\nClaims are self-assessed; each badge cites the evidence it rests on.`,
+  );
+}
+
+/**
  * A target (a role template or a personal goal) as a target file.
  * @param {import('./logbook.js').Target} target
  * @returns {string}

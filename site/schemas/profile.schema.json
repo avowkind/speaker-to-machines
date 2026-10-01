@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines profile (stm-profile/0.1)",
+  "description": "Generated from a logbook: each claimed skill's current claim and badge with the evidence behind it, and earlier snapshots where the level changed.",
+  "type": "object",
+  "required": ["schema", "person", "as_of", "framework", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "stm-profile/0.1" },
+    "person": { "type": "string" },
+    "as_of": { "$ref": "#/$defs/date" },
+    "framework": {
+      "type": "object",
+      "required": ["name", "version"],
+      "additionalProperties": false,
+      "properties": { "name": { "type": "string" }, "version": { "type": "string" } }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "name", "category", "subcategory", "claim", "badge", "unevidenced", "first_used", "last_practised", "stale", "changes"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string", "pattern": "^[A-Z]{4}$" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "subcategory": { "type": "string" },
+          "claim": {
+            "type": "object",
+            "required": ["level", "name", "title", "descriptor"],
+            "additionalProperties": false,
+            "properties": { "level": { "$ref": "#/$defs/level" }, "name": { "type": "string" }, "title": { "type": "string" }, "descriptor": { "type": "string" } }
+          },
+          "badge": {
+            "oneOf": [
+              { "type": "null" },
+              {
+                "type": "object",
+                "required": ["level", "name", "title", "evidence"],
+                "additionalProperties": false,
+                "properties": {
+                  "level": { "$ref": "#/$defs/level" },
+                  "name": { "type": "string" },
+                  "title": { "type": "string" },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["date", "type", "note"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "date": { "$ref": "#/$defs/date" },
+                        "type": { "enum": ["learned", "used", "built", "taught", "published"] },
+                        "note": { "type": "string" },
+                        "link": { "type": "string" },
+                        "tools": { "type": "array", "items": { "type": "string" } }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "unevidenced": { "type": "array", "items": { "$ref": "#/$defs/level" } },
+          "first_used": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/date" }] },
+          "last_practised": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/date" }] },
+          "stale": { "type": "boolean" },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["date", "level", "name", "title"],
+              "additionalProperties": false,
+              "properties": { "date": { "$ref": "#/$defs/date" }, "level": { "$ref": "#/$defs/level" }, "name": { "type": "string" }, "title": { "type": "string" } }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?$" },
+    "level": { "type": "integer", "minimum": 1, "maximum": 7 }
+  }
+}

@@ -3,6 +3,7 @@ import {
   addEvidence,
   addSnapshot,
   addTarget,
+  buildProfile,
   deleteEvidence,
   deleteSnapshot,
   isEditable,
@@ -20,7 +21,7 @@ import {
   withTargetLevel,
 } from '../core/logbook.js';
 import { localToday } from '../core/dates.js';
-import { exportLogbook, exportTarget, importLogbook, importTarget } from '../core/files.js';
+import { exportLogbook, exportProfile, exportTarget, importLogbook, importTarget } from '../core/files.js';
 import * as link from '../adapters/url.js';
 import * as storage from '../adapters/storage.js';
 import { saveFile } from '../adapters/download.js';
@@ -29,13 +30,14 @@ import './evidence-log.js';
 import './files-view.js';
 import './history-view.js';
 import './targets-view.js';
+import './profile-view.js';
 
 /**
  * @typedef {import('../core/framework.js').Framework} Framework
  * @typedef {import('../core/logbook.js').Logbook} Logbook
  * @typedef {import('../core/logbook.js').Target} Target
  * @typedef {import('../core/url.js').Snapshot} Snapshot
- * @typedef {'claims' | 'evidence' | 'history' | 'targets' | 'files'} View
+ * @typedef {'claims' | 'evidence' | 'history' | 'targets' | 'profile' | 'files'} View
  */
 
 /** @type {ReadonlyArray<[View, string]>} */
@@ -44,6 +46,7 @@ const LOGBOOK_VIEWS = [
   ['evidence', 'Evidence log'],
   ['history', 'History'],
   ['targets', 'Targets and gaps'],
+  ['profile', 'Profile'],
   ['files', 'Import and export'],
 ];
 /** @type {ReadonlyArray<[View, string]>} */
@@ -475,6 +478,8 @@ export class App extends LitElement {
           : nothing;
       case 'targets':
         return this.renderTargets();
+      case 'profile':
+        return lb ? this.renderProfile(lb) : nothing;
       case 'files':
         return this.renderFiles(lb);
       default:
@@ -660,6 +665,28 @@ export class App extends LitElement {
         @target-export=${this.exportTarget}
         @target-import=${this.importTargetFile}
       ></stm-targets>
+    `;
+  }
+
+  /** @param {Logbook} lb */
+  renderProfile(lb) {
+    const profile = buildProfile(this.fw, lb);
+    return html`
+      <div class="toolbar">
+        ${this.renderLabelToggle()}
+        <button type="button" class="primary" @click=${() => print()}>Print or save as PDF</button>
+        <button
+          type="button"
+          @click=${() => saveFile(`${lb.person ? `${fileSlug(lb.person)}-` : ''}profile-${profile.as_of}.yaml`, exportProfile(profile))}
+        >
+          Export profile as YAML
+        </button>
+      </div>
+      <p class="muted no-print">
+        The profile covers the claims in your latest snapshot (${profile.as_of}). Titles suit a profile; switch to plain names for
+        formal use.
+      </p>
+      <stm-profile .profile=${profile} .labels=${this.labels}></stm-profile>
     `;
   }
 

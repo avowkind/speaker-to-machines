@@ -33,7 +33,21 @@ export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built',
  * @typedef {{ code: string, entries: HistoryEntry[] }} SkillHistory
  * @typedef {{ code: string, target: number, priority: Priority, claim: number, size: number }} Gap
  * @typedef {{ code: string, target: number, priority: Priority, claim: number, badge: number | null }} EvidenceGap
+ * @typedef {{ date: string, type: EvidenceType, note: string, link?: string, tools?: string[] }} CitedEvidence
+ * @typedef {{
+ *   code: string, name: string, category: string, subcategory: string,
+ *   claim: { level: number, name: string, title: string, descriptor: string },
+ *   badge: { level: number, name: string, title: string, evidence: CitedEvidence[] } | null,
+ *   unevidenced: number[], first_used: string | null, last_practised: string | null, stale: boolean,
+ *   changes: Array<{ date: string, level: number, name: string, title: string }>
+ * }} ProfileSkill
+ * @typedef {{
+ *   schema: string, person: string, as_of: string,
+ *   framework: { name: string, version: string }, skills: ProfileSkill[]
+ * }} Profile
  */
+
+export const PROFILE_SCHEMA = 'stm-profile/0.1';
 
 /** A claim is stale when its skill was last practised more than this many months before the snapshot. */
 export const STALE_AFTER_MONTHS = 12;
@@ -557,4 +571,61 @@ export function findGaps(fw, lb, target) {
     (a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || b.target - (b.badge ?? 0) - (a.target - (a.badge ?? 0)) || byOrder(a, b),
   );
   return { gaps, evidenceGaps };
+}
+
+/**
+ * The profile: for each skill claimed in the latest snapshot, the claim, its
+ * badge and the evidence the badge rests on, staleness, and the earlier
+ * snapshots where the level changed. Drives both the HTML and YAML profile.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @returns {Profile}
+ */
+export function buildProfile(fw, lb) {
+  const latest = latestSnapshot(lb);
+  const past = history(fw, lb);
+  const named = (/** @type {number} */ level) => {
+    const info = levelInfo(fw, level);
+    return { level, name: info?.name ?? '', title: info?.title ?? '' };
+  };
+  const skills = inFrameworkOrder(fw, latest.claims).map((claim) => {
+    const skill = /** @type {import('./framework.js').Skill} */ (skillByCode(fw, claim.code));
+    const st = claimStatus(fw, lb, claim, latest.date);
+    const entries = (past.find((h) => h.code === claim.code)?.entries ?? []).filter((e) => compareDates(e.date, latest.date) < 0);
+    /** @type {ProfileSkill['changes']} */
+    const changes = [];
+    entries.forEach((e, i) => {
+      if (e.level !== null && e.level !== (entries[i - 1]?.level ?? null)) changes.push({ date: e.date, ...named(e.level) });
+    });
+    return {
+      code: claim.code,
+      name: skill.name,
+      category: skill.category,
+      subcategory: skill.subcategory,
+      claim: { ...named(claim.level), descriptor: skill.levels[String(claim.level)] ?? '' },
+      badge: st.badge
+        ? {
+            ...named(st.badge.level),
+            evidence: st.badge.evidence.map(({ date, type, note, link, tools }) => ({
+              date,
+              type,
+              note,
+              ...(link ? { link } : {}),
+              ...(tools?.length ? { tools } : {}),
+            })),
+          }
+        : null,
+      unevidenced: st.unevidenced,
+      ...(({ first_used, last_practised }) => ({ first_used, last_practised }))(practiceDates(fw, lb, claim.code, latest.date)),
+      stale: st.stale,
+      changes,
+    };
+  });
+  return {
+    schema: PROFILE_SCHEMA,
+    person: lb.person,
+    as_of: latest.date,
+    framework: { name: fw.framework.name, version: fw.framework.version },
+    skills,
+  };
 }

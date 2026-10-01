@@ -452,3 +452,21 @@ h2.section-title {
   margin: 1.25rem 0 0.4rem;
   font-size: 1.15rem;
 }
+.document h3 {
+  display: block;
+  font-size: 1.05rem;
+  margin: 0.25rem 0;
+}
+.document p {
+  margin: 0.3rem 0;
+}
+@media print {
+  .document .badge-pill,
+  .document .stale-flag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .document h2.section-title {
+    break-after: avoid;
+  }
+}
