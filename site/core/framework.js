@@ -145,7 +145,8 @@ function checkCoverage(file, skill, errors) {
 
 /**
  * Codes are four capital letters, unique, named after their file, clear of
- * SFIA codes, and never a retired code; every retired code has a live replacement.
+ * SFIA codes, and never a retired code; every retired code has a live
+ * replacement; every SFIA mapping names a real SFIA code.
  * @param {Record<string, any>} files
  * @param {string[]} skillFiles
  * @param {FrameworkError[]} errors
@@ -172,6 +173,11 @@ function checkCodes(files, skillFiles, errors) {
     if (sfia.has(code)) {
       errors.push({ file, path: 'code', rule: 'no-sfia-collision', message: `code "${code}" is an SFIA 7–9 skill code` });
     }
+    files[file].map.sfia.forEach((/** @type {string} */ ref, /** @type {number} */ i) => {
+      if (!sfia.has(ref)) {
+        errors.push({ file, path: `map.sfia.${i}`, rule: 'sfia-reference-exists', message: `"${ref}" is not an SFIA 7–9 skill code` });
+      }
+    });
   }
   files['levels.yaml'].retired.forEach((/** @type {RetiredCode} */ r, /** @type {number} */ i) => {
     const user = owner.get(r.code);

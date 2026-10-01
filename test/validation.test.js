@@ -25,6 +25,12 @@ test('a code that collides with an SFIA code fails', () => {
   ]);
 });
 
+test('a mapping to a code that is not an SFIA 7–9 skill fails', () => {
+  assert.deepEqual(errorsFor('unknown-sfia-reference'), [
+    { file: 'skills/WRIT.yaml', path: 'map.sfia.1', rule: 'sfia-reference-exists', message: '"SCPE" is not an SFIA 7–9 skill code' },
+  ]);
+});
+
 test('a retired code replaced by a code that does not exist fails', () => {
   assert.deepEqual(errorsFor('dangling-replaced-by'), [
     { file: 'levels.yaml', path: 'retired.0.replaced_by', rule: 'replacement-exists', message: 'retired code "DRFT" is replaced by "WRTE", which is not a current skill' },

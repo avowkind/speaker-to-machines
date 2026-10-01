@@ -43,6 +43,7 @@ Needs Node 22 or later.
 Validation checks every file against its JSON Schema (site/schemas/), then checks that:
 - each skill's descriptors exactly cover its level_range;
 - codes are four capital letters, unique, match their file name and don't collide with an SFIA 7–9 code;
+- every SFIA code a skill maps to is a real SFIA 7–9 code;
 - every retired code's replaced_by is a current skill, and no retired code is reused;
 - every skill's category and subcategory are in taxonomy.yaml, and examples are only given for current skills;
 - no description or descriptor names a product from the examples layer (case-insensitive, whole word), except the generic terms listed in examples.yaml.

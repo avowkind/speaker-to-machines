@@ -29,5 +29,5 @@ levels:
     controls on what reaches external models, logging and review. Works with privacy and security
     specialists on assessments.
 map:
-  sfia: [ SCPE ]
+  sfia: [ PEDP ]
   appliedai: [ sc_0041, sc_0117 ]
