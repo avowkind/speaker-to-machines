@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines logbook file (stm-logbook/0.1)",
+  "description": "One person's evidence log, snapshots, targets and overrides. Dates and codes are quoted strings.",
+  "type": "object",
+  "required": ["schema", "framework_version", "evidence", "snapshots"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "stm-logbook/0.1" },
+    "person": { "type": "string" },
+    "framework_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$", "patternDescription": "a framework version such as \"0.1\"" },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "date", "codes", "type", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "date": { "$ref": "#/$defs/date" },
+          "codes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/code" } },
+          "type": { "enum": ["learned", "used", "built", "taught", "published"] },
+          "note": { "type": "string" },
+          "link": { "type": "string" },
+          "tools": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "claims"],
+        "additionalProperties": false,
+        "properties": {
+          "date": { "$ref": "#/$defs/date" },
+          "claims": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["code", "level"],
+              "additionalProperties": false,
+              "properties": { "code": { "$ref": "#/$defs/code" }, "level": { "$ref": "#/$defs/level" } }
+            }
+          }
+        }
+      }
+    },
+    "targets": { "type": "array", "items": { "$ref": "#/$defs/target" } },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "$ref": "#/$defs/code" },
+          "first_used": { "$ref": "#/$defs/date" },
+          "last_practised": { "$ref": "#/$defs/date" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?$", "patternDescription": "a date (YYYY-MM or YYYY-MM-DD)" },
+    "code": { "type": "string", "pattern": "^[A-Z]{4}$", "patternDescription": "a skill code (four capital letters)" },
+    "level": { "type": "integer", "minimum": 1, "maximum": 7 },
+    "target": {
+      "type": "object",
+      "required": ["name", "levels"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "level", "priority"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "$ref": "#/$defs/code" },
+              "level": { "$ref": "#/$defs/level" },
+              "priority": { "enum": ["essential", "desirable"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

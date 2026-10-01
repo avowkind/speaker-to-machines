@@ -353,3 +353,28 @@ export function claimStatus(fw, lb, claim, asOf) {
 export function snapshotStatus(fw, lb, snapshot) {
   return snapshot.claims.map((c) => claimStatus(fw, lb, c, snapshot.date));
 }
+
+/**
+ * Add a snapshot, such as one from a claims link, keeping snapshots in date
+ * order. A logbook has one snapshot per date.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {Snapshot} snapshot
+ * @returns {Logbook}
+ */
+export function addSnapshot(fw, lb, snapshot) {
+  if (!isDate(snapshot.date)) throw new Error(`"${snapshot.date}" is not a date (YYYY-MM or YYYY-MM-DD)`);
+  if (lb.snapshots.some((s) => s.date === snapshot.date)) {
+    throw new Error(`there is already a snapshot dated ${snapshot.date}`);
+  }
+  const seen = new Set();
+  for (const c of snapshot.claims) {
+    const problem = levelProblem(fw, c.code, c.level);
+    if (problem) throw new Error(problem);
+    if (seen.has(c.code)) throw new Error(`${c.code} is claimed more than once`);
+    seen.add(c.code);
+  }
+  const added = { date: snapshot.date, claims: inFrameworkOrder(fw, snapshot.claims.map((c) => ({ ...c }))) };
+  const snapshots = [...lb.snapshots, added].sort((a, b) => compareDates(a.date, b.date));
+  return { ...lb, snapshots };
+}

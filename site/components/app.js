@@ -1,6 +1,7 @@
 import { LitElement, html, nothing } from 'lit';
 import {
   addEvidence,
+  addSnapshot,
   deleteEvidence,
   latestSnapshot,
   practiceDates,
@@ -11,21 +12,25 @@ import {
   withClaim,
 } from '../core/logbook.js';
 import { localToday } from '../core/dates.js';
+import { exportLogbook, importLogbook } from '../core/files.js';
 import * as link from '../adapters/url.js';
 import * as storage from '../adapters/storage.js';
+import { saveFile } from '../adapters/download.js';
 import './claims-grid.js';
 import './evidence-log.js';
+import './files-view.js';
 
 /**
  * @typedef {import('../core/framework.js').Framework} Framework
  * @typedef {import('../core/logbook.js').Logbook} Logbook
  * @typedef {import('../core/url.js').Snapshot} Snapshot
- * @typedef {'claims' | 'evidence'} View
+ * @typedef {'claims' | 'evidence' | 'files'} View
  */
 
 const VIEWS = /** @type {const} */ ([
   ['claims', 'Claims'],
   ['evidence', 'Evidence log'],
+  ['files', 'Import and export'],
 ]);
 
 /**
@@ -46,6 +51,7 @@ export class App extends LitElement {
     labels: { state: true },
     message: { state: true },
     person: { state: true },
+    importErrors: { state: true },
   };
 
   constructor() {
@@ -70,6 +76,8 @@ export class App extends LitElement {
     this.labels = 'title';
     this.message = '';
     this.person = '';
+    /** @type {string[]} */
+    this.importErrors = [];
   }
 
   createRenderRoot() {
@@ -157,6 +165,53 @@ export class App extends LitElement {
     this.message = 'Logbook started. Your claims are its first snapshot; add evidence to earn badges.';
   }
 
+  exportLogbook() {
+    if (!this.logbook) return;
+    const day = localToday();
+    const who = this.logbook.person ? `${this.logbook.person.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-` : '';
+    saveFile(`${who}logbook-${day}.yaml`, exportLogbook(this.logbook));
+    const stored = storage.saveExported(this.logbook, new Date().toISOString());
+    this.lastExported = stored.lastExported;
+    this.unexported = false;
+    this.message = 'Logbook exported. Keep the file somewhere safe.';
+  }
+
+  /** @param {CustomEvent<{ text: string, name: string }>} e */
+  importFile(e) {
+    const result = importLogbook(this.fw, e.detail.text);
+    if (!result.ok) {
+      this.importErrors = result.errors;
+      return;
+    }
+    if (this.logbook && !confirm(`Replace the logbook in this browser with ${e.detail.name}?`)) return;
+    this.importErrors = [];
+    this.logbook = result.logbook;
+    const stored = storage.saveExported(result.logbook, new Date().toISOString());
+    this.lastExported = stored.lastExported;
+    this.unexported = false;
+    const mapped = result.mapped.map((m) => `${m.from} → ${m.to}`).join(', ');
+    this.message = `Imported ${e.detail.name}.${mapped ? ` Retired codes were mapped to their replacements: ${mapped}.` : ''}`;
+    this.view = 'claims';
+  }
+
+  forgetLogbook() {
+    if (!confirm('Remove the logbook from this browser? This cannot be undone unless you have exported it.')) return;
+    storage.clear();
+    this.logbook = null;
+    this.lastExported = null;
+    this.unexported = false;
+    this.view = 'claims';
+    this.message = 'The logbook was removed from this browser.';
+  }
+
+  importLinkedSnapshot() {
+    const snapshot = this.linked;
+    if (!snapshot) return;
+    const before = this.logbook;
+    this.change((lb) => addSnapshot(this.fw, lb, snapshot), `The claims from the link were added to your logbook as the snapshot of ${snapshot.date}.`);
+    if (this.logbook !== before) this.leaveLink();
+  }
+
   leaveLink() {
     this.linked = null;
     this.linkProblems = [];
@@ -238,6 +293,7 @@ export class App extends LitElement {
           <button type="submit" class="primary">Start a logbook from these claims</button>
         </form>
       </section>
+      <section class="no-print">${this.renderFiles(null)}</section>
     `;
   }
 
@@ -246,6 +302,7 @@ export class App extends LitElement {
     return html`
       <div class="toolbar">
         ${this.renderLabelToggle()}
+        <button type="button" class="primary" @click=${this.importLinkedSnapshot}>Add to my logbook as a snapshot</button>
         <button type="button" @click=${this.leaveLink}>Back to my logbook</button>
       </div>
       ${this.plainClaimsNotice(snapshot)}
@@ -261,8 +318,28 @@ export class App extends LitElement {
           ([id, label]) => html`<button type="button" aria-current=${this.view === id ? 'page' : 'false'} @click=${() => (this.view = id)}>${label}</button>`,
         )}
       </nav>
-      ${this.view === 'evidence' ? this.renderEvidence(lb) : this.renderClaims(lb)}
+      ${this.unexported && this.view !== 'files'
+        ? html`<p class="notice warning no-print">
+            You have changes that are not in an exported file. If this browser's storage is cleared they are lost.
+            <button type="button" class="link" @click=${this.exportLogbook}>Export now</button>
+          </p>`
+        : nothing}
+      ${this.view === 'evidence' ? this.renderEvidence(lb) : this.view === 'files' ? this.renderFiles(lb) : this.renderClaims(lb)}
     `;
+  }
+
+  /** @param {Logbook | null} lb */
+  renderFiles(lb) {
+    return html`<stm-files
+      .framework=${this.fw}
+      .logbook=${lb}
+      .lastExported=${this.lastExported}
+      .unexported=${this.unexported}
+      .errors=${this.importErrors}
+      @export-logbook=${this.exportLogbook}
+      @import-file=${this.importFile}
+      @forget-logbook=${this.forgetLogbook}
+    ></stm-files>`;
   }
 
   /** @param {Logbook} lb */

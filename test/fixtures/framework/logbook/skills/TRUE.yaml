@@ -1,0 +1,13 @@
+code: "TRUE"
+name: Skill coded TRUE
+category: Working with AI
+subcategory: Communicating with AI
+order: 2
+description: A fixture skill whose code a YAML 1.1 parser would misread.
+level_range: [ 1, 2 ]
+levels:
+  1: Knows.
+  2: Uses with help.
+map:
+  sfia: []
+  appliedai: []

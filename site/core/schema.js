@@ -1,7 +1,8 @@
 /**
  * JSON Schema validation with readable errors. Wraps the vendored validator so
  * the rest of the code sees only { path, message } pairs, where path is a
- * dotted field path such as "levels.3" or "evidence.0.date".
+ * dotted field path such as "levels.3" or "evidence.0.date". A schema may give
+ * a pattern a "patternDescription" annotation to name it in messages.
  */
 import { Validator } from '@cfworker/json-schema';
 
@@ -44,8 +45,15 @@ export function validateSchema(schema, data) {
     } else if (e.keyword === 'propertyNames') {
       out.push({ path: at, message: `field name "${quoted}" is not allowed here` });
     } else if (e.keyword === 'pattern') {
-      const pattern = schemaAt(schema, e.keywordLocation.replace(/\/pattern$/, ''))?.pattern;
-      out.push({ path: at, message: `${JSON.stringify(valueAt(data, e.instanceLocation))} does not match the pattern ${pattern}` });
+      const node = schemaAt(schema, e.keywordLocation.replace(/\/pattern$/, ''));
+      const what = node?.patternDescription ? `the pattern for ${node.patternDescription}` : `the pattern ${node?.pattern}`;
+      out.push({ path: at, message: `${JSON.stringify(valueAt(data, e.instanceLocation))} does not match ${what}` });
+    } else if (e.keyword === 'const') {
+      const node = schemaAt(schema, e.keywordLocation.replace(/\/const$/, ''));
+      out.push({ path: at, message: `must be ${JSON.stringify(node?.const)}` });
+    } else if (e.keyword === 'enum') {
+      const node = schemaAt(schema, e.keywordLocation.replace(/\/enum$/, ''));
+      out.push({ path: at, message: `must be one of ${(node?.enum ?? []).join(', ')}` });
     } else {
       out.push({ path: at, message: e.error });
     }
@@ -73,7 +81,9 @@ function pointerToPath(pointer) {
  */
 function schemaAt(schema, pointer) {
   let node = schema;
-  for (const s of segments(pointer)) node = node?.[s];
+  for (const s of segments(pointer)) {
+    node = s === '$ref' && typeof node?.$ref === 'string' && node.$ref.startsWith('#') ? schemaAt(schema, node.$ref) : node?.[s];
+  }
   return node;
 }
 
