@@ -5,7 +5,7 @@
  *   node scripts/build.js             validate, write bundle and review document
  *   node scripts/build.js --validate  validate only
  */
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'yaml';
@@ -28,11 +28,13 @@ export function readFrameworkFiles(dataDir) {
     'levels.yaml',
     'taxonomy.yaml',
     'examples.yaml',
-    ...readdirSync(join(dataDir, 'skills'))
+    'sfia-codes.yaml',
+    ...(existsSync(join(dataDir, 'skills')) ? readdirSync(join(dataDir, 'skills')) : [])
       .filter((f) => f.endsWith('.yaml'))
       .map((f) => `skills/${f}`),
   ];
   for (const name of names) {
+    if (!existsSync(join(dataDir, name))) continue; // reported by the framework module
     try {
       files[name] = parse(readFileSync(join(dataDir, name), 'utf8'));
     } catch (e) {

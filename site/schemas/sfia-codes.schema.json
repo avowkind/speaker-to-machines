@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SFIA 7–9 skill codes, for collision checks (data/sfia-codes.yaml)",
+  "type": "object",
+  "required": ["codes"],
+  "additionalProperties": false,
+  "properties": {
+    "codes": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z]{4}$" } }
+  }
+}

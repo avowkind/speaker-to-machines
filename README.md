@@ -17,7 +17,8 @@ Status: draft v0.1 (30 Sep 2026). All 277 level descriptions are drafted and nee
 - data/levels.yaml: level definitions and titles, the framework's name, version and licence, and retired codes
 - data/taxonomy.yaml: category and subcategory order and display names
 - data/skills/CODE.yaml: one file per skill: description, level range, descriptors and mappings
-- data/examples.yaml: the examples layer (current tools and models), keyed by skill code, with one as_of date
+- data/examples.yaml: the examples layer (current tools and models), keyed by skill code, with one as_of date, and the generic terms that skill text may use
+- data/sfia-codes.yaml: SFIA 7–9 skill codes (codes only), so our codes never collide with them
 - site/schemas/: JSON Schemas for each kind of framework file
 - site/core/framework.js: loads and checks the framework files; shared by the build and the site
 - scripts/build.js: the build; writes site/framework.json (generated, git-ignored) and docs/skills-review.md
@@ -29,9 +30,21 @@ Needs Node 22 or later.
     npm install
     npm run build      # validate, write site/framework.json and docs/skills-review.md
     npm run validate   # validate only
+    npm run typecheck
     npm test
 
-The build fails if a skill's descriptors do not exactly cover its level_range. Each error names the file, the field and the rule broken.
+Validation checks every file against its JSON Schema (site/schemas/), then checks that:
+- each skill's descriptors exactly cover its level_range;
+- codes are four capital letters, unique, match their file name and don't collide with an SFIA 7–9 code;
+- every retired code's replaced_by is a current skill, and no retired code is reused;
+- every skill's category and subcategory are in taxonomy.yaml, and examples are only given for current skills;
+- no description or descriptor names a product from the examples layer (case-insensitive, whole word), except the generic terms listed in examples.yaml.
+
+Each error names the file, the field and the rule broken, for example:
+
+    data/skills/WRIT.yaml: levels.3: no-product-names: names "Claude" from the examples layer; put products in examples.yaml
+
+CI runs validation, the type check and the tests on every pull request.
 
 ## Licence
 

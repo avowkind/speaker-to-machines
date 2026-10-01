@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines examples layer (data/examples.yaml)",
+  "type": "object",
+  "required": ["as_of", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "as_of": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?$", "description": "When the examples were last refreshed: YYYY-MM or YYYY-MM-DD, quoted." },
+    "items": {
+      "type": "object",
+      "description": "Current tools and models, keyed by skill code.",
+      "additionalProperties": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+    },
+    "generic_terms": {
+      "type": "array",
+      "description": "Example items that are everyday words or generic techniques rather than product names, so skill text may use them.",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

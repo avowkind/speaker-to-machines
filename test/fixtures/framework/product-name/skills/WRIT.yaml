@@ -1,0 +1,13 @@
+code: WRIT
+name: AI-assisted writing
+category: Working with AI
+subcategory: Applying AI to work
+order: 1
+description: Using AI to draft and edit writing.
+level_range: [ 2, 3 ]
+levels:
+  2: Drafts routine text with AI and checks it.
+  3: Uses chatbot pro routinely for drafting and editing.
+map:
+  sfia: [ AIDE ]
+  appliedai: []

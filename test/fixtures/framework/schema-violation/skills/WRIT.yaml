@@ -1,0 +1,13 @@
+code: WRIT
+category: Working with AI
+subcategory: Applying AI to work
+order: 1
+owner: Someone
+description: Using AI to draft and edit writing.
+level_range: [ 2, 9 ]
+levels:
+  2: Drafts routine text with AI and checks it.
+  3: Uses AI routinely for drafting and editing.
+map:
+  sfia: [ AIDE ]
+  appliedai: []

@@ -8,7 +8,7 @@ level_range: [ 1, 3 ]
 levels:
   1: Knows that phrasing changes the result.
   2: Writes clear requests with templates.
-  3: Routinely briefs AI systems in own work.
+  3: Routinely briefs AI systems in own work and keeps project instructions.
 map:
   sfia: []
   appliedai: [ sc_0010 ]

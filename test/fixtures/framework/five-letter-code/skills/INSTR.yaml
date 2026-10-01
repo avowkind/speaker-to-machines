@@ -1,0 +1,13 @@
+code: INSTR
+name: Long code
+category: Working with AI
+subcategory: Applying AI to work
+order: 2
+description: A fixture skill.
+level_range: [ 2, 3 ]
+levels:
+  2: Does it with help.
+  3: Does it routinely.
+map:
+  sfia: []
+  appliedai: []

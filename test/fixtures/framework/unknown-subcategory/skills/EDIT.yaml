@@ -1,0 +1,13 @@
+code: EDIT
+name: Editing
+category: Working with AI
+subcategory: Editing with AI
+order: 2
+description: A fixture skill.
+level_range: [ 2, 3 ]
+levels:
+  2: Does it with help.
+  3: Does it routinely.
+map:
+  sfia: []
+  appliedai: []

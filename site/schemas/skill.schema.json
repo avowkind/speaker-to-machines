@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines skill file (data/skills/CODE.yaml)",
+  "type": "object",
+  "required": ["code", "name", "category", "subcategory", "order", "description", "level_range", "levels", "map"],
+  "additionalProperties": false,
+  "properties": {
+    "code": { "type": "string", "description": "Four capital letters, not an SFIA code, never a retired code. Matches the file name." },
+    "name": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "description": "A category name from taxonomy.yaml." },
+    "subcategory": { "type": "string", "description": "A subcategory name from taxonomy.yaml, within the category." },
+    "order": { "type": "integer", "minimum": 1, "description": "Position within the subcategory." },
+    "description": { "type": "string", "minLength": 1, "description": "Product-neutral: no names from examples.yaml." },
+    "level_range": {
+      "type": "array",
+      "description": "[lowest, highest] level at which the skill is defined.",
+      "prefixItems": [{ "$ref": "#/$defs/level" }, { "$ref": "#/$defs/level" }],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "levels": {
+      "type": "object",
+      "description": "One descriptor per level in level_range, keyed by level number.",
+      "propertyNames": { "pattern": "^[1-7]$" },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "map": {
+      "type": "object",
+      "required": ["sfia", "appliedai"],
+      "additionalProperties": false,
+      "properties": {
+        "sfia": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z]{4}$" }, "description": "SFIA skill codes, by reference only." },
+        "appliedai": { "type": "array", "items": { "type": "string", "pattern": "^sc_[0-9]{4}$" }, "description": "appliedAI AI Skills Framework component ids." }
+      }
+    }
+  },
+  "$defs": {
+    "level": { "type": "integer", "minimum": 1, "maximum": 7 }
+  }
+}

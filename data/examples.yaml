@@ -54,3 +54,15 @@ items:
   JOBR: []
   ENAB: []
   ACHG: []
+# Example items that are everyday words or generic techniques rather than
+# product names, so skill text may use them without failing validation.
+generic_terms:
+  - Make
+  - Matter
+  - assistant memory
+  - coding agents
+  - hybrid search
+  - open-weight models
+  - plugins
+  - project knowledge
+  - scheduled tasks

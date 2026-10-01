@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines levels file (data/levels.yaml)",
+  "type": "object",
+  "required": ["framework", "levels", "retired"],
+  "additionalProperties": false,
+  "properties": {
+    "framework": {
+      "type": "object",
+      "required": ["name", "subtitle", "version", "licence", "title_note"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "subtitle": { "type": "string" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$", "description": "Framework version, quoted: major for retired codes or changed level meanings, minor for added skills or levels, patch for wording or examples." },
+        "licence": { "type": "string" },
+        "title_note": { "type": "string" }
+      }
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["level", "name", "title", "mode", "description", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "level": { "type": "integer", "minimum": 1, "maximum": 7 },
+          "name": { "type": "string", "minLength": 1, "description": "Plain name, for formal outputs." },
+          "title": { "type": "string", "minLength": 1, "description": "Title, for profile and badge views." },
+          "mode": { "enum": ["know", "use", "build", "lead"] },
+          "description": { "type": "string", "minLength": 1 },
+          "evidence": { "type": "string", "minLength": 1, "description": "Evidence hint." }
+        }
+      }
+    },
+    "retired": {
+      "type": "array",
+      "description": "Retired codes, never reused (ADR 0004).",
+      "items": {
+        "type": "object",
+        "required": ["code", "replaced_by"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string", "pattern": "^[A-Z]{4}$" },
+          "replaced_by": { "type": "string", "pattern": "^[A-Z]{4}$" }
+        }
+      }
+    }
+  }
+}

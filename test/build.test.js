@@ -12,6 +12,7 @@ test('the base fixture builds a bundle and a review document', () => {
   const out = { bundlePath: join(dir, 'out.json'), reviewPath: join(dir, 'review.md') };
   const result = build({ dataDir: dir, ...out });
   assert.deepEqual(result.errors, []);
+  /** @type {import('../site/core/framework.js').Framework} */
   const bundle = JSON.parse(readFileSync(out.bundlePath, 'utf8'));
   assert.equal(bundle.framework.name, 'Test framework');
   assert.deepEqual(

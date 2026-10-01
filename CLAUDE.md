@@ -21,7 +21,7 @@ This is an AI skills framework built for self-assessment. It lets candidates and
 ## Conventions for descriptors (data/skills/CODE.yaml, under `levels`)
 - Each level says what the person does and produces, in 1–3 sentences with no product names.
 - Level patterns: 1 knows and explains; 2 uses with guidance; 3 uses routinely and independently in own work; 4 builds repeatable things for self and team and coaches others; 5 designs things others rely on and sets team practice; 6 sets organisational policy and strategy; 7 advances the field beyond one organisation.
-- Tools and products go in data/examples.yaml, never in a skill file.
+- Tools and products go in data/examples.yaml, never in a skill file. Validation fails if skill text names an example item; if an item is an everyday word or generic technique, list it under generic_terms there.
 - After editing, run: npm run build (or npm run validate to check only), then npm test
 
 ## Next steps (in rough order)
