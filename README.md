@@ -2,6 +2,8 @@
 
 An open framework for stating, objectively and quickly, how far a person knows and uses AI, and for tracking that over time. It is modelled on SFIA's structure (skills, each described at graded levels) but is written from scratch and does not reuse SFIA text.
 
+Try it at https://avowkind.github.io/speaker-to-machines/: tick your levels, keep a logbook, and compare yourself with a role. Everything you enter stays in your browser.
+
 - 53 skills in 7 categories: Understanding AI, Working with AI, Delegating to AI agents, Building with AI, Building AI models, Physical and embodied AI, Leading AI adoption.
 - 7 levels, each with a plain name and a Kzin-style title (after Larry Niven's Known Space, where titles are earned by deeds): Aware (Listener), Assisted (Caller), Practitioner (Speaker), Integrator (Shaper), Designer (Maker), Authority (Keeper), Field shaper (Namer).
 - Skill descriptions are written to last and never name a product. Current tools and models sit in a separate, dated examples layer.
