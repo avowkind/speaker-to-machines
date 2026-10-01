@@ -22,6 +22,11 @@ Status: draft v0.1 (30 Sep 2026). All 277 level descriptions are drafted and nee
 - site/schemas/: JSON Schemas for each kind of framework file
 - site/core/framework.js: loads and checks the framework files; shared by the build and the site
 - scripts/build.js: the build; writes site/framework.json (generated, git-ignored) and docs/skills-review.md
+- site/: the static site. index.html maps bare imports to site/vendor/ with an import map; there is no bundler and no site build step
+- site/core/: the logbook core, pure ES modules with every domain rule; the tests drive these same files
+- site/adapters/: the only code that touches the location hash (url.js) and browser storage (storage.js)
+- site/components/: Lit web components that render what the core derives
+- site/vendor/: Lit, the YAML parser and the JSON Schema validator as ES modules (npm run vendor; committed)
 
 ## Build
 
@@ -45,6 +50,13 @@ Each error names the file, the field and the rule broken, for example:
     data/skills/WRIT.yaml: levels.3: no-product-names: names "Claude" from the examples layer; put products in examples.yaml
 
 CI runs validation, the type check and the tests on every pull request.
+
+## Site
+
+    npm run build
+    npm run serve      # http://localhost:8080/
+
+The site is static files only: host the site/ directory, with site/framework.json built, on any static host such as GitHub Pages. Nothing a person enters leaves their browser (ADR 0002).
 
 ## Licence
 

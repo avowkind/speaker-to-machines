@@ -1,0 +1,183 @@
+import { LitElement, html, nothing } from 'lit';
+import { levelInfo } from '../core/framework.js';
+
+/**
+ * The skill-by-level grid. Shows each skill's level range, with one tickable
+ * level per skill, and lets a skill be opened to read its description,
+ * descriptors and examples. Renders in the light DOM.
+ *
+ * Fires `claim-change` with detail { code, level } (level null to withdraw a claim).
+ */
+export class ClaimsGrid extends LitElement {
+  static properties = {
+    framework: { attribute: false },
+    claims: { attribute: false },
+    labels: {},
+    readonly: { type: Boolean },
+    open: { state: true },
+  };
+
+  constructor() {
+    super();
+    /** @type {import('../core/framework.js').Framework | undefined} */
+    this.framework = undefined;
+    /** @type {Record<string, number>} code to claimed level */
+    this.claims = {};
+    /** @type {'name' | 'title'} */
+    this.labels = 'title';
+    this.readonly = false;
+    /** @type {Set<string>} codes whose details are open */
+    this.open = new Set();
+  }
+
+  createRenderRoot() {
+    return this;
+  }
+
+  /** @param {number} level */
+  levelLabel(level) {
+    const info = this.framework && levelInfo(this.framework, level);
+    return info ? (this.labels === 'name' ? info.name : info.title) : String(level);
+  }
+
+  render() {
+    const fw = this.framework;
+    if (!fw) return nothing;
+    return html`${fw.categories.map(
+      (cat) => html`
+        <details class="category" open>
+          <summary><h2>${cat.name}</h2></summary>
+          ${cat.subcategories.map(
+            (sub) => html`
+              <details class="subcategory" open>
+                <summary><h3>${sub.name}</h3></summary>
+                <table class="grid">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="skill-col">Skill</th>
+                      ${fw.levels.map(
+                        (l) => html`<th scope="col" title=${l.description}>
+                          <span class="level-num">${l.level}</span>
+                          <span class="level-label">${this.levelLabel(l.level)}</span>
+                        </th>`,
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${sub.skills.map((s) => this.renderSkill(s))}
+                  </tbody>
+                </table>
+              </details>
+            `,
+          )}
+        </details>
+      `,
+    )}`;
+  }
+
+  /** @param {import('../core/framework.js').Skill} s */
+  renderSkill(s) {
+    const fw = /** @type {import('../core/framework.js').Framework} */ (this.framework);
+    const [lo, hi] = s.level_range;
+    const claimed = this.claims[s.code];
+    const isOpen = this.open.has(s.code);
+    return html`
+      <tr class=${claimed ? 'claimed' : ''}>
+        <th scope="row" class="skill-col">
+          <button
+            type="button"
+            class="skill-toggle"
+            aria-expanded=${isOpen ? 'true' : 'false'}
+            @click=${() => this.toggle(s.code)}
+          >
+            <span class="code">${s.code}</span> ${s.name}
+          </button>
+        </th>
+        ${fw.levels.map(({ level }) => {
+          if (level < lo || level > hi) return html`<td class="out-of-range" aria-hidden="true"></td>`;
+          const checked = claimed === level;
+          return html`<td class=${this.cellClass(s.code, level)} title=${s.levels[String(level)]}>
+            <input
+              type="checkbox"
+              .checked=${checked}
+              ?disabled=${this.readonly}
+              aria-label=${`${s.code} level ${level} ${this.levelLabel(level)}`}
+              @change=${(/** @type {Event} */ e) => this.tick(s.code, level, /** @type {HTMLInputElement} */ (e.target).checked)}
+            />
+            ${this.renderCellMarks(s.code, level)}
+          </td>`;
+        })}
+      </tr>
+      ${isOpen ? this.renderDetail(s) : nothing}
+    `;
+  }
+
+  /**
+   * Extra classes for a cell. Subclasses and later views add overlays here.
+   * @param {string} code
+   * @param {number} level
+   */
+  cellClass(code, level) {
+    return this.claims[code] === level ? 'in-range ticked' : 'in-range';
+  }
+
+  /**
+   * @param {string} _code
+   * @param {number} _level
+   * @returns {unknown}
+   */
+  renderCellMarks(_code, _level) {
+    return nothing;
+  }
+
+  /** @param {import('../core/framework.js').Skill} s */
+  renderDetail(s) {
+    const fw = /** @type {import('../core/framework.js').Framework} */ (this.framework);
+    return html`<tr class="skill-detail">
+      <td colspan=${fw.levels.length + 1}>
+        <p class="description">${s.description}</p>
+        <dl class="descriptors">
+          ${Object.entries(s.levels).map(
+            ([level, text]) => html`<dt>${level} ${this.levelLabel(Number(level))}</dt>
+              <dd>${text}</dd>`,
+          )}
+        </dl>
+        ${s.examples.items.length
+          ? html`<p class="examples">
+              <strong>Examples (as of ${s.examples.as_of}):</strong> ${s.examples.items.join(', ')}
+            </p>`
+          : nothing}
+        ${this.renderDetailExtra(s)}
+      </td>
+    </tr>`;
+  }
+
+  /**
+   * @param {import('../core/framework.js').Skill} _s
+   * @returns {unknown}
+   */
+  renderDetailExtra(_s) {
+    return nothing;
+  }
+
+  /** @param {string} code */
+  toggle(code) {
+    const open = new Set(this.open);
+    if (open.has(code)) open.delete(code);
+    else open.add(code);
+    this.open = open;
+  }
+
+  /**
+   * @param {string} code
+   * @param {number} level
+   * @param {boolean} checked
+   */
+  tick(code, level, checked) {
+    this.dispatchEvent(
+      new CustomEvent('claim-change', { detail: { code, level: checked ? level : null }, bubbles: true }),
+    );
+  }
+}
+
+customElements.define('stm-claims-grid', ClaimsGrid);
