@@ -58,6 +58,16 @@ CI runs validation, the type check and the tests on every pull request.
 
 The site is static files only: host the site/ directory, with site/framework.json built, on any static host such as GitHub Pages. Nothing a person enters leaves their browser (ADR 0002).
 
+People keep their logbook in the browser and export it as a logbook file (stm-logbook/0.1). Targets travel as links or target files (stm-target/0.1); profiles export as YAML (stm-profile/0.1). The schemas are in site/schemas/.
+
+## Embedding a badge
+
+    <script type="module" src="https://YOUR-HOST/badge.js"></script>
+    <stm-badge code="INST" level="4" skill="Instructing AI" evidence="Team prompt library"></stm-badge>
+    <stm-badge src="profile.yaml" code="INST"></stm-badge>
+
+The second form reads a profile exported from a logbook. See site/badge-example.html. The host must allow cross-origin requests for badge.js and its modules (GitHub Pages does).
+
 ## Licence
 
 The framework content and data are licensed CC BY-SA 4.0 (see LICENSE).

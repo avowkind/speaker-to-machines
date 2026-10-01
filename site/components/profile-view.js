@@ -1,4 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
+import { safeLink } from '../core/links.js';
 
 /**
  * The profile as a print-ready document: each claimed skill's current claim and
@@ -61,7 +62,7 @@ export class ProfileView extends LitElement {
                       ${s.badge.evidence.map(
                         (e) => html`<li>
                           ${e.date} · ${e.type}: ${e.note}${e.tools?.length ? ` (${e.tools.join(', ')})` : ''}
-                          ${e.link ? html`<a href=${e.link}>link</a>` : nothing}
+                          ${safeLink(e.link) ? html`<a href=${safeLink(e.link)}>link</a>` : nothing}
                         </li>`,
                       )}
                     </ul>`

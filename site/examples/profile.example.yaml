@@ -1,0 +1,87 @@
+# Speaker-to-Machines profile of Example Person, as of 2026-09-30.
+# Claims are self-assessed; each badge cites the evidence it rests on.
+schema: "stm-profile/0.1"
+person: "Example Person"
+as_of: "2026-09-30"
+framework:
+  name: "Speaker-to-Machines"
+  version: "0.1"
+skills:
+  - code: "INST"
+    name: "Instructing AI"
+    category: "Working with AI"
+    subcategory: "Communicating with AI"
+    claim:
+      level: 4
+      name: "Integrator"
+      title: "Shaper"
+      descriptor: "Builds reusable instructions (system prompts, project instructions, templates, style guides) that give consistent results across tasks and for colleagues. Diagnoses failures such as missing context, ambiguity or conflicting instructions, and adapts technique to different models and modalities."
+    badge:
+      level: 4
+      name: "Integrator"
+      title: "Shaper"
+      evidence:
+        - date: "2026-05"
+          type: "built"
+          note: "Team project instructions and templates"
+          link: "https://example.org/instructions"
+    unevidenced: []
+    first_used: "2024-06"
+    last_practised: "2026-05"
+    stale: false
+    changes:
+      - date: "2025-03-01"
+        level: 3
+        name: "Practitioner"
+        title: "Speaker"
+  - code: "AISD"
+    name: "AI-assisted software development"
+    category: "Building with AI"
+    subcategory: "AI-assisted development"
+    claim:
+      level: 5
+      name: "Designer"
+      title: "Maker"
+      descriptor: "Designs development processes and tooling in which AI does a substantial share of the coding, including guardrails, review standards, security scanning, measures of quality and throughput, and how junior developers still learn. Sets engineering practice for a team or product."
+    badge:
+      level: 5
+      name: "Designer"
+      title: "Maker"
+      evidence:
+        - date: "2026-08"
+          type: "built"
+          note: "Agent-driven migration pipeline"
+    unevidenced: []
+    first_used: "2026-08"
+    last_practised: "2026-08"
+    stale: false
+    changes:
+      - date: "2025-03-01"
+        level: 3
+        name: "Practitioner"
+        title: "Speaker"
+  - code: "ACAP"
+    name: "Agent capability design"
+    category: "Building with AI"
+    subcategory: "AI application engineering"
+    claim:
+      level: 4
+      name: "Integrator"
+      title: "Shaper"
+      descriptor: "Designs skill and tool sets for team workflows: descriptions that trigger correctly, well-typed tool interfaces, limited credentials, bundled scripts and reference material. Tests capabilities against realistic tasks and maintains them as underlying tools change."
+    badge:
+      level: 4
+      name: "Integrator"
+      title: "Shaper"
+      evidence:
+        - date: "2026-09"
+          type: "built"
+          note: "Codebase investigation skill"
+          tools:
+            - "Agent Skills"
+            - "MCP servers"
+    unevidenced: []
+    first_used: "2026-09"
+    last_practised: "2026-09"
+    stale: false
+    changes: []

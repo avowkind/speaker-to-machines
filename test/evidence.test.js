@@ -44,6 +44,7 @@ test('an evidence item with a bad date, no codes, an unknown code, a bad type or
   assert.throws(() => addEvidence(fw, fresh(), ev({ codes: ['ZZZZ'] })), /ZZZZ is not a skill/);
   assert.throws(() => addEvidence(fw, fresh(), ev({ type: /** @type {any} */ ('watched') })), /type must be one of learned, used, built, taught, published/);
   assert.throws(() => addEvidence(fw, fresh(), ev({ note: '  ' })), /needs a note/);
+  assert.throws(() => addEvidence(fw, fresh(), ev({ link: 'javascript:alert(1)' })), /a link must be a web address/);
 });
 
 test('an evidence item can be edited and deleted', () => {

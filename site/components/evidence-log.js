@@ -1,4 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
+import { safeLink } from '../core/links.js';
 import { allSkills, skillByCode } from '../core/framework.js';
 import { EVIDENCE_TYPES, currentCode, evidenceProblems, filterEvidence } from '../core/logbook.js';
 
@@ -125,7 +126,7 @@ export class EvidenceLog extends LitElement {
                   <td>${item.date}</td>
                   <td>${item.codes.map((c) => this.renderCode(fw, c))}</td>
                   <td>${item.type}</td>
-                  <td>${item.note}${item.link ? html` <a href=${item.link} rel="noopener noreferrer" target="_blank">link</a>` : nothing}</td>
+                  <td>${item.note}${safeLink(item.link) ? html` <a href=${safeLink(item.link)} rel="noopener noreferrer" target="_blank">link</a>` : nothing}</td>
                   <td>${(item.tools ?? []).join(', ')}</td>
                   <td class="actions">
                     <button type="button" class="link" @click=${() => this.startEdit(item)}>Edit</button>

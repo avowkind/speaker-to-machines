@@ -8,7 +8,7 @@
 
 Spec: ../spec.md
 
-- [ ] A badge custom element renders in shadow DOM from attributes (code, level, evidence) or from a YAML profile it is pointed at
-- [ ] It makes no network request except to the given profile source
-- [ ] It shows the skill, level, title and cited evidence, and works on a page outside the site
-- [ ] An example page shows both ways of embedding
+- [x] A badge custom element renders in shadow DOM from attributes (code, level, evidence) or from a YAML profile it is pointed at
+- [x] It makes no network request except to the given profile source
+- [x] It shows the skill, level, title and cited evidence, and works on a page outside the site
+- [x] An example page shows both ways of embedding

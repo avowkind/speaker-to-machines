@@ -1,4 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
+import { safeLink } from '../core/links.js';
 import { levelInfo } from '../core/framework.js';
 
 /**
@@ -184,7 +185,7 @@ export class ClaimsGrid extends LitElement {
               Badge at level ${label(st.badge.level)}, resting on:
             </p>
             <ul class="cited">
-              ${st.badge.evidence.map((e) => html`<li>${e.date} · ${e.type}: ${e.note}${e.link ? html` (<a href=${e.link} rel="noopener noreferrer" target="_blank">link</a>)` : nothing}</li>`)}
+              ${st.badge.evidence.map((e) => html`<li>${e.date} · ${e.type}: ${e.note}${safeLink(e.link) ? html` (<a href=${safeLink(e.link)} rel="noopener noreferrer" target="_blank">link</a>)` : nothing}</li>`)}
             </ul>`
         : html`<p>No badge yet: no qualifying evidence for this claim.</p>`}
       ${st.stale

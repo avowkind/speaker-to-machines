@@ -25,7 +25,10 @@ createServer(async (req, res) => {
   }
   try {
     const body = await readFile(file);
-    res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' }).end(body);
+    // Like GitHub Pages, allow other origins, so badge.js can be embedded elsewhere.
+    res
+      .writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream', 'access-control-allow-origin': '*' })
+      .end(body);
   } catch {
     res.writeHead(404).end('Not found');
   }

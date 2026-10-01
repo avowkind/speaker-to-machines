@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Embedding a Speaker-to-Machines badge</title>
+    <link rel="icon" href="data:," />
+    <!-- One script tag. Use the full address of badge.js on the site that hosts Speaker-to-Machines. -->
+    <script type="module" src="./badge.js"></script>
+    <style>
+      body { font: 16px/1.5 system-ui, sans-serif; max-width: 44rem; margin: 2rem auto; padding: 0 1rem; color: #1d232a; }
+      pre { background: #f4f6f8; padding: 0.75rem; overflow-x: auto; font-size: 0.85rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+    </style>
+  </head>
+  <body>
+    <h1>Embedding a badge</h1>
+    <p>
+      Add one script tag, then one <code>&lt;stm-badge&gt;</code> element per badge. The badge renders in its own shadow DOM,
+      so your page's styles don't change it. Besides its own code it fetches nothing but the profile you point it at.
+    </p>
+
+    <h2>From attributes</h2>
+    <pre>&lt;script type="module" src="https://YOUR-HOST/badge.js"&gt;&lt;/script&gt;
+&lt;stm-badge code="INST" level="4" skill="Instructing AI"
+  evidence="Team project instructions and templates"
+  evidence-link="https://example.org/instructions"
+  person="Example Person" as-of="2026-09-30"&gt;&lt;/stm-badge&gt;</pre>
+    <div class="row">
+      <stm-badge
+        code="INST"
+        level="4"
+        skill="Instructing AI"
+        evidence="Team project instructions and templates"
+        evidence-link="https://example.org/instructions"
+        person="Example Person"
+        as-of="2026-09-30"
+      ></stm-badge>
+    </div>
+
+    <h2>From a YAML profile</h2>
+    <p>
+      Export your profile as YAML from your logbook, publish it beside your page, and point the badge at it with the skill's
+      code. The badge shows the level your evidence supports and the evidence cited.
+    </p>
+    <pre>&lt;stm-badge src="profile.yaml" code="AISD"&gt;&lt;/stm-badge&gt;</pre>
+    <div class="row">
+      <stm-badge src="./examples/profile.example.yaml" code="AISD"></stm-badge>
+      <stm-badge src="./examples/profile.example.yaml" code="ACAP"></stm-badge>
+    </div>
+  </body>
+</html>

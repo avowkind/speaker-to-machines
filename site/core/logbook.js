@@ -4,6 +4,7 @@
  */
 import { allSkills, levelInfo, skillByCode } from './framework.js';
 import { addMonths, compareDates, isDate } from './dates.js';
+import { safeLink } from './links.js';
 
 export const LOGBOOK_SCHEMA = 'stm-logbook/0.1';
 export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built', 'taught', 'published']);
@@ -155,6 +156,7 @@ export function evidenceProblems(fw, item) {
   }
   if (!EVIDENCE_TYPES.includes(item.type)) problems.push(`type must be one of ${EVIDENCE_TYPES.join(', ')}`);
   if (!item.note?.trim()) problems.push('an evidence item needs a note saying what was done');
+  if (item.link?.trim() && !safeLink(item.link.trim())) problems.push('a link must be a web address starting http:// or https://');
   return problems;
 }
 
