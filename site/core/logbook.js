@@ -629,3 +629,34 @@ export function buildProfile(fw, lb) {
     skills,
   };
 }
+
+/**
+ * @typedef {{ code: string, name: string, description: string, level: number,
+ *   level_name: string, descriptor: string, priority: Priority }} PositionLevel
+ * @typedef {{ name: string, framework: { name: string, version: string }, levels: PositionLevel[] }} PositionDescription
+ */
+
+/**
+ * A role template as a position description: each skill with its target
+ * level, the level's plain name and descriptor, essential before desirable.
+ * Needs no logbook.
+ * @param {Framework} fw
+ * @param {Target} target
+ * @returns {PositionDescription}
+ */
+export function buildPositionDescription(fw, target) {
+  const ordered = inFrameworkOrder(fw, target.levels);
+  const levels = [...ordered.filter((l) => l.priority === 'essential'), ...ordered.filter((l) => l.priority !== 'essential')].map((l) => {
+    const skill = skillByCode(fw, l.code);
+    return {
+      code: l.code,
+      name: skill?.name ?? l.code,
+      description: skill?.description ?? '',
+      level: l.level,
+      level_name: levelInfo(fw, l.level)?.name ?? String(l.level),
+      descriptor: skill?.levels[String(l.level)] ?? '',
+      priority: l.priority,
+    };
+  });
+  return { name: target.name, framework: { name: fw.framework.name, version: fw.framework.version }, levels };
+}

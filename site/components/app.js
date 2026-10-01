@@ -3,6 +3,7 @@ import {
   addEvidence,
   addSnapshot,
   addTarget,
+  buildPositionDescription,
   buildProfile,
   deleteEvidence,
   deleteSnapshot,
@@ -31,13 +32,14 @@ import './files-view.js';
 import './history-view.js';
 import './targets-view.js';
 import './profile-view.js';
+import './position-view.js';
 
 /**
  * @typedef {import('../core/framework.js').Framework} Framework
  * @typedef {import('../core/logbook.js').Logbook} Logbook
  * @typedef {import('../core/logbook.js').Target} Target
  * @typedef {import('../core/url.js').Snapshot} Snapshot
- * @typedef {'claims' | 'evidence' | 'history' | 'targets' | 'profile' | 'files'} View
+ * @typedef {'claims' | 'evidence' | 'history' | 'targets' | 'profile' | 'position' | 'files'} View
  */
 
 /** @type {ReadonlyArray<[View, string]>} */
@@ -480,6 +482,8 @@ export class App extends LitElement {
         return this.renderTargets();
       case 'profile':
         return lb ? this.renderProfile(lb) : nothing;
+      case 'position':
+        return this.renderPosition();
       case 'files':
         return this.renderFiles(lb);
       default:
@@ -664,7 +668,20 @@ export class App extends LitElement {
         @target-link=${this.copyTargetLink}
         @target-export=${this.exportTarget}
         @target-import=${this.importTargetFile}
+        @target-document=${() => this.go('position')}
       ></stm-targets>
+    `;
+  }
+
+  renderPosition() {
+    const target = this.currentTarget();
+    if (!target) return html`<p class="muted">Choose or build a target first.</p>`;
+    return html`
+      <div class="toolbar">
+        <button type="button" @click=${() => this.go('targets')}>Back to the target</button>
+        <button type="button" class="primary" @click=${() => print()}>Print or save as PDF</button>
+      </div>
+      <stm-position .pd=${buildPositionDescription(this.fw, target)}></stm-position>
     `;
   }
 
