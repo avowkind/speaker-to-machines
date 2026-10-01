@@ -56,7 +56,9 @@ CI runs validation, the type check and the tests on every pull request.
     npm run build
     npm run serve      # http://localhost:8080/
 
-The site is static files only: host the site/ directory, with site/framework.json built, on any static host such as GitHub Pages. Nothing a person enters leaves their browser (ADR 0002).
+The site is static files only: host the site/ directory, with site/framework.json built, on any static host. Nothing a person enters leaves their browser (ADR 0002).
+
+The Pages workflow (.github/workflows/pages.yml) type-checks, tests and builds on every push to main, then publishes site/ to GitHub Pages. To turn it on, set Settings > Pages > Source to "GitHub Actions". It can also be run by hand from the Actions tab.
 
 People keep their logbook in the browser and export it as a logbook file (stm-logbook/0.1). Targets travel as links or target files (stm-target/0.1); profiles export as YAML (stm-profile/0.1). The schemas are in site/schemas/.
 
