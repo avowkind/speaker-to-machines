@@ -143,6 +143,8 @@ export class ClaimsGrid extends LitElement {
       ? html`<span class="mark badge">${this.labels === 'name' ? st.badge.name : st.badge.title}</span>`
       : nothing}${st.level === level && st.unevidenced.length
       ? html`<span class="mark unevidenced">${st.badge ? 'beyond evidence' : 'no evidence'}</span>`
+      : nothing}${st.level === level && st.stale
+      ? html`<span class="mark stale" title=${`Last practised ${st.last_practised}`}>stale</span>`
       : nothing}`;
   }
 
@@ -161,6 +163,9 @@ export class ClaimsGrid extends LitElement {
               ${st.badge.evidence.map((e) => html`<li>${e.date} · ${e.type}: ${e.note}${e.link ? html` (<a href=${e.link} rel="noopener noreferrer" target="_blank">link</a>)` : nothing}</li>`)}
             </ul>`
         : html`<p>No badge yet: no qualifying evidence for this claim.</p>`}
+      ${st.stale
+        ? html`<p class="stale-flag">Stale: last practised ${st.last_practised}, more than 12 months before this snapshot.</p>`
+        : nothing}
       ${st.unevidenced.length
         ? html`<p><span class="unevidenced-pill">Unevidenced</span> ${st.unevidenced.map(label).join(', ')}.
             ${this.evidenceHint(st.unevidenced[0])}</p>`

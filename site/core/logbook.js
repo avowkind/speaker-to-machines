@@ -27,8 +27,14 @@ export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built',
  * @typedef {{ first_used: string | null, last_practised: string | null,
  *   overridden: { first_used: boolean, last_practised: boolean } }} PracticeDates
  * @typedef {{ level: number, title: string, name: string, evidence: EvidenceItem[] }} Badge
- * @typedef {{ code: string, level: number, badge: Badge | null, unevidenced: number[] }} ClaimStatus
+ * @typedef {{ code: string, level: number, badge: Badge | null, unevidenced: number[],
+ *   last_practised: string | null, stale: boolean }} ClaimStatus
+ * @typedef {{ date: string, level: number | null, badge: number | null, stale: boolean }} HistoryEntry
+ * @typedef {{ code: string, entries: HistoryEntry[] }} SkillHistory
  */
+
+/** A claim is stale when its skill was last practised more than this many months before the snapshot. */
+export const STALE_AFTER_MONTHS = 12;
 
 /**
  * Why a skill can't be claimed at a level, if it can't.
@@ -340,7 +346,9 @@ export function claimStatus(fw, lb, claim, asOf) {
   }
   const unevidenced = [];
   for (let level = badge ? badge.level + 1 : lo; level <= claim.level; level++) unevidenced.push(level);
-  return { code: claim.code, level: claim.level, badge, unevidenced };
+  const { last_practised } = practiceDates(fw, lb, claim.code, asOf);
+  const stale = last_practised !== null && compareDates(last_practised, addMonths(asOf, -STALE_AFTER_MONTHS)) < 0;
+  return { code: claim.code, level: claim.level, badge, unevidenced, last_practised, stale };
 }
 
 /**
@@ -377,4 +385,79 @@ export function addSnapshot(fw, lb, snapshot) {
   const added = { date: snapshot.date, claims: inFrameworkOrder(fw, snapshot.claims.map((c) => ({ ...c }))) };
   const snapshots = [...lb.snapshots, added].sort((a, b) => compareDates(a.date, b.date));
   return { ...lb, snapshots };
+}
+
+/**
+ * A snapshot's claims are fixed once its date has passed (CONTEXT.md): a
+ * changed claim goes in a new snapshot.
+ * @param {Snapshot} snapshot
+ * @param {string} today
+ */
+export function isEditable(snapshot, today) {
+  return compareDates(today, snapshot.date) <= 0;
+}
+
+/**
+ * Make today's snapshot, starting as a copy of the latest one.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} today
+ * @returns {Logbook}
+ */
+export function newSnapshot(fw, lb, today) {
+  const claims = lb.snapshots.length ? latestSnapshot(lb).claims : [];
+  return addSnapshot(fw, lb, { date: today, claims });
+}
+
+/**
+ * Change one claim in a snapshot that is still open: claim a level, or
+ * withdraw the claim with null.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} date the snapshot's date
+ * @param {string} code
+ * @param {number | null} level
+ * @param {string} today
+ * @returns {Logbook}
+ */
+export function setClaim(fw, lb, date, code, level, today) {
+  const snapshot = lb.snapshots.find((s) => s.date === date);
+  if (!snapshot) throw new Error(`there is no snapshot dated ${date}`);
+  if (!isEditable(snapshot, today)) {
+    throw new Error(`The snapshot of ${date} is fixed: make a new snapshot to change a claim.`);
+  }
+  const updated = withClaim(fw, snapshot, code, level);
+  return { ...lb, snapshots: lb.snapshots.map((s) => (s === snapshot ? updated : s)) };
+}
+
+/**
+ * @param {Logbook} lb
+ * @param {string} date
+ * @returns {Logbook}
+ */
+export function deleteSnapshot(lb, date) {
+  if (!lb.snapshots.some((s) => s.date === date)) throw new Error(`there is no snapshot dated ${date}`);
+  if (lb.snapshots.length === 1) throw new Error('a logbook keeps at least one snapshot');
+  return { ...lb, snapshots: lb.snapshots.filter((s) => s.date !== date) };
+}
+
+/**
+ * Each claimed skill's level, badge and staleness at every snapshot, in
+ * framework order. A skill missing from a snapshot has no claim there.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @returns {SkillHistory[]}
+ */
+export function history(fw, lb) {
+  const snapshots = [...lb.snapshots].sort((a, b) => compareDates(a.date, b.date));
+  const codes = new Set(snapshots.flatMap((s) => s.claims.map((c) => c.code)));
+  return inFrameworkOrder(fw, [...codes].map((code) => ({ code }))).map(({ code }) => ({
+    code,
+    entries: snapshots.map((s) => {
+      const claim = s.claims.find((c) => c.code === code);
+      if (!claim) return { date: s.date, level: null, badge: null, stale: false };
+      const st = claimStatus(fw, lb, claim, s.date);
+      return { date: s.date, level: claim.level, badge: st.badge?.level ?? null, stale: st.stale };
+    }),
+  }));
 }

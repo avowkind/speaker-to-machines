@@ -435,3 +435,10 @@ form.stacked .actions {
 ul.cited {
   margin: 0.2rem 0 0.5rem;
 }
+table.history td.changed {
+  background: var(--accent-wash);
+}
+table.history .badge-pill,
+table.history .stale-flag {
+  margin-left: 0.25rem;
+}

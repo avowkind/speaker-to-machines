@@ -2,6 +2,10 @@ import { LitElement, html, nothing } from 'lit';
 import {
   addEvidence,
   addSnapshot,
+  deleteSnapshot,
+  isEditable,
+  newSnapshot,
+  setClaim,
   deleteEvidence,
   latestSnapshot,
   practiceDates,
@@ -19,17 +23,19 @@ import { saveFile } from '../adapters/download.js';
 import './claims-grid.js';
 import './evidence-log.js';
 import './files-view.js';
+import './history-view.js';
 
 /**
  * @typedef {import('../core/framework.js').Framework} Framework
  * @typedef {import('../core/logbook.js').Logbook} Logbook
  * @typedef {import('../core/url.js').Snapshot} Snapshot
- * @typedef {'claims' | 'evidence' | 'files'} View
+ * @typedef {'claims' | 'evidence' | 'history' | 'files'} View
  */
 
 const VIEWS = /** @type {const} */ ([
   ['claims', 'Claims'],
   ['evidence', 'Evidence log'],
+  ['history', 'History'],
   ['files', 'Import and export'],
 ]);
 
@@ -52,6 +58,7 @@ export class App extends LitElement {
     message: { state: true },
     person: { state: true },
     importErrors: { state: true },
+    selectedDate: { state: true },
   };
 
   constructor() {
@@ -78,6 +85,8 @@ export class App extends LitElement {
     this.person = '';
     /** @type {string[]} */
     this.importErrors = [];
+    /** @type {string | null} the snapshot shown on the grid; null for the latest */
+    this.selectedDate = null;
   }
 
   createRenderRoot() {
@@ -146,14 +155,30 @@ export class App extends LitElement {
     link.writeSnapshotLink(this.quick);
   }
 
+  /** @param {Logbook} lb */
+  shownSnapshot(lb) {
+    return lb.snapshots.find((s) => s.date === this.selectedDate) ?? latestSnapshot(lb);
+  }
+
   /** @param {CustomEvent<{ code: string, level: number | null }>} e */
   onLogbookClaim(e) {
     const { code, level } = e.detail;
-    this.change((lb) => {
-      const latest = latestSnapshot(lb);
-      const updated = withClaim(this.fw, latest, code, level);
-      return { ...lb, snapshots: lb.snapshots.map((s) => (s === latest ? updated : s)) };
-    });
+    if (!this.logbook) return;
+    const date = this.shownSnapshot(this.logbook).date;
+    this.change((lb) => setClaim(this.fw, lb, date, code, level, localToday()));
+  }
+
+  makeSnapshot() {
+    const today = localToday();
+    this.change((lb) => newSnapshot(this.fw, lb, today), `Made the snapshot of ${today}, copied from your latest. Change only what has moved.`);
+    if (this.logbook?.snapshots.some((s) => s.date === today)) this.selectedDate = today;
+  }
+
+  /** @param {string} date */
+  removeSnapshot(date) {
+    if (!confirm(`Delete the snapshot of ${date}? Its claims are removed from your history; evidence is kept.`)) return;
+    this.change((lb) => deleteSnapshot(lb, date), `Deleted the snapshot of ${date}.`);
+    this.selectedDate = null;
   }
 
   startLogbook() {
@@ -324,7 +349,14 @@ export class App extends LitElement {
             <button type="button" class="link" @click=${this.exportLogbook}>Export now</button>
           </p>`
         : nothing}
-      ${this.view === 'evidence' ? this.renderEvidence(lb) : this.view === 'files' ? this.renderFiles(lb) : this.renderClaims(lb)}
+      ${this.view === 'evidence'
+        ? this.renderEvidence(lb)
+        : this.view === 'files'
+          ? this.renderFiles(lb)
+          : this.view === 'history'
+            ? html`<div class="toolbar">${this.renderLabelToggle()}</div>
+                <stm-history .framework=${this.fw} .logbook=${lb} .labels=${this.labels}></stm-history>`
+            : this.renderClaims(lb)}
     `;
   }
 
@@ -344,15 +376,34 @@ export class App extends LitElement {
 
   /** @param {Logbook} lb */
   renderClaims(lb) {
+    const shown = this.shownSnapshot(lb);
     const latest = latestSnapshot(lb);
+    const today = localToday();
+    const editable = isEditable(shown, today);
     return html`
       <div class="toolbar">
         ${this.renderLabelToggle()}
-        <p class="claims-date">
-          ${lb.person ? `${lb.person}: ` : ''}${latest.claims.length} claim${latest.claims.length === 1 ? '' : 's'} in the snapshot of ${latest.date}
-        </p>
-        <button type="button" @click=${() => this.copyLink(latest)}>Copy link to these claims</button>
+        <label
+          >Snapshot
+          <select @change=${(/** @type {Event} */ e) => (this.selectedDate = /** @type {HTMLSelectElement} */ (e.target).value)}>
+            ${[...lb.snapshots].reverse().map(
+              (s) => html`<option value=${s.date} ?selected=${s === shown}>${s.date}${s === latest ? ' (latest)' : ''}</option>`,
+            )}
+          </select>
+        </label>
+        <p class="claims-date">${lb.person ? `${lb.person}: ` : ''}${shown.claims.length} claim${shown.claims.length === 1 ? '' : 's'}</p>
+        ${lb.snapshots.some((s) => s.date === today)
+          ? nothing
+          : html`<button type="button" class="primary" @click=${this.makeSnapshot}>New snapshot for today</button>`}
+        <button type="button" @click=${() => this.copyLink(shown)}>Copy link to these claims</button>
+        ${lb.snapshots.length > 1 ? html`<button type="button" class="link" @click=${() => this.removeSnapshot(shown.date)}>Delete this snapshot</button>` : nothing}
       </div>
+      ${editable
+        ? nothing
+        : html`<p class="notice" role="status">
+            The snapshot of ${shown.date} is fixed: its claims stand as they were made. To change a claim, make a new snapshot for
+            today; it starts as a copy of your latest.
+          </p>`}
       <p class="legend muted">
         <span class="badge-pill">Badge</span> a level your evidence supports ·
         <span class="unevidenced-pill">Unevidenced</span> claimed levels your evidence doesn't yet reach. Open a skill to see the
@@ -360,10 +411,11 @@ export class App extends LitElement {
       </p>
       <stm-claims-grid
         .framework=${this.fw}
-        .claims=${this.claimMap(latest)}
+        .claims=${this.claimMap(shown)}
         .labels=${this.labels}
+        ?readonly=${!editable}
         .practice=${(/** @type {string} */ code) => practiceDates(this.fw, lb, code)}
-        .status=${Object.fromEntries(snapshotStatus(this.fw, lb, latest).map((st) => [st.code, st]))}
+        .status=${Object.fromEntries(snapshotStatus(this.fw, lb, shown).map((st) => [st.code, st]))}
         @claim-change=${this.onLogbookClaim}
         @override-change=${(/** @type {CustomEvent<{ code: string }>} */ e) => {
           const { code, ...change } = e.detail;

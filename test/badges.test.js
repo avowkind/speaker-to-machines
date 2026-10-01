@@ -22,7 +22,7 @@ const yearOfUse = /** @type {Array<[string, 'used']>} */ (
 );
 
 test('a claim with no evidence has no badge, and every level up to it is unevidenced', () => {
-  assert.deepEqual(badgeFor(3, []), { code: 'LEAD', level: 3, badge: null, unevidenced: [1, 2, 3] });
+  assert.deepEqual(badgeFor(3, []), { code: 'LEAD', level: 3, badge: null, unevidenced: [1, 2, 3], last_practised: null, stale: false });
 });
 
 test('any type of evidence earns a badge at level 1', () => {
@@ -96,5 +96,5 @@ test('only evidence dated on or before the snapshot counts', () => {
 test('a badge is only given at a level within the skill\'s range', () => {
   // WRIT is defined at levels 2-3, so learning (level 1 evidence) earns nothing.
   const s = badgeFor(3, [['2026-01', 'learned']], { code: 'WRIT' });
-  assert.deepEqual(s, { code: 'WRIT', level: 3, badge: null, unevidenced: [2, 3] });
+  assert.deepEqual(s, { code: 'WRIT', level: 3, badge: null, unevidenced: [2, 3], last_practised: null, stale: false });
 });
