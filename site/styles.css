@@ -408,3 +408,24 @@ form.stacked .actions {
     margin: 18mm 16mm;
   }
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.practice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: end;
+  margin-top: 0.5rem;
+}
+.practice label {
+  display: grid;
+  gap: 0.15rem;
+  font-size: 0.9rem;
+}

@@ -3,11 +3,29 @@
  * framework, a logbook (or a snapshot) and today's date; no DOM, no storage.
  */
 import { allSkills, skillByCode } from './framework.js';
+import { compareDates, isDate } from './dates.js';
+
+export const LOGBOOK_SCHEMA = 'stm-logbook/0.1';
+export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built', 'taught', 'published']);
 
 /**
  * @typedef {import('./framework.js').Framework} Framework
  * @typedef {import('./url.js').Claim} Claim
  * @typedef {import('./url.js').Snapshot} Snapshot
+ * @typedef {typeof EVIDENCE_TYPES[number]} EvidenceType
+ * @typedef {{ date: string, codes: string[], type: EvidenceType, note: string, link?: string, tools?: string[] }} EvidenceInput
+ * @typedef {EvidenceInput & { id: string }} EvidenceItem
+ * @typedef {'essential' | 'desirable'} Priority
+ * @typedef {{ code: string, level: number, priority: Priority }} TargetLevel
+ * @typedef {{ name: string, levels: TargetLevel[] }} Target
+ * @typedef {{ code: string, first_used?: string, last_practised?: string }} Override
+ * @typedef {{
+ *   schema: string, person: string, framework_version: string,
+ *   evidence: EvidenceItem[], snapshots: Snapshot[], targets: Target[], overrides: Override[]
+ * }} Logbook
+ * @typedef {{ code?: string, type?: EvidenceType, from?: string, to?: string }} EvidenceFilter
+ * @typedef {{ first_used: string | null, last_practised: string | null,
+ *   overridden: { first_used: boolean, last_practised: boolean } }} PracticeDates
  */
 
 /**
@@ -57,4 +75,213 @@ export function withClaim(fw, snapshot, code, level) {
   const others = snapshot.claims.filter((c) => c.code !== code);
   const claims = level === null ? others : [...others, { code, level }];
   return { ...snapshot, claims: inFrameworkOrder(fw, claims) };
+}
+
+/**
+ * The code a skill goes by now: a retired code maps to its replacement (ADR 0004).
+ * @param {Framework} fw
+ * @param {string} code
+ * @returns {string}
+ */
+export function currentCode(fw, code) {
+  const seen = new Set();
+  let c = code;
+  while (!seen.has(c)) {
+    seen.add(c);
+    const r = fw.retired.find((x) => x.code === c);
+    if (!r) return c;
+    c = r.replaced_by;
+  }
+  return c;
+}
+
+/**
+ * Start a logbook from quick claims, which become its first snapshot.
+ * @param {Framework} fw
+ * @param {Snapshot} quick
+ * @param {{ person?: string }} [options]
+ * @returns {Logbook}
+ */
+export function startLogbook(fw, quick, { person = '' } = {}) {
+  return {
+    schema: LOGBOOK_SCHEMA,
+    person,
+    framework_version: fw.framework.version,
+    evidence: [],
+    snapshots: [{ date: quick.date, claims: inFrameworkOrder(fw, quick.claims.map((c) => ({ ...c }))) }],
+    targets: [],
+    overrides: [],
+  };
+}
+
+/**
+ * What is wrong with an evidence item, if anything.
+ * @param {Framework} fw
+ * @param {EvidenceInput} item
+ * @returns {string[]}
+ */
+export function evidenceProblems(fw, item) {
+  /** @type {string[]} */
+  const problems = [];
+  if (!item.date) problems.push('an evidence item needs a date');
+  else if (!isDate(item.date)) problems.push(`"${item.date}" is not a date (YYYY-MM or YYYY-MM-DD)`);
+  if (!item.codes?.length) problems.push('an evidence item needs at least one skill');
+  for (const code of item.codes ?? []) {
+    if (!skillByCode(fw, currentCode(fw, code))) problems.push(`${code} is not a skill in this framework`);
+  }
+  if (!EVIDENCE_TYPES.includes(item.type)) problems.push(`type must be one of ${EVIDENCE_TYPES.join(', ')}`);
+  if (!item.note?.trim()) problems.push('an evidence item needs a note saying what was done');
+  return problems;
+}
+
+/**
+ * @param {Framework} fw
+ * @param {EvidenceInput} item
+ * @param {string} id
+ * @returns {EvidenceItem}
+ */
+function toEvidenceItem(fw, item, id) {
+  const problems = evidenceProblems(fw, item);
+  if (problems.length) throw new Error(problems.join('; '));
+  /** @type {EvidenceItem} */
+  const out = { id, date: item.date, codes: [...new Set(item.codes)], type: item.type, note: item.note.trim() };
+  if (item.link?.trim()) out.link = item.link.trim();
+  const tools = (item.tools ?? []).map((t) => t.trim()).filter(Boolean);
+  if (tools.length) out.tools = [...new Set(tools)];
+  return out;
+}
+
+/**
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {EvidenceInput} item
+ * @returns {Logbook}
+ */
+export function addEvidence(fw, lb, item) {
+  const next = 1 + Math.max(0, ...lb.evidence.map((e) => Number(/^e(\d+)$/.exec(e.id)?.[1] ?? 0)));
+  return { ...lb, evidence: [...lb.evidence, toEvidenceItem(fw, item, `e${next}`)] };
+}
+
+/**
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} id
+ * @param {EvidenceInput} item
+ * @returns {Logbook}
+ */
+export function updateEvidence(fw, lb, id, item) {
+  if (!lb.evidence.some((e) => e.id === id)) throw new Error(`there is no evidence item ${id}`);
+  return { ...lb, evidence: lb.evidence.map((e) => (e.id === id ? toEvidenceItem(fw, item, id) : e)) };
+}
+
+/**
+ * @param {Logbook} lb
+ * @param {string} id
+ * @returns {Logbook}
+ */
+export function deleteEvidence(lb, id) {
+  return { ...lb, evidence: lb.evidence.filter((e) => e.id !== id) };
+}
+
+/**
+ * Evidence that counts for a skill: items tagged with its code, or with a
+ * retired code it replaced. Items keep the codes they were logged under.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} code
+ * @param {string} [asOf] only items dated on or before this date
+ */
+export function evidenceFor(fw, lb, code, asOf) {
+  return lb.evidence.filter(
+    (e) =>
+      e.codes.some((c) => currentCode(fw, c) === code) && (asOf === undefined || compareDates(e.date, asOf) <= 0),
+  );
+}
+
+/**
+ * The evidence log, newest first, filtered by skill, type and date range (inclusive).
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {EvidenceFilter} filter
+ * @returns {EvidenceItem[]}
+ */
+export function filterEvidence(fw, lb, { code, type, from, to }) {
+  return lb.evidence
+    .filter(
+      (e) =>
+        (!code || e.codes.some((c) => currentCode(fw, c) === code)) &&
+        (!type || e.type === type) &&
+        (!from || compareDates(e.date, from) >= 0) &&
+        (!to || compareDates(e.date, to) <= 0),
+    )
+    .map((e, i) => /** @type {const} */ ([e, i]))
+    .sort(([a, i], [b, j]) => compareDates(b.date, a.date) || j - i)
+    .map(([e]) => e);
+}
+
+/**
+ * First used and last practised for a skill: the earliest and latest evidence
+ * of any type but learned, unless the person has overridden them.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} code
+ * @param {string} [asOf] as things stood on this date
+ * @returns {PracticeDates}
+ */
+export function practiceDates(fw, lb, code, asOf) {
+  const practice = evidenceFor(fw, lb, code, asOf).filter((e) => e.type !== 'learned');
+  /** @type {string | null} */
+  let first = null;
+  /** @type {string | null} */
+  let last = null;
+  for (const e of practice) {
+    if (first === null || compareDates(e.date, first) < 0) first = e.date;
+    if (last === null || compareDates(e.date, last) > 0) last = e.date;
+  }
+  const o = lb.overrides.find((x) => x.code === code);
+  const usable = (/** @type {string | undefined} */ d) => d !== undefined && (asOf === undefined || compareDates(d, asOf) <= 0);
+  const firstOverridden = usable(o?.first_used);
+  const lastOverridden = usable(o?.last_practised);
+  return {
+    first_used: firstOverridden ? /** @type {string} */ (o?.first_used) : first,
+    last_practised: lastOverridden ? /** @type {string} */ (o?.last_practised) : last,
+    overridden: { first_used: firstOverridden, last_practised: lastOverridden },
+  };
+}
+
+/**
+ * Override first used or last practised for a skill. Pass null to clear an
+ * override; leave a field out to keep it as it is.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {string} code
+ * @param {{ first_used?: string | null, last_practised?: string | null }} change
+ * @returns {Logbook}
+ */
+export function setOverride(fw, lb, code, change) {
+  if (!skillByCode(fw, code)) throw new Error(`${code} is not a skill in this framework`);
+  for (const d of [change.first_used, change.last_practised]) {
+    if (d != null && !isDate(d)) throw new Error(`"${d}" is not a date (YYYY-MM or YYYY-MM-DD)`);
+  }
+  const old = lb.overrides.find((o) => o.code === code) ?? { code };
+  /** @type {Override} */
+  const next = { code };
+  const first = change.first_used === undefined ? old.first_used : change.first_used;
+  const last = change.last_practised === undefined ? old.last_practised : change.last_practised;
+  if (first) next.first_used = first;
+  if (last) next.last_practised = last;
+  const others = lb.overrides.filter((o) => o.code !== code);
+  const overrides = next.first_used || next.last_practised ? [...others, next] : others;
+  return { ...lb, overrides: inFrameworkOrder(fw, overrides) };
+}
+
+/**
+ * The most recent snapshot: the latest date, and of snapshots on the same
+ * date, the last one made.
+ * @param {Logbook} lb
+ * @returns {Snapshot}
+ */
+export function latestSnapshot(lb) {
+  if (!lb.snapshots.length) throw new Error('the logbook has no snapshots');
+  return lb.snapshots.reduce((latest, s) => (compareDates(s.date, latest.date) >= 0 ? s : latest));
 }

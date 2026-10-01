@@ -8,11 +8,11 @@
 
 Spec: ../spec.md
 
-- [ ] A worker can start a logbook from the current quick claims, which become its first snapshot
-- [ ] Only a storage adapter touches localStorage; one logbook per browser persists across visits
-- [ ] A worker can add, edit and delete evidence items with a date (year-month or full date), one or more codes, a type, a note, an optional link and optional tools
-- [ ] Tools can be picked from the examples layer or typed freely
-- [ ] The evidence log can be filtered by skill, type and date
-- [ ] The core derives first used and last practised per skill from non-learned evidence; year-month dates compare as the first of the month
-- [ ] A worker can override first used or last practised per skill, and overrides win
-- [ ] Core tests cover derivation with and without overrides, and with learning excluded
+- [x] A worker can start a logbook from the current quick claims, which become its first snapshot
+- [x] Only a storage adapter touches localStorage; one logbook per browser persists across visits
+- [x] A worker can add, edit and delete evidence items with a date (year-month or full date), one or more codes, a type, a note, an optional link and optional tools
+- [x] Tools can be picked from the examples layer or typed freely
+- [x] The evidence log can be filtered by skill, type and date
+- [x] The core derives first used and last practised per skill from non-learned evidence; year-month dates compare as the first of the month
+- [x] A worker can override first used or last practised per skill, and overrides win
+- [x] Core tests cover derivation with and without overrides, and with learning excluded

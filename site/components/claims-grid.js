@@ -14,6 +14,7 @@ export class ClaimsGrid extends LitElement {
     claims: { attribute: false },
     labels: {},
     readonly: { type: Boolean },
+    practice: { attribute: false },
     open: { state: true },
   };
 
@@ -26,6 +27,8 @@ export class ClaimsGrid extends LitElement {
     /** @type {'name' | 'title'} */
     this.labels = 'title';
     this.readonly = false;
+    /** @type {((code: string) => import('../core/logbook.js').PracticeDates) | undefined} first used and last practised, in a logbook */
+    this.practice = undefined;
     /** @type {Set<string>} codes whose details are open */
     this.open = new Set();
   }
@@ -153,11 +156,38 @@ export class ClaimsGrid extends LitElement {
   }
 
   /**
-   * @param {import('../core/framework.js').Skill} _s
-   * @returns {unknown}
+   * First used and last practised, with overrides, when showing a logbook.
+   * Fires `override-change` with detail { code, first_used?, last_practised? } (null clears).
+   * @param {import('../core/framework.js').Skill} s
    */
-  renderDetailExtra(_s) {
-    return nothing;
+  renderDetailExtra(s) {
+    if (!this.practice) return nothing;
+    const p = this.practice(s.code);
+    /** @param {'first_used' | 'last_practised'} field @param {string} label */
+    const field = (field, label) => html`<label
+      >${label}${p.overridden[field] ? ' (your override)' : p[field] ? ' (from evidence)' : ''}
+      <span>
+        <input
+          size="11"
+          placeholder="none yet"
+          .value=${p[field] ?? ''}
+          aria-label=${`${label} for ${s.code}: type a date to override`}
+          @change=${(/** @type {Event} */ e) => {
+            const v = /** @type {HTMLInputElement} */ (e.target).value.trim();
+            this.dispatchEvent(new CustomEvent('override-change', { detail: { code: s.code, [field]: v || null }, bubbles: true }));
+          }}
+        />
+        ${p.overridden[field]
+          ? html`<button type="button" class="link" @click=${() => this.dispatchEvent(new CustomEvent('override-change', { detail: { code: s.code, [field]: null }, bubbles: true }))}>use evidence</button>`
+          : nothing}
+      </span>
+    </label>`;
+    return html`<div class="practice">
+      ${field('first_used', 'First used')} ${field('last_practised', 'Last practised')}
+      <button type="button" @click=${() => this.dispatchEvent(new CustomEvent('add-evidence', { detail: { code: s.code }, bubbles: true }))}>
+        Add evidence for ${s.code}
+      </button>
+    </div>`;
   }
 
   /** @param {string} code */

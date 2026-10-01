@@ -1,0 +1,18 @@
+code: LEAD
+name: Leading with AI
+category: Working with AI
+subcategory: Applying AI to work
+order: 2
+description: A fixture skill defined at every level.
+level_range: [ 1, 7 ]
+levels:
+  1: Knows.
+  2: Uses with help.
+  3: Uses routinely.
+  4: Builds for the team.
+  5: Designs what others rely on.
+  6: Sets policy.
+  7: Advances the field.
+map:
+  sfia: []
+  appliedai: []
