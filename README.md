@@ -17,9 +17,9 @@ Status: draft v0.1 (30 Sep 2026). All 277 level descriptions are drafted and nee
 - data/levels.json: level definitions and titles
 - data/build_skills.py: taxonomy, skill metadata, examples and mappings; builds data/skills.json
 - data/descriptors.py: level descriptions per skill code
-- data/skills.json: generated framework data, in the same tree shape as the NIWA PD tool's json_source.json
+- data/skills.json: generated framework data (category -> subcategory -> skill -> record)
 - data/render_review.py: regenerates docs/skills-review.md
-- data/profile.example.json: example personal profile (snapshots over time, evidence, targets for gap analysis)
+- data/profile.example.json: example logbook (evidence log, snapshots over time, targets for gap analysis)
 
 ## Build
 
@@ -29,4 +29,8 @@ The build fails if a skill's level descriptions do not exactly cover its level_r
 
 ## Licence
 
-The framework content and data are licensed CC BY-SA 4.0 (see LICENSE). A forked tool based on niwa/sfia-position-description-tool remains under that tool's own licence (CC BY-NC 3.0 NZ).
+The framework content and data are licensed CC BY-SA 4.0 (see LICENSE).
+
+## Inspiration
+
+The structure of skills described at graded levels follows SFIA (sfia-online.org); no SFIA text is reused. The skill-by-level grid with state in the URL follows NIWA's SFIA position description tool (github.com/niwa/sfia-position-description-tool); none of its code is used.

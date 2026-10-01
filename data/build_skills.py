@@ -1,7 +1,6 @@
 """Build data/skills.json (draft v0.1) for the AI skills framework.
 
-Tree shape matches the NIWA PD tool: category -> subcategory -> skill -> record,
-so the forked tool can read it with minimal change. Extra fields per skill:
+Tree shape: category -> subcategory -> skill -> record. Fields per skill:
   level_range  [min, max] levels at which the skill is defined
   levels       {level: descriptor}, from descriptors.py
   examples     current tools/models, dated; the volatile layer

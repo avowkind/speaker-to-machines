@@ -1,0 +1,3 @@
+# Retired skill codes are mapped, never reused
+
+Logbooks and shared URLs live outside our control, on people's own machines and in links pasted anywhere, so they will keep naming skill codes long after the framework changes. When a skill is merged, split or renamed, its old code is retired, never reused, and skills.json lists it with a `replaced_by` code. On import, the site maps retired codes in claims and targets to their replacements. Evidence items keep the code they were logged under, so history stays true to what the person recorded. The alternative, migrating files in place, would need either a server or a person to run a migration, and a reused code would silently change the meaning of old claims.

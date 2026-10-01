@@ -1,0 +1,5 @@
+# Badges are earned by evidence type, checked by no one
+
+There is no server, so nothing can verify a claim. A badge is self-issued, and its credibility rests on the evidence it cites, which a reader can follow. A claim's badge is at the highest level, up to the claimed level, whose rule is met by evidence for that skill dated on or before the snapshot. A claim of 5 backed only by a year of use shows a badge at 3. Evidence qualifies by type, matched to the level's evidence hint in levels.json: any type at level 1; used, built, taught or published at 2–3, with such items spanning at least three months at 3; built or taught at 4–5; taught or published at 6–7.
+
+We considered weighting evidence or scoring it, and having others endorse it. Weighting adds a number nobody can check. Endorsement needs identity and storage, which ADR 0002 rules out. A fixed type-per-level rule is simple to explain, and it settles open decision D for badges. Changing the rule later would change which existing badges count.

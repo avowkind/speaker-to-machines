@@ -20,11 +20,11 @@ It has to support three things:
 3. Two layers. Skills and their level descriptions are written to last for years and never name a product. A separate examples layer lists current tools and models, carries an as_of date and can be updated every quarter without changing a skill's meaning.
 4. Levels must be observable. Each level description says what the person does and what they produce, so a claim can be backed by evidence (following the IDDL idea of competence as defined versus capability as demonstrated).
 5. Covers the whole range: from understanding, through personal and home use, delegating to agents, building with AI and building AI models, to physical AI and leadership.
-6. Machine-readable first. The JSON is the source, and documents and the tool are generated from it.
+6. Machine-readable first. YAML files are the source, and documents and the site are generated from them (ADR 0005).
 
 ## 3. Level scale
 
-There are seven levels, the same count as SFIA, so the forked tool's seven columns still fit. A level blends three things: how independently you work (autonomy), how far your work reaches (scope: you, your team, your organisation, the field), and what you actually do (knowing, using, building, leading). Not every skill uses every level, and each skill has a level_range. Definitions are in data/levels.json.
+There are seven levels, the same count as SFIA. A level blends three things: how independently you work (autonomy), how far your work reaches (scope: you, your team, your organisation, the field), and what you actually do (knowing, using, building, leading). Not every skill uses every level, and each skill has a level_range. Definitions are in data/levels.json.
 
 Each level has a plain name for formal outputs such as position descriptions and CVs, and a title for the profile and badge views. The titles follow the Kzin naming custom in Larry Niven's Known Space stories: a Kzin goes from a description to an occupation title (Speaker-to-Animals) and then to a name, each earned by deeds. Here too, a level is earned through evidence, not claimed. A title can be written in full, as in Shaper-of-Machines.
 
@@ -83,44 +83,44 @@ Mappings are held per skill in `map.sfia` and `map.appliedai`.
 
 ## 5. Data model
 
-skills.json has the same tree shape as the NIWA tool's json_source.json (category, then subcategory, then skill name, then the record), so the fork needs minimal change. Each record adds these fields:
+The framework is kept as YAML files under data/, edited by hand or by pull request (ADR 0005):
+- taxonomy.yaml: category and subcategory order and display names
+- skills/CODE.yaml: one file per skill, naming its category and subcategory
+- examples.yaml: the examples layer, keyed by code, with one as_of
+- levels.yaml: level definitions and titles, plus the framework's name, version and licence
+
+A validator checks each file against a JSON Schema and checks level-range coverage, code format and uniqueness, no collision with SFIA codes, that replaced_by codes exist, and that no descriptor names a product from examples.yaml. It runs locally and in CI on every pull request. A build bundles the files into one generated JSON file for the site, and render_review.py regenerates docs/skills-review.md. Versions are tagged releases: major when a code is retired or a level's meaning changes, minor when a skill or level is added, patch for wording or examples only. A maintenance interface is a future goal the layout must allow; it is not part of the first build.
+
+Until the migration is done, data/build_skills.py and data/descriptors.py hold this data and build data/skills.json, a tree of category, then subcategory, then skill name, then the record. Each record has these fields:
 - level_range: [min, max]
 - levels: {"1": "...", ...}, filled only within level_range
 - examples: {as_of, items[]}, the current tools and models
 - map: {sfia[], appliedai[]}
 
-A personal profile is a separate file. The person owns it, and it lives in their repository or browser, never on a server. See data/profile.example.json. For each skill it records:
-- claimed level
-- first used and last practised dates
-- evidence items: date, type (learned / used / built / taught / published), a note and an optional link
-- tools used, taken from the examples layer or free text
+A person's logbook is a separate file. The person owns it, and it lives in their browser or on their own machine, never on a server (ADR 0002). Terms are defined in CONTEXT.md. It holds:
+- an evidence log: one editable list of evidence items, each with a date, one or more skill codes, type (learned / used / built / taught / published), a note, an optional link and optional tools (examples-layer names or free text)
+- snapshots: each a date and a set of claims, where a claim is just a skill code and level; evidence is never copied into snapshots
+- optional per-skill overrides of first used and last practised, which are otherwise derived from the evidence log
+- targets: each a name and a set of target levels, each marked essential or desirable
 
-Snapshots are dated copies of the profile, and history is the list of snapshots. Gap analysis compares the current snapshot with a target profile (a role template or a personal goal), giving per-skill differences ranked by size and by a priority weight.
+A claim needs no evidence. It becomes an evidenced claim, and earns a badge, when qualifying evidence dated on or before the snapshot exists (ADR 0003). History is the sequence of snapshots. Gap analysis compares the latest snapshot's claims with a target, ranked by priority (essential before desirable) then by size. It also shows evidence gaps, where a claim meets the target but its badge does not. Retired skill codes are mapped to their replacements on import (ADR 0004).
 
-Recency matters more for AI than for most skills. A level claimed from practice two model generations ago may be stale, so the tool should flag claims whose last practised date is more than 12 months old.
+Recency matters more for AI than for most skills. A level claimed from practice two model generations ago may be stale, so the site flags claims whose skill was last practised more than 12 months before the snapshot's date.
 
-## 6. Tool (fork of niwa/sfia-position-description-tool)
+## 6. Site
 
-Keep:
-- the category/skill grid with seven checkbox columns
-- the URL hash for state (CODE-LEVEL+...), which makes any profile a shareable link
-- CSV and HTML export
+A static site with no server-side storage (ADRs 0001, 0002). It is used two ways:
+1. Quick claims: tick one level per skill in a skill-by-level grid. The URL holds that one snapshot (a date and CODE-LEVEL pairs) and is a shareable link. It never holds evidence.
+2. Logbook: add evidence over time, kept in localStorage and exported as a file. Evidenced claims earn badges.
 
-Add:
-1. Level text shown inline, and the examples layer shown per skill.
-2. A profile mode: import and export a profile JSON, with evidence and dates.
-3. A target overlay: load a target profile or role and highlight gaps.
-4. A history view: snapshots over time.
-5. Remove the SFIA JSON from the fork.
-
-The tool's own licence is CC BY-NC 3.0 NZ with attribution to NIWA. That covers the code, and the framework data will be CC BY-SA.
+It also shows level text inline and the examples layer per skill, a target overlay for gap analysis, a history view of snapshots, and generated outputs: the profile and position descriptions.
 
 ## 7. Open decisions
 
 - A. DECIDED (30 Sep 2026): the hybrid scale, where level 1 is knowing, 2–3 using, 4–5 adapting and building, 6–7 leading and advancing.
 - B. DECIDED (30 Sep 2026): about 53 skills is the right granularity.
 - C. DECIDED (30 Sep 2026): the name is "Speaker-to-Machines" with the subtitle "an AI skills logbook", and the level titles are Listener, Caller, Speaker, Shaper, Maker, Keeper and Namer. The generic name was dropped because it clashes with appliedAI's "AI Skills Framework" and societalai.org's "AI Skills Framework™". No trademark search has been done. The appliedAI Institute already uses "AI Skills Framework", and "agent skills" now means packaged capabilities for agents, so we need a distinct name.
-- D. Evidence strength: whether to weight claims by evidence type (for example, built > used > learned) in gap analysis.
+- D. DECIDED (1 Oct 2026): evidence qualifies by type per level for badges (ADR 0003). Gap analysis does not weight claims; it measures from claims and shows evidence gaps separately.
 - E. Whether PERS and HOME should merge, and whether AUTV's user-side levels (supervising driver-assistance systems) belong with SUPV.
 
 ## 8. Next steps
@@ -128,4 +128,4 @@ The tool's own licence is CC BY-NC 3.0 NZ with attribution to NIWA. That covers 
 1. Done: taxonomy, level model and name settled, and all level descriptions drafted.
 2. Do a consistency pass across categories, including verb patterns per level and overlaps between similar skills.
 3. Test by self-assessment: Andrew completes a profile, and we see where the scale or the skills don't fit.
-4. Fork the tool and implement profile mode, then gap analysis.
+4. Build the site: quick claims and the logbook, then gap analysis.

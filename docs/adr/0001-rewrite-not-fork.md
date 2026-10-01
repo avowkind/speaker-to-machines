@@ -1,0 +1,3 @@
+# Rewrite the site instead of forking the NIWA PD tool
+
+We had planned to fork niwa/sfia-position-description-tool. We are writing a new site instead. It borrows the tool's ideas (a data-driven grid of skills against level checkboxes, state carried in the URL, and document export), but none of its code. The tool's code is licensed CC BY-NC 3.0 NZ. That NonCommercial term is incompatible with this project's CC BY-SA data, and would restrict the site for good. The original is also only about 250 lines, and almost every feature we need (profiles, evidence, targets, history, staleness, level names) would be new anyway. NIWA is credited for the concept.
