@@ -429,3 +429,9 @@ form.stacked .actions {
   gap: 0.15rem;
   font-size: 0.9rem;
 }
+.badge-detail {
+  margin-top: 0.5rem;
+}
+ul.cited {
+  margin: 0.2rem 0 0.5rem;
+}

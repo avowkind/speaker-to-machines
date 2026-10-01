@@ -2,8 +2,8 @@
  * The logbook core: the only place domain rules live. Pure functions of the
  * framework, a logbook (or a snapshot) and today's date; no DOM, no storage.
  */
-import { allSkills, skillByCode } from './framework.js';
-import { compareDates, isDate } from './dates.js';
+import { allSkills, levelInfo, skillByCode } from './framework.js';
+import { addMonths, compareDates, isDate } from './dates.js';
 
 export const LOGBOOK_SCHEMA = 'stm-logbook/0.1';
 export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built', 'taught', 'published']);
@@ -26,6 +26,8 @@ export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built',
  * @typedef {{ code?: string, type?: EvidenceType, from?: string, to?: string }} EvidenceFilter
  * @typedef {{ first_used: string | null, last_practised: string | null,
  *   overridden: { first_used: boolean, last_practised: boolean } }} PracticeDates
+ * @typedef {{ level: number, title: string, name: string, evidence: EvidenceItem[] }} Badge
+ * @typedef {{ code: string, level: number, badge: Badge | null, unevidenced: number[] }} ClaimStatus
  */
 
 /**
@@ -284,4 +286,70 @@ export function setOverride(fw, lb, code, change) {
 export function latestSnapshot(lb) {
   if (!lb.snapshots.length) throw new Error('the logbook has no snapshots');
   return lb.snapshots.reduce((latest, s) => (compareDates(s.date, latest.date) >= 0 ? s : latest));
+}
+
+const PRACTICE = new Set(['used', 'built', 'taught', 'published']);
+const BUILDING = new Set(['built', 'taught']);
+const LEADING = new Set(['taught', 'published']);
+
+/**
+ * The evidence that meets a level's rule (ADR 0003), or none if the rule is
+ * not met: any type at 1; used, built, taught or published at 2-3, spanning at
+ * least three months at 3; built or taught at 4-5; taught or published at 6-7.
+ * @param {number} level
+ * @param {EvidenceItem[]} items evidence for the skill, already limited by date
+ * @returns {EvidenceItem[]}
+ */
+function qualifying(level, items) {
+  if (level === 1) return items;
+  if (level === 2) return items.filter((e) => PRACTICE.has(e.type));
+  if (level === 3) {
+    const practice = items.filter((e) => PRACTICE.has(e.type));
+    if (!practice.length) return [];
+    const dates = practice.map((e) => e.date).sort(compareDates);
+    const spans = compareDates(/** @type {string} */ (dates.at(-1)), addMonths(dates[0], 3)) >= 0;
+    return spans ? practice : [];
+  }
+  if (level <= 5) return items.filter((e) => BUILDING.has(e.type));
+  return items.filter((e) => LEADING.has(e.type));
+}
+
+/**
+ * A claim's badge and unevidenced levels as of a date. The badge is at the
+ * highest level, up to the claim and within the skill's range, whose rule is
+ * met by evidence for the skill dated on or before that date.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {Claim} claim
+ * @param {string} asOf usually the snapshot's date
+ * @returns {ClaimStatus}
+ */
+export function claimStatus(fw, lb, claim, asOf) {
+  const skill = skillByCode(fw, claim.code);
+  const lo = skill ? skill.level_range[0] : 1;
+  const items = evidenceFor(fw, lb, claim.code, asOf).sort((a, b) => compareDates(a.date, b.date));
+  /** @type {Badge | null} */
+  let badge = null;
+  for (let level = claim.level; level >= lo; level--) {
+    const evidence = qualifying(level, items);
+    if (evidence.length) {
+      const info = levelInfo(fw, level);
+      badge = { level, title: info?.title ?? '', name: info?.name ?? '', evidence };
+      break;
+    }
+  }
+  const unevidenced = [];
+  for (let level = badge ? badge.level + 1 : lo; level <= claim.level; level++) unevidenced.push(level);
+  return { code: claim.code, level: claim.level, badge, unevidenced };
+}
+
+/**
+ * Every claim in a snapshot with its badge, as of the snapshot's date.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {Snapshot} snapshot
+ * @returns {ClaimStatus[]}
+ */
+export function snapshotStatus(fw, lb, snapshot) {
+  return snapshot.claims.map((c) => claimStatus(fw, lb, c, snapshot.date));
 }

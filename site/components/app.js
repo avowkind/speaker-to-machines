@@ -5,6 +5,7 @@ import {
   latestSnapshot,
   practiceDates,
   setOverride,
+  snapshotStatus,
   startLogbook,
   updateEvidence,
   withClaim,
@@ -275,11 +276,17 @@ export class App extends LitElement {
         </p>
         <button type="button" @click=${() => this.copyLink(latest)}>Copy link to these claims</button>
       </div>
+      <p class="legend muted">
+        <span class="badge-pill">Badge</span> a level your evidence supports ·
+        <span class="unevidenced-pill">Unevidenced</span> claimed levels your evidence doesn't yet reach. Open a skill to see the
+        evidence behind its badge.
+      </p>
       <stm-claims-grid
         .framework=${this.fw}
         .claims=${this.claimMap(latest)}
         .labels=${this.labels}
         .practice=${(/** @type {string} */ code) => practiceDates(this.fw, lb, code)}
+        .status=${Object.fromEntries(snapshotStatus(this.fw, lb, latest).map((st) => [st.code, st]))}
         @claim-change=${this.onLogbookClaim}
         @override-change=${(/** @type {CustomEvent<{ code: string }>} */ e) => {
           const { code, ...change } = e.detail;

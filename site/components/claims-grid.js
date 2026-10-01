@@ -15,6 +15,7 @@ export class ClaimsGrid extends LitElement {
     labels: {},
     readonly: { type: Boolean },
     practice: { attribute: false },
+    status: { attribute: false },
     open: { state: true },
   };
 
@@ -29,6 +30,8 @@ export class ClaimsGrid extends LitElement {
     this.readonly = false;
     /** @type {((code: string) => import('../core/logbook.js').PracticeDates) | undefined} first used and last practised, in a logbook */
     this.practice = undefined;
+    /** @type {Record<string, import('../core/logbook.js').ClaimStatus> | undefined} badges, in a logbook */
+    this.status = undefined;
     /** @type {Set<string>} codes whose details are open */
     this.open = new Set();
   }
@@ -121,16 +124,55 @@ export class ClaimsGrid extends LitElement {
    * @param {number} level
    */
   cellClass(code, level) {
-    return this.claims[code] === level ? 'in-range ticked' : 'in-range';
+    const classes = ['in-range'];
+    if (this.claims[code] === level) classes.push('ticked');
+    const st = this.status?.[code];
+    if (st?.badge?.level === level) classes.push('badged');
+    if (st?.unevidenced.includes(level)) classes.push('unevidenced');
+    return classes.join(' ');
   }
 
   /**
-   * @param {string} _code
-   * @param {number} _level
-   * @returns {unknown}
+   * @param {string} code
+   * @param {number} level
    */
-  renderCellMarks(_code, _level) {
-    return nothing;
+  renderCellMarks(code, level) {
+    const st = this.status?.[code];
+    if (!st) return nothing;
+    return html`${st.badge?.level === level
+      ? html`<span class="mark badge">${this.labels === 'name' ? st.badge.name : st.badge.title}</span>`
+      : nothing}${st.level === level && st.unevidenced.length
+      ? html`<span class="mark unevidenced">${st.badge ? 'beyond evidence' : 'no evidence'}</span>`
+      : nothing}`;
+  }
+
+  /** @param {import('../core/framework.js').Skill} s */
+  renderBadge(s) {
+    const st = this.status?.[s.code];
+    if (!st) return nothing;
+    const label = (/** @type {number} */ l) => `${l} ${this.levelLabel(l)}`;
+    return html`<div class="badge-detail">
+      ${st.badge
+        ? html`<p>
+              <span class="badge-pill">${this.labels === 'name' ? st.badge.name : st.badge.title} in ${s.code}</span>
+              Badge at level ${label(st.badge.level)}, resting on:
+            </p>
+            <ul class="cited">
+              ${st.badge.evidence.map((e) => html`<li>${e.date} · ${e.type}: ${e.note}${e.link ? html` (<a href=${e.link} rel="noopener noreferrer" target="_blank">link</a>)` : nothing}</li>`)}
+            </ul>`
+        : html`<p>No badge yet: no qualifying evidence for this claim.</p>`}
+      ${st.unevidenced.length
+        ? html`<p><span class="unevidenced-pill">Unevidenced</span> ${st.unevidenced.map(label).join(', ')}.
+            ${this.evidenceHint(st.unevidenced[0])}</p>`
+        : nothing}
+    </div>`;
+  }
+
+  /** @param {number} level */
+  evidenceHint(level) {
+    const info = this.framework && levelInfo(this.framework, level);
+    const needs = level === 1 ? 'any evidence' : level <= 2 ? 'used, built, taught or published evidence' : level === 3 ? 'used, built, taught or published evidence spanning at least three months' : level <= 5 ? 'built or taught evidence' : 'taught or published evidence';
+    return `Level ${level} needs ${needs}${info ? ` (for example: ${info.evidence.replace(/\.$/, '').toLowerCase()})` : ''}.`;
   }
 
   /** @param {import('../core/framework.js').Skill} s */
@@ -150,7 +192,7 @@ export class ClaimsGrid extends LitElement {
               <strong>Examples (as of ${s.examples.as_of}):</strong> ${s.examples.items.join(', ')}
             </p>`
           : nothing}
-        ${this.renderDetailExtra(s)}
+        ${this.renderBadge(s)} ${this.renderDetailExtra(s)}
       </td>
     </tr>`;
   }
