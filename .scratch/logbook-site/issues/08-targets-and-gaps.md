@@ -8,10 +8,10 @@
 
 Spec: ../spec.md
 
-- [ ] A worker or hiring manager can create a target by ticking target levels and marking each essential or desirable
-- [ ] Targets can be shared and imported as a URL (name plus code-level pairs with priority marks) or a YAML file
-- [ ] A logbook keeps several targets and the worker can switch between them
-- [ ] The grid overlays the selected target's levels on the current claims
-- [ ] The core ranks gaps (target level minus latest claim) by priority, then size
-- [ ] The core lists evidence gaps, where the claim meets the target but the badge does not, separately
-- [ ] Core tests cover gap ranking, evidence gaps and target URL and YAML round-trips
+- [x] A worker or hiring manager can create a target by ticking target levels and marking each essential or desirable
+- [x] Targets can be shared and imported as a URL (name plus code-level pairs with priority marks) or a YAML file
+- [x] A logbook keeps several targets and the worker can switch between them
+- [x] The grid overlays the selected target's levels on the current claims
+- [x] The core ranks gaps (target level minus latest claim) by priority, then size
+- [x] The core lists evidence gaps, where the claim meets the target but the badge does not, separately
+- [x] Core tests cover gap ranking, evidence gaps and target URL and YAML round-trips

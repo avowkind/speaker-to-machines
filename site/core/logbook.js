@@ -31,6 +31,8 @@ export const EVIDENCE_TYPES = /** @type {const} */ (['learned', 'used', 'built',
  *   last_practised: string | null, stale: boolean }} ClaimStatus
  * @typedef {{ date: string, level: number | null, badge: number | null, stale: boolean }} HistoryEntry
  * @typedef {{ code: string, entries: HistoryEntry[] }} SkillHistory
+ * @typedef {{ code: string, target: number, priority: Priority, claim: number, size: number }} Gap
+ * @typedef {{ code: string, target: number, priority: Priority, claim: number, badge: number | null }} EvidenceGap
  */
 
 /** A claim is stale when its skill was last practised more than this many months before the snapshot. */
@@ -460,4 +462,99 @@ export function history(fw, lb) {
       return { date: s.date, level: claim.level, badge: st.badge?.level ?? null, stale: st.stale };
     }),
   }));
+}
+
+/**
+ * The target with one skill's target level set, or removed when level is null.
+ * @param {Framework} fw
+ * @param {Target} target
+ * @param {string} code
+ * @param {number | null} level
+ * @param {Priority} priority
+ * @returns {Target}
+ */
+export function withTargetLevel(fw, target, code, level, priority) {
+  if (level !== null) {
+    const problem = levelProblem(fw, code, level);
+    if (problem) throw new Error(problem);
+  }
+  const others = target.levels.filter((l) => l.code !== code);
+  const levels = level === null ? others : [...others, { code, level, priority }];
+  return { ...target, levels: inFrameworkOrder(fw, levels) };
+}
+
+/**
+ * Keep a target in the logbook. Targets are known by name.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {Target} target
+ * @returns {Logbook}
+ */
+export function addTarget(fw, lb, target) {
+  const name = target.name.trim();
+  if (!name) throw new Error('a target needs a name');
+  if (lb.targets.some((t) => t.name === name)) throw new Error(`there is already a target named "${name}"`);
+  const levels = target.levels.reduce((t, l) => withTargetLevel(fw, t, l.code, l.level, l.priority), { name, levels: /** @type {TargetLevel[]} */ ([]) }).levels;
+  return { ...lb, targets: [...lb.targets, { name, levels }] };
+}
+
+/**
+ * Replace a target in the logbook, for example after editing its levels.
+ * @param {Logbook} lb
+ * @param {string} name
+ * @param {Target} target
+ * @returns {Logbook}
+ */
+export function replaceTarget(lb, name, target) {
+  if (!lb.targets.some((t) => t.name === name)) throw new Error(`there is no target named "${name}"`);
+  if (target.name !== name && lb.targets.some((t) => t.name === target.name)) {
+    throw new Error(`there is already a target named "${target.name}"`);
+  }
+  return { ...lb, targets: lb.targets.map((t) => (t.name === name ? target : t)) };
+}
+
+/**
+ * @param {Logbook} lb
+ * @param {string} name
+ * @returns {Logbook}
+ */
+export function removeTarget(lb, name) {
+  return { ...lb, targets: lb.targets.filter((t) => t.name !== name) };
+}
+
+const PRIORITY_RANK = { essential: 0, desirable: 1 };
+
+/**
+ * Compare the latest claims with a target. Gaps are target levels above the
+ * claim (no claim counts as 0), ranked essential first and then by size.
+ * Evidence gaps are where the claim meets the target but its badge does not,
+ * listed separately: there evidence is missing, not learning.
+ * @param {Framework} fw
+ * @param {Logbook} lb
+ * @param {Target} target
+ * @returns {{ gaps: Gap[], evidenceGaps: EvidenceGap[] }}
+ */
+export function findGaps(fw, lb, target) {
+  const latest = latestSnapshot(lb);
+  const order = new Map(allSkills(fw).map((s, i) => [s.code, i]));
+  const byOrder = (/** @type {{ code: string }} */ a, /** @type {{ code: string }} */ b) => (order.get(a.code) ?? 0) - (order.get(b.code) ?? 0);
+  /** @type {Gap[]} */
+  const gaps = [];
+  /** @type {EvidenceGap[]} */
+  const evidenceGaps = [];
+  for (const t of target.levels) {
+    const claim = latest.claims.find((c) => c.code === t.code);
+    const claimed = claim?.level ?? 0;
+    if (claimed < t.level) {
+      gaps.push({ code: t.code, target: t.level, priority: t.priority, claim: claimed, size: t.level - claimed });
+    } else if (claim) {
+      const badge = claimStatus(fw, lb, claim, latest.date).badge?.level ?? null;
+      if ((badge ?? 0) < t.level) evidenceGaps.push({ code: t.code, target: t.level, priority: t.priority, claim: claimed, badge });
+    }
+  }
+  gaps.sort((a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || b.size - a.size || byOrder(a, b));
+  evidenceGaps.sort(
+    (a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || b.target - (b.badge ?? 0) - (a.target - (a.badge ?? 0)) || byOrder(a, b),
+  );
+  return { gaps, evidenceGaps };
 }

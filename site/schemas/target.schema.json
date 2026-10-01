@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speaker-to-Machines target file (stm-target/0.1)",
+  "description": "A role template or personal goal: target levels, each essential or desirable. Codes are quoted strings.",
+  "type": "object",
+  "required": ["schema", "name", "levels"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "stm-target/0.1" },
+    "name": { "type": "string", "minLength": 1 },
+    "levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "level", "priority"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string", "pattern": "^[A-Z]{4}$", "patternDescription": "a skill code (four capital letters)" },
+          "level": { "type": "integer", "minimum": 1, "maximum": 7 },
+          "priority": { "enum": ["essential", "desirable"] }
+        }
+      }
+    }
+  }
+}

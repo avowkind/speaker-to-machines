@@ -4,6 +4,7 @@
  * link is a plain snapshot or target.
  *
  *   snapshot  date=2026-09-30&claims=INST-4,AISD-5
+ *   target    target=Senior%20engineer&levels=INST-4!,AISD-3   ("!" marks essential)
  */
 import { isDate } from './dates.js';
 import { inFrameworkOrder, levelProblem } from './logbook.js';
@@ -14,7 +15,8 @@ import { inFrameworkOrder, levelProblem } from './logbook.js';
  * @typedef {{ from: string, to: string }} MappedCode
  * @typedef {{ kind: 'none' }
  *   | { kind: 'invalid', problems: string[] }
- *   | { kind: 'snapshot', snapshot: Snapshot, mapped: MappedCode[], problems: string[] }} DecodedHash
+ *   | { kind: 'snapshot', snapshot: Snapshot, mapped: MappedCode[], problems: string[] }
+ *   | { kind: 'target', target: import('./logbook.js').Target, mapped: MappedCode[], problems: string[] }} DecodedHash
  */
 
 /**
@@ -34,7 +36,45 @@ export function encodeSnapshot(snapshot) {
 export function decodeHash(hash, fw) {
   const params = parseParams(hash.replace(/^#/, ''));
   if (params.has('date')) return decodeSnapshot(params, fw);
+  if (params.has('target')) return decodeTarget(params, fw);
   return { kind: 'none' };
+}
+
+/**
+ * @param {import('./logbook.js').Target} target
+ * @returns {string} the hash, without the leading "#"
+ */
+export function encodeTarget(target) {
+  const pairs = target.levels.map((l) => `${l.code}-${l.level}${l.priority === 'essential' ? '!' : ''}`).join(',');
+  return `target=${encodeURIComponent(target.name)}&levels=${pairs}`;
+}
+
+/**
+ * @param {Map<string, string>} params
+ * @param {import('./framework.js').Framework} fw
+ * @returns {DecodedHash}
+ */
+function decodeTarget(params, fw) {
+  const name = (params.get('target') ?? '').trim();
+  if (!name) return { kind: 'invalid', problems: ['a target link needs a name'] };
+  /** @type {string[]} */
+  const problems = [];
+  /** @type {Map<string, import('./logbook.js').TargetLevel>} */
+  const levels = new Map();
+  for (const pair of splitPairs(params.get('levels'))) {
+    const m = /^([A-Z]{4})-([1-7])(!?)$/.exec(pair);
+    if (!m) {
+      problems.push(`"${pair}" is not a code-level pair`);
+      continue;
+    }
+    const code = m[1];
+    const level = Number(m[2]);
+    const problem = levelProblem(fw, code, level);
+    if (problem) problems.push(problem);
+    else if (levels.has(code)) problems.push(`${code} is given more than once; the first is kept`);
+    else levels.set(code, { code, level, priority: m[3] ? 'essential' : 'desirable' });
+  }
+  return { kind: 'target', target: { name, levels: inFrameworkOrder(fw, [...levels.values()]) }, mapped: [], problems };
 }
 
 /**

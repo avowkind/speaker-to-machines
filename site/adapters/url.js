@@ -2,7 +2,7 @@
  * The URL adapter: the only code that reads or writes the location hash. The
  * encoding itself belongs to the logbook core (core/url.js).
  */
-import { decodeHash, encodeSnapshot } from '../core/url.js';
+import { decodeHash, encodeSnapshot, encodeTarget } from '../core/url.js';
 
 /** @param {import('../core/framework.js').Framework} fw */
 export function readLink(fw) {
@@ -15,6 +15,22 @@ export function readLink(fw) {
  */
 export function writeSnapshotLink(snapshot) {
   history.replaceState(null, '', `#${encodeSnapshot(snapshot)}`);
+}
+
+/**
+ * Replace the hash with a target, without adding a history entry.
+ * @param {import('../core/logbook.js').Target} target
+ */
+export function writeTargetLink(target) {
+  history.replaceState(null, '', `#${encodeTarget(target)}`);
+}
+
+/**
+ * The address of a link to a target, without navigating to it.
+ * @param {import('../core/logbook.js').Target} target
+ */
+export function targetLink(target) {
+  return `${location.origin}${location.pathname}#${encodeTarget(target)}`;
 }
 
 export function clearLink() {

@@ -11,13 +11,17 @@ import { isDate, compareDates } from './dates.js';
 import { LOGBOOK_SCHEMA, currentCode, inFrameworkOrder, levelProblem } from './logbook.js';
 import { skillByCode } from './framework.js';
 import logbookSchema from '../schemas/logbook.schema.json' with { type: 'json' };
+import targetSchema from '../schemas/target.schema.json' with { type: 'json' };
 
 /**
  * @typedef {import('./framework.js').Framework} Framework
  * @typedef {import('./logbook.js').Logbook} Logbook
  * @typedef {import('./url.js').MappedCode} MappedCode
  * @typedef {{ ok: true, logbook: Logbook, mapped: MappedCode[] } | { ok: false, errors: string[] }} LogbookImport
+ * @typedef {{ ok: true, target: import('./logbook.js').Target, mapped: MappedCode[] } | { ok: false, errors: string[] }} TargetImport
  */
+
+export const TARGET_SCHEMA = 'stm-target/0.1';
 
 /**
  * YAML with every string double-quoted and keys plain.
@@ -78,12 +82,7 @@ export function importLogbook(fw, text) {
 
   /** @type {MappedCode[]} */
   const mapped = [];
-  /** @param {string} code */
-  const map = (code) => {
-    const to = currentCode(fw, code);
-    if (to !== code && !mapped.some((m) => m.from === code)) mapped.push({ from: code, to });
-    return to;
-  };
+  const map = mapper(fw, mapped);
   /** @type {string[]} */
   const errors = [];
   const ids = new Set();
@@ -136,6 +135,51 @@ export function importLogbook(fw, text) {
       overrides: inFrameworkOrder(fw, overrides),
     },
     mapped,
+  };
+}
+
+/**
+ * A target (a role template or a personal goal) as a target file.
+ * @param {import('./logbook.js').Target} target
+ * @returns {string}
+ */
+export function exportTarget(target) {
+  return toYaml(
+    { schema: TARGET_SCHEMA, name: target.name, levels: target.levels },
+    'Speaker-to-Machines target file: target levels, each essential or desirable.',
+  );
+}
+
+/**
+ * Read a target file, mapping retired codes to their replacements.
+ * @param {Framework} fw
+ * @param {string} text
+ * @returns {TargetImport}
+ */
+export function importTarget(fw, text) {
+  const parsed = fromYaml(text);
+  if (!parsed.ok) return parsed;
+  const schemaErrors = validateSchema(targetSchema, parsed.data);
+  if (schemaErrors.length) return { ok: false, errors: schemaErrors.map((e) => `${e.path || '(file)'}: ${e.message}`) };
+  /** @type {MappedCode[]} */
+  const mapped = [];
+  /** @type {string[]} */
+  const errors = [];
+  const levels = checkLevels(fw, /** @type {import('./logbook.js').TargetLevel[]} */ (parsed.data.levels), 'levels', 'given more than once in this target', mapper(fw, mapped), errors);
+  if (errors.length) return { ok: false, errors };
+  return { ok: true, target: { name: parsed.data.name, levels }, mapped };
+}
+
+/**
+ * A function mapping retired codes to current ones, recording each mapping once.
+ * @param {Framework} fw
+ * @param {MappedCode[]} mapped
+ */
+function mapper(fw, mapped) {
+  return (/** @type {string} */ code) => {
+    const to = currentCode(fw, code);
+    if (to !== code && !mapped.some((m) => m.from === code)) mapped.push({ from: code, to });
+    return to;
   };
 }
 

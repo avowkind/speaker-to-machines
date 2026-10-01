@@ -16,6 +16,8 @@ export class ClaimsGrid extends LitElement {
     readonly: { type: Boolean },
     practice: { attribute: false },
     status: { attribute: false },
+    target: { attribute: false },
+    priorities: { attribute: false },
     open: { state: true },
   };
 
@@ -32,6 +34,10 @@ export class ClaimsGrid extends LitElement {
     this.practice = undefined;
     /** @type {Record<string, import('../core/logbook.js').ClaimStatus> | undefined} badges, in a logbook */
     this.status = undefined;
+    /** @type {Record<string, import('../core/logbook.js').TargetLevel> | undefined} a target to overlay */
+    this.target = undefined;
+    /** @type {Record<string, import('../core/logbook.js').Priority> | undefined} set when the grid edits a target */
+    this.priorities = undefined;
     /** @type {Set<string>} codes whose details are open */
     this.open = new Set();
   }
@@ -98,6 +104,20 @@ export class ClaimsGrid extends LitElement {
           >
             <span class="code">${s.code}</span> ${s.name}
           </button>
+          ${this.priorities && claimed
+            ? html`<select
+                class="priority"
+                aria-label=${`Priority of ${s.code}`}
+                ?disabled=${this.readonly}
+                @change=${(/** @type {Event} */ e) =>
+                  this.dispatchEvent(
+                    new CustomEvent('priority-change', { detail: { code: s.code, priority: /** @type {HTMLSelectElement} */ (e.target).value }, bubbles: true }),
+                  )}
+              >
+                <option value="essential" ?selected=${this.priorities[s.code] === 'essential'}>essential</option>
+                <option value="desirable" ?selected=${this.priorities[s.code] !== 'essential'}>desirable</option>
+              </select>`
+            : nothing}
         </th>
         ${fw.levels.map(({ level }) => {
           if (level < lo || level > hi) return html`<td class="out-of-range" aria-hidden="true"></td>`;
@@ -129,6 +149,8 @@ export class ClaimsGrid extends LitElement {
     const st = this.status?.[code];
     if (st?.badge?.level === level) classes.push('badged');
     if (st?.unevidenced.includes(level)) classes.push('unevidenced');
+    const t = this.target?.[code];
+    if (t?.level === level) classes.push('target', t.priority);
     return classes.join(' ');
   }
 
@@ -137,9 +159,11 @@ export class ClaimsGrid extends LitElement {
    * @param {number} level
    */
   renderCellMarks(code, level) {
+    const t = this.target?.[code];
+    const targetMark = t?.level === level ? html`<span class="mark target">target · ${t.priority}</span>` : nothing;
     const st = this.status?.[code];
-    if (!st) return nothing;
-    return html`${st.badge?.level === level
+    if (!st) return targetMark;
+    return html`${targetMark}${st.badge?.level === level
       ? html`<span class="mark badge">${this.labels === 'name' ? st.badge.name : st.badge.title}</span>`
       : nothing}${st.level === level && st.unevidenced.length
       ? html`<span class="mark unevidenced">${st.badge ? 'beyond evidence' : 'no evidence'}</span>`

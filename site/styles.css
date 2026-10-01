@@ -442,3 +442,13 @@ table.history .badge-pill,
 table.history .stale-flag {
   margin-left: 0.25rem;
 }
+select.priority {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+}
+h2.section-title {
+  display: block;
+  margin: 1.25rem 0 0.4rem;
+  font-size: 1.15rem;
+}
