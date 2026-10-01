@@ -8,7 +8,7 @@
 
 Spec: ../spec.md
 
-- [ ] On import of a link, logbook file or target, the core maps retired codes in claims and target levels to their replacement codes
-- [ ] Evidence items keep the code they were logged under but count for the replacement skill (dates, badges)
-- [ ] The worker is told which codes were mapped on import
-- [ ] Core tests use a fixture framework that retires a code and cover links, logbook files and targets
+- [x] On import of a link, logbook file or target, the core maps retired codes in claims and target levels to their replacement codes
+- [x] Evidence items keep the code they were logged under but count for the replacement skill (dates, badges)
+- [x] The worker is told which codes were mapped on import
+- [x] Core tests use a fixture framework that retires a code and cover links, logbook files and targets

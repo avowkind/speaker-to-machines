@@ -7,7 +7,7 @@
  *   target    target=Senior%20engineer&levels=INST-4!,AISD-3   ("!" marks essential)
  */
 import { isDate } from './dates.js';
-import { inFrameworkOrder, levelProblem } from './logbook.js';
+import { currentCode, inFrameworkOrder, levelProblem } from './logbook.js';
 
 /**
  * @typedef {{ code: string, level: number }} Claim
@@ -59,6 +59,8 @@ function decodeTarget(params, fw) {
   if (!name) return { kind: 'invalid', problems: ['a target link needs a name'] };
   /** @type {string[]} */
   const problems = [];
+  /** @type {MappedCode[]} */
+  const mapped = [];
   /** @type {Map<string, import('./logbook.js').TargetLevel>} */
   const levels = new Map();
   for (const pair of splitPairs(params.get('levels'))) {
@@ -67,14 +69,26 @@ function decodeTarget(params, fw) {
       problems.push(`"${pair}" is not a code-level pair`);
       continue;
     }
-    const code = m[1];
+    const code = mapCode(fw, m[1], mapped);
     const level = Number(m[2]);
     const problem = levelProblem(fw, code, level);
     if (problem) problems.push(problem);
     else if (levels.has(code)) problems.push(`${code} is given more than once; the first is kept`);
     else levels.set(code, { code, level, priority: m[3] ? 'essential' : 'desirable' });
   }
-  return { kind: 'target', target: { name, levels: inFrameworkOrder(fw, [...levels.values()]) }, mapped: [], problems };
+  return { kind: 'target', target: { name, levels: inFrameworkOrder(fw, [...levels.values()]) }, mapped, problems };
+}
+
+/**
+ * A retired code's replacement (ADR 0004), recording the mapping once.
+ * @param {import('./framework.js').Framework} fw
+ * @param {string} code
+ * @param {MappedCode[]} mapped
+ */
+function mapCode(fw, code, mapped) {
+  const to = currentCode(fw, code);
+  if (to !== code && !mapped.some((m) => m.from === code)) mapped.push({ from: code, to });
+  return to;
 }
 
 /**
@@ -87,6 +101,8 @@ function decodeSnapshot(params, fw) {
   if (!isDate(date)) return { kind: 'invalid', problems: [`"${date}" is not a date (YYYY-MM or YYYY-MM-DD)`] };
   /** @type {string[]} */
   const problems = [];
+  /** @type {MappedCode[]} */
+  const mapped = [];
   /** @type {Map<string, number>} */
   const levels = new Map();
   for (const pair of splitPairs(params.get('claims'))) {
@@ -95,7 +111,7 @@ function decodeSnapshot(params, fw) {
       problems.push(`"${pair}" is not a code-level pair`);
       continue;
     }
-    const code = m[1];
+    const code = mapCode(fw, m[1], mapped);
     const level = Number(m[2]);
     const problem = levelProblem(fw, code, level);
     if (problem) problems.push(problem);
@@ -103,7 +119,7 @@ function decodeSnapshot(params, fw) {
     else levels.set(code, level);
   }
   const claims = inFrameworkOrder(fw, [...levels].map(([code, level]) => ({ code, level })));
-  return { kind: 'snapshot', snapshot: { date, claims }, mapped: [], problems };
+  return { kind: 'snapshot', snapshot: { date, claims }, mapped, problems };
 }
 
 /** @param {string | undefined} s */

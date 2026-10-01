@@ -1,0 +1,16 @@
+framework:
+  name: Test framework
+  subtitle: a fixture
+  version: "0.1"
+  licence: CC BY-SA 4.0
+  title_note: Fixture.
+levels:
+  - { level: 1, name: Aware, title: Listener, mode: know, description: Knows., evidence: A course. }
+  - { level: 2, name: Assisted, title: Caller, mode: use, description: Uses with help., evidence: Some use. }
+  - { level: 3, name: Practitioner, title: Speaker, mode: use, description: Uses routinely., evidence: Months of use. }
+  - { level: 4, name: Integrator, title: Shaper, mode: build, description: Builds for team., evidence: Workflows. }
+  - { level: 5, name: Designer, title: Maker, mode: build, description: Designs., evidence: Systems. }
+  - { level: 6, name: Authority, title: Keeper, mode: lead, description: Sets policy., evidence: Policies. }
+  - { level: 7, name: Field shaper, title: Namer, mode: lead, description: Advances the field., evidence: Publications. }
+retired:
+  - { code: WRTE, replaced_by: WRIT }
