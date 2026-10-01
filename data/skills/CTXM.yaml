@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: CTXM
+name: Context and memory management
+category: Delegating to AI agents
+subcategory: Configuration
+order: 2
+description: >-
+  Managing what an AI knows while it works: curating documents and project knowledge, memory, and
+  summaries so long-running work stays accurate.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Knows that an AI only knows what is in its context, training and memory. Supplies relevant files
+    or background when asked and starts fresh when a conversation drifts.
+  3: >-
+    Manages context deliberately in own work: curates project knowledge, keeps standing instruction
+    files current, reviews and edits assistant memory, summarises long work into hand-over notes,
+    and recognises when stale or excessive context is degrading results.
+  4: >-
+    Designs context structures for team work with AI, such as shared knowledge bases, repository
+    instruction files, conventions for what goes where, and hand-over formats between sessions and
+    agents. Maintains them so they stay accurate.
+  5: >-
+    Designs context and memory systems for AI products or multi-agent systems: what is retrieved,
+    kept, summarised or forgotten, and how accuracy, privacy and cost are controlled.
+  6: >-
+    Sets organisational architecture for the knowledge that AI systems draw on: sources of truth,
+    ownership, access and currency, across tools and vendors.
+map:
+  sfia: []
+  appliedai: [ sc_0001, sc_0150 ]

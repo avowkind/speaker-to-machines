@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: PERS
+name: Personal AI assistants
+category: Working with AI
+subcategory: Personal and home AI
+order: 1
+description: >-
+  Using AI assistants to manage personal life: correspondence, scheduling, finances, health and
+  fitness data, memory and personal knowledge, with attention to privacy.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI assistants can help with personal matters such as correspondence, scheduling, finances,
+    health and fitness data and remembering things, and knows the privacy trade-offs.
+  2: >-
+    Uses an AI assistant for simple personal tasks such as drafting a letter, planning a trip or
+    explaining a bill, and checks results.
+  3: >-
+    Uses AI routinely to run parts of personal life: connects it to calendar, email, documents or
+    personal data where worthwhile, reviews what it remembers, keeps sensitive data under control
+    and checks advice on money, health or law with qualified sources.
+  4: >-
+    Builds a personal AI set-up that works across services: persistent instructions, memory,
+    connected data sources, recurring tasks and personal tools. Helps family or friends set up and
+    use theirs safely.
+  5: >-
+    Designs personal AI services or set-ups other people rely on, as a product, a service or for a
+    household or community, handling consent, privacy, access for others and what happens when
+    things fail.
+map:
+  sfia: []
+  appliedai: []

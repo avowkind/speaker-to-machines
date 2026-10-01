@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: MADP
+name: Model adaptation
+category: Building AI models
+subcategory: Data and modelling
+order: 4
+description: >-
+  Adapting pre-trained models: fine-tuning, preference tuning, distillation and quantisation, and
+  evaluating the result.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Fine-tunes pre-trained models for specific tasks using established methods and hosted services,
+    and evaluates the result against the base model.
+  4: >-
+    Adapts models systematically through parameter-efficient fine-tuning, preference tuning,
+    distillation and quantisation, and handles data curation, evaluation and regressions in general
+    capability.
+  5: >-
+    Designs model adaptation strategy for products others rely on, deciding between prompting,
+    retrieval and fine-tuning and weighing cost, maintenance and safety effects.
+  6: >-
+    Sets organisational approach to custom and adapted models, including platforms, governance of
+    model derivatives and licensing.
+  7: >-
+    Advances model adaptation methods through research or widely used techniques and tools.
+map:
+  sfia: [ MLNG ]
+  appliedai: [ sc_0003, sc_0102, sc_0125 ]

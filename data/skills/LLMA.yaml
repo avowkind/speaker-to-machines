@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: LLMA
+name: LLM application engineering
+category: Building with AI
+subcategory: AI application engineering
+order: 1
+description: >-
+  Building applications on model APIs: structured output, tool calling, streaming, conversation
+  state, error handling and cost control.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Calls a model API from code by following examples, sends prompts and handles responses for a
+    simple feature or script.
+  3: >-
+    Builds working applications on model APIs: structured output, tool or function calling,
+    streaming, conversation state, retries and error handling, and keeps track of token use and
+    cost.
+  4: >-
+    Builds production-quality AI features for a product or team: prompt and schema design, input and
+    output validation, fallbacks between models, caching, rate limits and tests. Integrates text,
+    image, audio or document inputs as needed.
+  5: >-
+    Designs the architecture of AI-powered applications others rely on, balancing quality, latency,
+    cost, privacy and vendor dependence. Sets team patterns and libraries for AI features and
+    reviews others' designs.
+  6: >-
+    Sets organisational standards and shared platforms for building AI applications, such as
+    gateways, approved models, reusable components and policies.
+map:
+  sfia: [ PROG, SWDN ]
+  appliedai: [ sc_0107, sc_0006, sc_0104, sc_0004, sc_0056 ]

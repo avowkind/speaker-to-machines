@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ADAN
+name: AI-assisted data analysis
+category: Working with AI
+subcategory: Applying AI to work
+order: 3
+description: >-
+  Using AI to explore, analyse, visualise and explain data, with checks on the correctness of the
+  analysis.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI can analyse data, write analysis code and produce charts, and that the analysis may be
+    wrong even when the explanation sounds right.
+  2: >-
+    Asks AI to summarise, chart or calculate from a supplied dataset, and checks results against
+    known totals or a manual spot-check.
+  3: >-
+    Uses AI routinely for data work: cleaning, exploring, modelling and visualising. Reads or runs
+    the generated code or formulas, checks assumptions and outliers, and states the limits of the
+    result.
+  4: >-
+    Builds reusable AI-assisted analyses and reports for self and team, with documented steps,
+    validation checks and data-access rules. Helps others interpret AI-produced analysis.
+  5: >-
+    Designs AI-assisted analytics that others rely on for decisions, with validation,
+    reproducibility, governed data access and clear ownership of conclusions.
+map:
+  sfia: [ DAAN ]
+  appliedai: [ sc_0055, sc_0064 ]

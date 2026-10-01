@@ -14,18 +14,24 @@ Status: draft v0.1 (30 Sep 2026). All 277 level descriptions are drafted and nee
 - docs/literature-review.md: prior art and positioning
 - docs/framework-design.md: purpose, principles, level scale, taxonomy, data model, decisions
 - docs/skills-review.md: generated, human-readable list of every skill and level
-- data/levels.json: level definitions and titles
-- data/build_skills.py: taxonomy, skill metadata, examples and mappings; builds data/skills.json
-- data/descriptors.py: level descriptions per skill code
-- data/skills.json: generated framework data (category -> subcategory -> skill -> record)
-- data/render_review.py: regenerates docs/skills-review.md
-- data/profile.example.json: example logbook (evidence log, snapshots over time, targets for gap analysis)
+- data/levels.yaml: level definitions and titles, the framework's name, version and licence, and retired codes
+- data/taxonomy.yaml: category and subcategory order and display names
+- data/skills/CODE.yaml: one file per skill: description, level range, descriptors and mappings
+- data/examples.yaml: the examples layer (current tools and models), keyed by skill code, with one as_of date
+- site/schemas/: JSON Schemas for each kind of framework file
+- site/core/framework.js: loads and checks the framework files; shared by the build and the site
+- scripts/build.js: the build; writes site/framework.json (generated, git-ignored) and docs/skills-review.md
 
 ## Build
 
-    cd data && python3 build_skills.py && python3 render_review.py
+Needs Node 22 or later.
 
-The build fails if a skill's level descriptions do not exactly cover its level_range.
+    npm install
+    npm run build      # validate, write site/framework.json and docs/skills-review.md
+    npm run validate   # validate only
+    npm test
+
+The build fails if a skill's descriptors do not exactly cover its level_range. Each error names the file, the field and the rule broken.
 
 ## Licence
 

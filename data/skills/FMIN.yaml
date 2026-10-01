@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: FMIN
+name: Foundation model concepts
+category: Understanding AI
+subcategory: Concepts
+order: 3
+description: >-
+  Understanding how large foundation models work and behave: architecture, tokens and context
+  windows, sampling, embeddings, reasoning modes, multimodality, and the effects of scale and
+  training data.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Knows that current AI assistants are built on large models trained on very large amounts of data
+    to predict likely continuations, and that this explains both their fluency and their errors.
+  2: >-
+    Understands practical concepts that affect use: context windows, tokens, training cut-off dates,
+    randomness in outputs and the difference between the model and the tools around it.
+  3: >-
+    Understands how foundation models are built and adapted (pre-training, instruction and
+    preference tuning, reasoning modes, multimodality, retrieval and tool use), and uses this to
+    predict behaviour and choose approaches.
+  4: >-
+    Understands architecture and training well enough to explain trade-offs between model types and
+    sizes, open and closed weights, and fine-tuning versus prompting or retrieval. Reads model
+    documentation and technical reports critically.
+  5: >-
+    Has deep technical understanding of model internals, training and scaling. Advises on technical
+    direction and assesses new model claims and research results.
+  6: >-
+    Recognised as an authority on foundation models within an organisation or wider community.
+    Shapes technical strategy on the basis of that understanding.
+map:
+  sfia: [ MLNG ]
+  appliedai: []

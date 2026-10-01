@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AGEN
+name: Agent engineering and orchestration
+category: Building with AI
+subcategory: AI application engineering
+order: 3
+description: >-
+  Designing and building agents and multi-agent systems: control loops, planning, state, sub-agents,
+  inter-agent communication and failure handling.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Builds a single agent with a framework or SDK: a tool-using loop with instructions, a few tools,
+    stopping conditions and basic logging, for a defined task.
+  4: >-
+    Builds reliable agents for real workloads: planning, state and memory, sub-agents, retries and
+    recovery, human approval points, limited permissions and tests of behaviour on realistic tasks.
+  5: >-
+    Designs multi-agent and long-running agent systems others rely on: division of roles,
+    communication and shared state, orchestration, failure handling, cost and latency, observability
+    and safety controls. Sets team engineering practice for agents.
+  6: >-
+    Sets organisational architecture and platform strategy for agents, including frameworks,
+    protocols, runtime environments, identity and permissions, and interoperability across vendors.
+  7: >-
+    Advances agent engineering through research, widely adopted frameworks, protocols or published
+    methods.
+map:
+  sfia: [ SWDN, ARCH ]
+  appliedai: [ sc_0007, sc_0105, sc_0141, sc_0149 ]

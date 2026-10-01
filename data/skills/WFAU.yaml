@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: WFAU
+name: AI workflow automation
+category: Delegating to AI agents
+subcategory: Configuration
+order: 3
+description: >-
+  Building automations that combine AI steps with other applications to run recurring work reliably.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Uses ready-made automations or templates that include AI steps, and checks that they run as
+    expected.
+  3: >-
+    Builds automations for own work that combine AI steps with other applications, such as triage,
+    extraction, summarising or routing, with basic error handling and review points.
+  4: >-
+    Builds and maintains automations for team processes with monitoring, error handling, human
+    approval where needed, credentials management and documentation. Measures time saved and error
+    rates.
+  5: >-
+    Designs AI automation for business processes others depend on: architecture, reliability,
+    controls, cost and change management, and the choice between no-code platforms and custom build.
+  6: >-
+    Sets organisational strategy and standards for AI-enabled process automation: platforms,
+    governance, priorities and how gains are measured.
+map:
+  sfia: [ BPRE ]
+  appliedai: [ sc_0138, sc_0145 ]

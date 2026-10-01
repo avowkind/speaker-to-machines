@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: SUPV
+name: Agent supervision
+category: Delegating to AI agents
+subcategory: Delegation
+order: 2
+description: >-
+  Keeping appropriate human control when AI acts on your behalf: setting permissions and limits,
+  checking before acting on results, intervening, and reserving consequential decisions.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Understands that AI agents can take real actions (send, buy, change, delete) and that the person
+    delegating stays accountable. Can name basic safeguards such as approval steps and undo.
+  2: >-
+    Uses agents for low-risk actions with default safeguards on. Reviews proposed actions before
+    approving them and stops an agent that goes off track.
+  3: >-
+    Decides what to delegate by how reversible and consequential it is. Sets permissions, spending
+    and access limits. Checks evidence before relying on agent output. Recognises over-trust, scope
+    creep and signs of manipulated input in own use.
+  4: >-
+    Designs supervision for recurring or unattended agent work (approval points, logs, checkpoints,
+    rollback) for self and team. Investigates agent errors and adjusts delegation boundaries.
+    Coaches others in safe delegation.
+  5: >-
+    Defines oversight requirements for agentic systems other people depend on: autonomy by risk
+    level, escalation conditions, audit trails and monitoring of agent behaviour. Reviews incidents
+    and sets team practice.
+  6: >-
+    Sets organisational policy on agent autonomy and accountability, aligned with regulation and
+    risk appetite. Accountable for oversight of agents operating at organisational scale.
+map:
+  sfia: []
+  appliedai: [ sc_0137, sc_0144, sc_0118, sc_0013, sc_0099 ]

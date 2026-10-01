@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AILT
+name: AI literacy
+category: Understanding AI
+subcategory: Concepts
+order: 1
+description: >-
+  Understanding at a conceptual level how AI systems, including generative and agentic AI, work;
+  what they can and cannot do; and how they fail.
+level_range: [ 1, 4 ]
+levels:
+  1: >-
+    Can explain in plain terms what AI is and what current systems, including generative and agentic
+    AI, can and cannot do. Knows the common ways they fail: invented content, bias, inconsistency
+    and overconfidence.
+  2: >-
+    Recognises AI in the tools and services met day to day, and chooses sensibly whether to trust,
+    check or avoid AI output in everyday situations.
+  3: >-
+    Applies a working understanding of AI to own decisions: judges which tasks suit AI, anticipates
+    likely failure modes for a given use and explains AI behaviour to colleagues accurately and
+    without hype or dismissal.
+  4: >-
+    Explains AI clearly to varied audiences and corrects common misconceptions. Builds others'
+    literacy through teaching material, briefings or community discussion.
+map:
+  sfia: [ AIDE ]
+  appliedai: [ sc_0064 ]

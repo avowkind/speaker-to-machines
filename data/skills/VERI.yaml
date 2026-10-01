@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: VERI
+name: Output verification
+category: Working with AI
+subcategory: Communicating with AI
+order: 2
+description: >-
+  Critically evaluating AI output before relying on it: checking facts, sources, reasoning, code and
+  figures, and matching the depth of checking to the consequences.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows that AI output can be fluent and wrong: invented facts, sources, figures or code that
+    looks right. Knows that the person using it stays responsible for what they pass on.
+  2: >-
+    Checks AI output against a known source or with help before using it. Spots obvious errors,
+    missing references and answers that do not match the question.
+  3: >-
+    Routinely checks AI output in proportion to the stakes: follows citations to the source,
+    re-derives key figures, runs and tests generated code, and asks for or seeks counter-evidence.
+    Records what was checked when the output matters.
+  4: >-
+    Builds checking into repeatable workflows for self and team, such as checklists, second-model
+    review, test cases and spot-audits. Recognises the failure patterns of particular task types and
+    models, and teaches others to check effectively.
+  5: >-
+    Designs verification for AI-assisted processes that other people rely on: which outputs need
+    human review, sampling rates, acceptance criteria and escalation. Reviews incidents where
+    unchecked output caused harm and changes practice.
+map:
+  sfia: []
+  appliedai: [ sc_0011, sc_0100, sc_0136 ]

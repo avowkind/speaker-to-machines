@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: MSEL
+name: Model selection
+category: Building with AI
+subcategory: AI quality and operations
+order: 4
+description: >-
+  Choosing models and deployment options for a purpose on evidence: capability, cost, latency,
+  privacy, licensing and vendor risk.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Chooses between available models or modes for own tasks, based on guidance about their
+    strengths, cost and data terms.
+  3: >-
+    Selects models for a use case on evidence: runs comparisons on own tasks, weighs quality, speed,
+    cost, context size, data handling and licence, and revisits the choice when new models appear.
+  4: >-
+    Maintains model choices for a team or product: evaluation-based comparisons, routing between
+    models, fallbacks and tracking of price and capability changes. Advises others.
+  5: >-
+    Designs model strategy for systems others rely on, balancing closed and open-weight models,
+    hosting options, vendor risk, privacy and total cost, with a plan for model deprecation and
+    migration.
+  6: >-
+    Sets organisational model and vendor strategy, including approved models, contracts, sovereignty
+    and data residency, and concentration risk.
+map:
+  sfia: []
+  appliedai: [ sc_0014, sc_0019 ]

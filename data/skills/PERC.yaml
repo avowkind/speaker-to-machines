@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: PERC
+name: Machine perception
+category: Physical and embodied AI
+subcategory: Sensing and perception
+order: 1
+description: >-
+  Applying AI to interpret sensor data (camera, lidar, radar, audio) for detection, tracking,
+  mapping and scene understanding.
+level_range: [ 1, 7 ]
+levels:
+  1: >-
+    Knows that AI can interpret images, video, sound and other sensor data to recognise objects,
+    people, speech and scenes, and knows the main limits and risks, including errors in poor
+    conditions, bias and surveillance.
+  2: >-
+    Uses perception features in everyday tools and devices, such as image search, transcription,
+    camera recognition and scanning, and checks results where they matter.
+  3: >-
+    Applies existing perception models to own tasks (detection, classification, segmentation,
+    transcription or tracking), prepares test data and measures accuracy in the conditions that
+    matter.
+  4: >-
+    Builds perception systems for real environments: adapts or trains models, fuses multiple
+    sensors, handles lighting, weather, occlusion and edge cases, and validates performance against
+    requirements.
+  5: >-
+    Designs perception architectures others rely on, including safety-relevant ones, balancing
+    accuracy, latency, sensor cost and robustness, and leads validation.
+  6: >-
+    Sets organisational strategy for machine perception, including sensor choices, data, platforms
+    and assurance.
+  7: >-
+    Advances machine perception through research, widely used models or datasets, or standards.
+map:
+  sfia: []
+  appliedai: []

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: OFFC
+name: AI in workplace applications
+category: Working with AI
+subcategory: Applying AI to work
+order: 5
+description: >-
+  Using AI features built into office suites and business applications (documents, spreadsheets,
+  email, meetings, CRM) effectively and within organisational policy.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI features exist in everyday work software (documents, spreadsheets, email, meetings,
+    business systems) and that organisational policy governs their use.
+  2: >-
+    Uses built-in AI features for routine tasks such as summarising a thread, drafting a reply,
+    meeting notes or a spreadsheet formula, and checks the result.
+  3: >-
+    Uses AI features across own work software as a normal part of work: combines them across
+    documents, email, meetings and data, grounds them in the right files, checks results and stays
+    within policy.
+  4: >-
+    Configures and adapts workplace AI features for team workflows, such as shared prompts,
+    templates, grounding on team content and meeting practices. Runs adoption support and gathers
+    feedback.
+  5: >-
+    Designs how AI features in workplace software are deployed across an area of the organisation:
+    settings, data access, permissions, guidance and measures of benefit, working with IT and
+    security.
+map:
+  sfia: []
+  appliedai: [ sc_0012, sc_0140 ]

@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AIRS
+name: AI research
+category: Building AI models
+subcategory: Platforms and research
+order: 3
+description: >-
+  Creating new AI knowledge and methods through formal research, and publishing and replicating
+  results.
+level_range: [ 4, 7 ]
+levels:
+  4: >-
+    Contributes to AI research under direction: reproduces results, runs experiments and analyses
+    and reports findings.
+  5: >-
+    Conducts independent AI research: formulates questions, designs experiments, publishes or
+    reports results and reviews others' work.
+  6: >-
+    Leads a research programme or group, sets research direction and secures resources.
+  7: >-
+    Produces research that changes the field, and is widely recognised as a leading contributor.
+map:
+  sfia: [ RSCH ]
+  appliedai: []

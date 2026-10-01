@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: WRIT
+name: AI-assisted writing
+category: Working with AI
+subcategory: Applying AI to work
+order: 1
+description: >-
+  Using AI to draft, edit, summarise, translate and adapt written communication while keeping
+  accuracy, voice and accountability.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI can draft, edit, summarise and translate text, and knows the main risks: errors, bland
+    or generic style, and presenting AI text as one's own without care.
+  2: >-
+    Uses AI to draft or improve routine text such as emails, summaries or notes, then edits the
+    result before sending.
+  3: >-
+    Uses AI routinely across own writing (drafting, restructuring, tightening, translating, adapting
+    for different readers) while keeping own voice, checking facts and deciding what to disclose.
+    Knows when to write without AI.
+  4: >-
+    Builds reusable writing aids for self and team: style guides, voice profiles, templates and
+    review prompts that give consistent results. Coaches others on getting quality rather than
+    volume.
+  5: >-
+    Designs AI-assisted writing processes or products that others rely on, such as document
+    production, customer communication or publishing, with quality control, disclosure policy and
+    accountability for what is published.
+map:
+  sfia: []
+  appliedai: [ sc_0106 ]

@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AREG
+name: AI law and regulation
+category: Understanding AI
+subcategory: Responsibility
+order: 2
+description: >-
+  Understanding and applying the law and regulation that governs AI development and use, including
+  privacy, intellectual property, and AI-specific regulation across jurisdictions.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Knows that AI use is subject to law and regulation, including privacy, intellectual property,
+    consumer protection and AI-specific rules, and that obligations differ by country.
+  2: >-
+    Follows organisational rules derived from the law when using AI, and knows when to ask for
+    advice.
+  3: >-
+    Identifies the legal and regulatory issues that apply to own AI work, such as personal data,
+    copyright in inputs and outputs, disclosure duties and risk classification, and works within
+    them.
+  4: >-
+    Applies AI law and regulation to team projects: interprets requirements, prepares documentation
+    and impact assessments, and works with legal and compliance specialists.
+  5: >-
+    Designs compliance into AI systems and processes others rely on: requirement mapping, technical
+    documentation, conformity evidence and monitoring of regulatory change across jurisdictions.
+  6: >-
+    Sets organisational approach to AI regulation and compliance, including market strategy,
+    accountability and engagement with regulators.
+map:
+  sfia: [ GOVN ]
+  appliedai: [ sc_0015, sc_0044, sc_0046, sc_0048, sc_0016, sc_0018, sc_0049, sc_0050, sc_0116 ]

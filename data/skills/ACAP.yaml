@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ACAP
+name: Agent capability design
+category: Building with AI
+subcategory: AI application engineering
+order: 4
+description: >-
+  Designing the reusable capabilities agents use (packaged skills and instructions, tool
+  definitions, connectors and servers) so agents do specific tasks reliably and safely.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Installs and enables existing skills, plugins or connectors for an AI assistant by following
+    instructions, and checks what access they are granted.
+  3: >-
+    Writes simple skills or custom instructions for own recurring tasks, for example a documented
+    procedure an agent follows, and refines them from observed results. Connects agents to personal
+    data sources with appropriately limited access.
+  4: >-
+    Designs skill and tool sets for team workflows: descriptions that trigger correctly, well-typed
+    tool interfaces, limited credentials, bundled scripts and reference material. Tests capabilities
+    against realistic tasks and maintains them as underlying tools change.
+  5: >-
+    Designs and builds capability servers and skill libraries used by other people or products.
+    Handles authentication, permissions, versioning, error behaviour and threats such as tool
+    poisoning and injection. Evaluates capability quality systematically.
+  6: >-
+    Sets organisational architecture and standards for agent capabilities: catalogue, review and
+    approval, security policy and reuse. Decides whether to build or adopt across vendors.
+  7: >-
+    Contributes to public protocols, standards or widely adopted capability ecosystems, and
+    influences how agent capabilities are designed across the industry.
+map:
+  sfia: []
+  appliedai: [ sc_0151 ]

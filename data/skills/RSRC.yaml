@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: RSRC
+name: AI-assisted research
+category: Working with AI
+subcategory: Applying AI to work
+order: 2
+description: >-
+  Using AI to find, read, synthesise and critically assess sources, from quick lookups to
+  multi-source research reports.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI can search, read and summarise sources, and that it can miss, misread or invent them.
+  2: >-
+    Uses AI to find information and summarise documents for simple questions, and opens the cited
+    sources to confirm key points.
+  3: >-
+    Uses AI routinely to research questions in own work: frames the question, directs the search,
+    reads primary sources for anything that matters, weighs conflicting evidence and reports
+    uncertainty. Chooses between quick lookup and in-depth research modes.
+  4: >-
+    Builds repeatable research workflows for self and team, such as source lists, reading and
+    extraction templates, literature and market scans, and knowledge bases that keep findings.
+    Trains others to research with AI critically.
+  5: >-
+    Designs AI-supported research or intelligence functions others rely on, with source quality
+    standards, reproducibility, audit of claims and clear limits on what conclusions the process can
+    support.
+map:
+  sfia: []
+  appliedai: [ sc_0063 ]

@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: JOBR
+name: Work redesign for AI
+category: Leading AI adoption
+subcategory: People and change
+order: 1
+description: >-
+  Redesigning jobs, processes and teams around AI, including hybrid human–agent teams.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Redesigns own role and routines around AI, deciding what to keep, delegate or stop doing, and
+    shares what works.
+  4: >-
+    Redesigns team workflows and roles to use AI and agents, including changed responsibilities,
+    hand-offs, skills needed and effects on workload and quality.
+  5: >-
+    Designs jobs, teams and operating models for an area of the organisation where people and agents
+    work together, including hybrid human–agent teams and career paths.
+  6: >-
+    Sets organisational approach to workforce change from AI, including role design, reskilling,
+    workforce planning and employment relations.
+  7: >-
+    Shapes how work is redesigned around AI beyond one organisation through research, policy or
+    widely adopted practice.
+map:
+  sfia: [ JADN, ORDI ]
+  appliedai: [ sc_0142, sc_0148 ]

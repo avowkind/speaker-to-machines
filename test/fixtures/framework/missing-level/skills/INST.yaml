@@ -1,0 +1,13 @@
+code: INST
+name: Instructing AI
+category: Working with AI
+subcategory: Communicating with AI
+order: 1
+description: Communicating intent to AI systems.
+level_range: [ 1, 3 ]
+levels:
+  1: Knows that phrasing changes the result.
+  3: Routinely briefs AI systems in own work.
+map:
+  sfia: []
+  appliedai: [ sc_0010 ]

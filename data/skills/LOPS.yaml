@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: LOPS
+name: AI operations and observability
+category: Building with AI
+subcategory: AI quality and operations
+order: 3
+description: >-
+  Running AI systems in production: tracing, monitoring, cost and latency management, incident
+  handling and change control for models and prompts.
+level_range: [ 3, 6 ]
+levels:
+  3: >-
+    Monitors AI features in production (errors, latency, cost and quality signals), traces
+    individual requests and agent runs, and investigates reported failures.
+  4: >-
+    Runs AI systems reliably for a team: tracing and dashboards, alerting on quality and cost,
+    controlled roll-out of prompt and model changes, incident handling and capacity planning with
+    providers.
+  5: >-
+    Designs operations for AI systems others rely on: observability architecture, service levels,
+    change control for models and prompts, cost governance and resilience to provider outages or
+    model changes.
+  6: >-
+    Sets organisational standards and platforms for operating AI in production, and is accountable
+    for reliability, cost and incident management at scale.
+map:
+  sfia: [ ITOP, USUP ]
+  appliedai: [ sc_0076, sc_0079, sc_0108, sc_0153 ]

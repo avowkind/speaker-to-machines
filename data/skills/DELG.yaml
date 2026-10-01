@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: DELG
+name: Task delegation
+category: Delegating to AI agents
+subcategory: Delegation
+order: 1
+description: >-
+  Deciding what work to hand to AI agents and how to break it down, split between agent-executable
+  and human-reserved parts, and specify done.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Knows that AI agents can carry out multi-step tasks, not just answer questions, and that
+    delegating well means deciding what to hand over and what to keep.
+  2: >-
+    Hands simple, well-bounded tasks to an agent with a clear instruction and a clear definition of
+    done, and reviews the result.
+  3: >-
+    Routinely delegates substantial work to agents: splits it into agent-suitable and human-reserved
+    parts, specifies goals, constraints, inputs and acceptance criteria, sequences the work and
+    integrates the results. Chooses the right kind of agent for the task.
+  4: >-
+    Designs repeatable delegation patterns for self and team, such as task templates,
+    specifications, hand-off points and parallel work across several agents. Measures what works and
+    moves the boundary between human and agent work as agents improve.
+  5: >-
+    Designs how work is divided between people and agents across a team's processes, including
+    roles, hand-offs, accountability and capacity planning. Sets delegation practice others follow.
+  6: >-
+    Sets organisational direction for delegating work to agents: which classes of work may be
+    delegated, at what level of autonomy, and how this changes roles and accountability.
+map:
+  sfia: [ JADN ]
+  appliedai: [ sc_0134, sc_0139, sc_0142 ]

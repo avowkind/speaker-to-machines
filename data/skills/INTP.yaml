@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: INTP
+name: Model interpretability
+category: Building AI models
+subcategory: Data and modelling
+order: 5
+description: >-
+  Explaining model behaviour: feature attribution, probing and mechanistic interpretability.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Applies standard explanation techniques, such as feature importance, attribution and
+    example-based explanations, to models and interprets them with care.
+  4: >-
+    Uses interpretability methods to debug and assure models: finds spurious features, investigates
+    failures and explains behaviour to stakeholders and regulators.
+  5: >-
+    Designs interpretability and transparency approaches for systems others rely on, matched to
+    legal, safety and user needs.
+  6: >-
+    Sets organisational standards for model transparency and explainability.
+  7: >-
+    Advances interpretability research, including mechanistic interpretability of large models.
+map:
+  sfia: [ MLNG ]
+  appliedai: [ sc_0017, sc_0128 ]

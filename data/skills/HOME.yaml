@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: HOME
+name: Home and device agent coordination
+category: Working with AI
+subcategory: Personal and home AI
+order: 2
+description: >-
+  Coordinating AI across home devices and services (voice assistants, smart home automation,
+  appliances, vehicles) so they work together safely and reliably.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI is present in voice assistants, smart home devices, appliances and vehicles, and knows
+    the privacy and security implications of devices that listen, watch and act.
+  2: >-
+    Uses voice assistants and smart devices for everyday tasks, sets up devices by following
+    instructions and manages basic privacy settings.
+  3: >-
+    Sets up and manages AI-enabled devices at home so they work together: routines and automations,
+    access for household members, privacy and security settings, and sensible behaviour when the
+    network or a service fails.
+  4: >-
+    Builds integrated home automation that coordinates devices, services and AI agents across
+    vendors, including local control where worthwhile, and maintains it as devices and services
+    change. Helps others with their set-ups.
+  5: >-
+    Designs home or small-site AI and automation that others rely on, as an installer, integrator or
+    product designer, with reliability, security, privacy, safety and support for the people living
+    with it.
+map:
+  sfia: []
+  appliedai: []

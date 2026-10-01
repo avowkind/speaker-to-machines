@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ACHG
+name: AI change leadership
+category: Leading AI adoption
+subcategory: People and change
+order: 3
+description: >-
+  Leading organisational and cultural change as AI alters how work is done.
+level_range: [ 4, 7 ]
+levels:
+  4: >-
+    Leads AI-related change in a team: builds understanding and support, addresses concerns, sets
+    expectations and embeds new ways of working.
+  5: >-
+    Leads AI-driven change across an area of the organisation, covering stakeholder engagement,
+    culture, resistance and measurement of adoption and outcomes.
+  6: >-
+    Leads organisation-wide change as AI reshapes work, and sets the vision, pace and culture for
+    responsible adoption.
+  7: >-
+    Shapes how organisations and sectors adapt to AI through leadership, advocacy or widely
+    influential work.
+map:
+  sfia: [ CIPM ]
+  appliedai: [ sc_0040, sc_0159 ]

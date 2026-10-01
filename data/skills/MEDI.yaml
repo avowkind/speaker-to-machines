@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: MEDI
+name: AI media creation
+category: Working with AI
+subcategory: Applying AI to work
+order: 4
+description: >-
+  Creating and editing images, audio, video, slides and designs with generative AI, including
+  rights, disclosure and quality control.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows AI can generate and edit images, audio, video and designs, and knows the issues of rights,
+    consent, deception and disclosure.
+  2: >-
+    Creates simple media with AI for personal or low-stakes use, following guidance on acceptable
+    use and labelling.
+  3: >-
+    Produces media with AI for own work: directs style and composition, iterates, edits and combines
+    outputs with conventional tools, checks rights and likeness, and labels AI content where
+    required.
+  4: >-
+    Builds repeatable media workflows for self and team, such as brand-consistent styles, reusable
+    assets, voice or avatar set-ups with consent, and review steps before publication.
+  5: >-
+    Designs AI media production that others rely on, with rights management, consent records,
+    provenance and labelling, quality standards and accountability for what is published.
+map:
+  sfia: []
+  appliedai: [ sc_0103, sc_0161 ]

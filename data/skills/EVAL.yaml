@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: EVAL
+name: AI evaluation
+category: Building with AI
+subcategory: AI quality and operations
+order: 1
+description: >-
+  Measuring AI system quality: test sets, graders, human review, red-teaming and regression tracking
+  for models, prompts and agents.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Runs existing evaluations or test sets on an AI feature and reports the results, and records
+    failures seen in use.
+  3: >-
+    Builds evaluation sets for own AI features from real examples, defines pass criteria, uses
+    automated and model-based grading with spot checks by people, and compares prompts or models on
+    evidence.
+  4: >-
+    Makes evaluation routine for a team: regression suites run on every change, metrics tied to user
+    outcomes, calibrated model-based graders, red-team cases and evaluation of agents on multi-step
+    tasks.
+  5: >-
+    Designs evaluation strategy for AI systems others rely on, covering offline and online measures,
+    human review programmes, safety and bias testing, and release criteria. Judges what the evidence
+    does and does not show.
+  6: >-
+    Sets organisational standards for AI evaluation and release decisions, including required
+    evidence, independent review and reporting to governance.
+  7: >-
+    Advances evaluation science or practice through new methods, widely used benchmarks or tools, or
+    published research.
+map:
+  sfia: [ TEST, NFTS ]
+  appliedai: [ sc_0080, sc_0152 ]

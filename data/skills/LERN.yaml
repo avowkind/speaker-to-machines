@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: LERN
+name: Learning with AI
+category: Working with AI
+subcategory: Applying AI to work
+order: 6
+description: >-
+  Using AI as a tutor and study partner to learn new subjects and skills, while guarding against
+  shallow understanding and over-reliance.
+level_range: [ 1, 4 ]
+levels:
+  1: >-
+    Knows AI can explain, quiz and tutor, and knows the risks of shallow understanding, errors and
+    letting the tool do the thinking.
+  2: >-
+    Uses AI to explain unfamiliar concepts and answer questions while studying, and checks important
+    points against reliable material.
+  3: >-
+    Uses AI deliberately to learn new subjects and skills: asks for explanations at the right level,
+    practice questions and feedback on own work, uses it to test rather than replace understanding,
+    and verifies against authoritative sources.
+  4: >-
+    Designs AI-supported learning for self and others, such as study plans, practice sets and
+    feedback loops, and helps others use AI to learn well rather than to avoid learning.
+map:
+  sfia: []
+  appliedai: []

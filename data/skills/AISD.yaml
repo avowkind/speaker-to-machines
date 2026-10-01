@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AISD
+name: AI-assisted software development
+category: Building with AI
+subcategory: AI-assisted development
+order: 1
+description: >-
+  Using AI assistants and coding agents in the software development cycle: writing, explaining,
+  reviewing, testing and refactoring code while owning its quality.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Knows AI can write, explain, review and test code, and knows the risks: plausible but wrong
+    code, security flaws, licence issues and loss of understanding of one's own codebase.
+  2: >-
+    Uses AI code completion and chat to write small pieces of code, explain unfamiliar code and fix
+    errors, and reviews and runs everything before committing.
+  3: >-
+    Uses AI assistants and coding agents routinely across the development cycle (implementing
+    features, writing tests, refactoring, debugging, documenting), keeping ownership of design and
+    quality. Reviews generated changes as carefully as a colleague's and knows when to write code by
+    hand.
+  4: >-
+    Shapes AI-assisted development for self and team: repository instruction files, conventions,
+    reusable commands and skills, test-first and review practices that keep agent output reliable.
+    Handles large changes such as migrations with agents while keeping them reviewable. Coaches
+    other developers.
+  5: >-
+    Designs development processes and tooling in which AI does a substantial share of the coding,
+    including guardrails, review standards, security scanning, measures of quality and throughput,
+    and how junior developers still learn. Sets engineering practice for a team or product.
+  6: >-
+    Sets organisational strategy for AI in software engineering: tools and vendors, policies on code
+    provenance, licensing and security, effects on roles and hiring, and how productivity and
+    quality are measured.
+map:
+  sfia: [ PROG ]
+  appliedai: [ sc_0022, sc_0069 ]

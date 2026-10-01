@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../site/schemas/taxonomy.schema.json
+categories:
+  - name: Understanding AI
+    subcategories:
+      - name: Concepts
+      - name: Responsibility
+  - name: Working with AI
+    subcategories:
+      - name: Communicating with AI
+      - name: Applying AI to work
+      - name: Personal and home AI
+  - name: Delegating to AI agents
+    subcategories:
+      - name: Delegation
+      - name: Configuration
+  - name: Building with AI
+    subcategories:
+      - name: AI-assisted development
+      - name: AI application engineering
+      - name: AI quality and operations
+  - name: Building AI models
+    subcategories:
+      - name: Data and modelling
+      - name: Platforms and research
+  - name: Physical and embodied AI
+    subcategories:
+      - name: Sensing and perception
+      - name: Acting in the world
+  - name: Leading AI adoption
+    subcategories:
+      - name: Strategy and governance
+      - name: People and change

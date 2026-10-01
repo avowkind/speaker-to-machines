@@ -1,0 +1,15 @@
+{
+  "name": "speaker-to-machines",
+  "private": true,
+  "description": "Speaker-to-Machines: an AI skills logbook",
+  "license": "CC-BY-SA-4.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "validate": "node scripts/build.js --validate",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
+  }
+}

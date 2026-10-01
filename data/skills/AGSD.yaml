@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AGSD
+name: Agentic software delivery
+category: Building with AI
+subcategory: AI-assisted development
+order: 2
+description: >-
+  Organising software delivery around agents: spec-driven development, parallel agents, agents in
+  CI/CD, and review and merge controls for agent-produced change.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Runs coding agents on well-specified tasks in the background or in parallel, and reviews and
+    merges their changes through the normal pull-request process.
+  4: >-
+    Organises delivery around agents for a team: writes specifications agents can execute, runs
+    several agents in parallel, uses agents in CI for fixes, reviews and upgrades, and sets merge
+    rules and required checks for agent-produced change.
+  5: >-
+    Designs agent-driven delivery pipelines other people rely on, such as automated migrations,
+    dependency and vulnerability remediation, or change applied across many repositories, with
+    specifications, verification, staged rollout, rollback and audit.
+  6: >-
+    Sets organisational practice for agent-driven software delivery: which changes may be
+    agent-authored, required controls and evidence, platform choices, and how accountability for
+    shipped code is kept.
+  7: >-
+    Advances how the industry delivers software with agents through widely adopted methods, tools,
+    platforms or published practice.
+map:
+  sfia: [ RELM, DEPL ]
+  appliedai: [ sc_0068 ]

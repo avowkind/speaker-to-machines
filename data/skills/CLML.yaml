@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: CLML
+name: Predictive modelling
+category: Building AI models
+subcategory: Data and modelling
+order: 2
+description: >-
+  Building and validating classical machine learning models for prediction, classification,
+  forecasting and anomaly detection.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Trains and evaluates standard models on prepared data using established tools and examples,
+    under guidance.
+  3: >-
+    Builds and validates predictive models for defined problems: selects features and algorithms,
+    tunes, evaluates with appropriate metrics and validation, and explains results and limits.
+  4: >-
+    Develops models for varied and messy problems: frames the question as an ML task, handles
+    imbalance, leakage and drift, and delivers models that are fit for use with clear documentation.
+  5: >-
+    Designs modelling approaches for systems others rely on, reviews others' models, sets team
+    methods and judges when ML is and is not the right tool.
+  6: >-
+    Sets organisational direction for predictive analytics and ML, including priorities, methods and
+    standards.
+  7: >-
+    Advances predictive modelling methods through research or widely used tools.
+map:
+  sfia: [ MLNG, DATS ]
+  appliedai: [ sc_0119, sc_0120, sc_0122, sc_0126 ]

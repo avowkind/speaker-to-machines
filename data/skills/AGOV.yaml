@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AGOV
+name: AI governance and risk
+category: Leading AI adoption
+subcategory: Strategy and governance
+order: 2
+description: >-
+  Establishing policy, accountability, risk management and assurance for AI use and development.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Follows and applies AI governance processes in own work: registers AI uses, completes risk
+    assessments and keeps required records.
+  4: >-
+    Runs AI governance for a team or project, including risk assessments, controls, documentation
+    and reporting, and advises colleagues on requirements.
+  5: >-
+    Designs AI governance frameworks and processes, such as inventories, risk classification,
+    controls, assurance and human oversight, for an area of the organisation.
+  6: >-
+    Sets and is accountable for organisational AI governance: policy, risk appetite, oversight
+    structures and reporting to boards and regulators.
+  7: >-
+    Shapes AI governance practice beyond one organisation through standards, regulation or widely
+    adopted frameworks.
+map:
+  sfia: [ GOVN, BURM, AIDE ]
+  appliedai:
+    [
+      sc_0029,
+      sc_0043,
+      sc_0045,
+      sc_0112,
+      sc_0113,
+      sc_0156,
+      sc_0042,
+      sc_0096,
+      sc_0110,
+      sc_0155,
+      sc_0157,
+      sc_0158
+    ]

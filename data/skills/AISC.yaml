@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AISC
+name: AI security
+category: Building with AI
+subcategory: AI quality and operations
+order: 2
+description: >-
+  Protecting AI systems and their users from attack and misuse: prompt injection, data exfiltration,
+  tool and supply-chain risk, and permission design.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Knows the main attacks on AI systems (prompt injection, data leakage, poisoned tools or content,
+    jailbreaks) and follows secure-use guidance for agents and connectors.
+  3: >-
+    Builds AI features with basic defences: least-privilege tools and credentials, separation of
+    untrusted content from instructions, output handling, sandboxed execution and review of
+    third-party skills, plugins and servers.
+  4: >-
+    Tests and hardens AI systems for a team through threat modelling, red-teaming for injection and
+    exfiltration, monitoring for misuse and supply-chain checks on models, packages and agent
+    capabilities. Advises colleagues.
+  5: >-
+    Designs security architecture for AI systems others rely on: identity and permissions for
+    agents, isolation, data-flow controls, detection and incident response. Sets team security
+    practice for AI.
+  6: >-
+    Sets organisational AI security strategy and policy, integrating it with the wider security
+    programme, risk appetite and regulation.
+  7: >-
+    Advances AI security through research, widely used tools, frameworks or standards.
+map:
+  sfia: [ SCTY, VUAS ]
+  appliedai: [ sc_0005, sc_0101, sc_0147, sc_0154 ]

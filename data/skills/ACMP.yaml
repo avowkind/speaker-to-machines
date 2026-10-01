@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ACMP
+name: AI compute and infrastructure
+category: Building AI models
+subcategory: Platforms and research
+order: 2
+description: >-
+  Planning and operating compute for AI: accelerators, clusters, cloud capacity, cost and energy.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Runs AI workloads on accelerators in cloud or on-premises environments, sizing resources and
+    managing cost for own projects.
+  4: >-
+    Operates compute for a team's AI work, covering clusters, scheduling, utilisation, storage and
+    networking for training and inference, and cost control.
+  5: >-
+    Designs AI compute infrastructure others rely on, balancing performance, cost, energy use,
+    availability of hardware and vendor dependence.
+  6: >-
+    Sets organisational compute strategy for AI, including capacity, sourcing, sovereignty and
+    sustainability.
+  7: >-
+    Advances AI systems infrastructure through research, widely used systems or hardware-software
+    co-design.
+map:
+  sfia: [ HPCC, CPMG ]
+  appliedai: [ sc_0082, sc_0084, sc_0085, sc_0095 ]

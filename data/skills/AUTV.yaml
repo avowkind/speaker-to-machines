@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AUTV
+name: Autonomous vehicles and mobility
+category: Physical and embodied AI
+subcategory: Acting in the world
+order: 2
+description: >-
+  Using, supervising, developing or assuring AI that drives or pilots vehicles and drones.
+level_range: [ 1, 7 ]
+levels:
+  1: >-
+    Knows how driver assistance and autonomous vehicles and drones work in outline, the levels of
+    automation, and the main safety, legal and social issues.
+  2: >-
+    Uses driver assistance or autonomous mobility services as designed: understands what the system
+    is and is not responsible for, stays attentive when required and takes over appropriately.
+  3: >-
+    Operates or supervises autonomous vehicles or drones in a work setting under procedures, or
+    develops and tests components of autonomy software within an established system.
+  4: >-
+    Builds and integrates autonomy capabilities (perception, prediction, planning, control) and
+    tests them in simulation and on closed courses against defined scenarios.
+  5: >-
+    Designs autonomous vehicle or drone systems others rely on, leads validation and safety cases
+    and makes trade-offs between capability, safety and operating domain.
+  6: >-
+    Sets organisational strategy for autonomous mobility, and is accountable for safety assurance,
+    regulatory approval and deployment.
+  7: >-
+    Advances autonomous mobility through research, industry standards or widely adopted platforms.
+map:
+  sfia: [ SFEN, SFAS ]
+  appliedai: []

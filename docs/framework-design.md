@@ -24,7 +24,7 @@ It has to support three things:
 
 ## 3. Level scale
 
-There are seven levels, the same count as SFIA. A level blends three things: how independently you work (autonomy), how far your work reaches (scope: you, your team, your organisation, the field), and what you actually do (knowing, using, building, leading). Not every skill uses every level, and each skill has a level_range. Definitions are in data/levels.json.
+There are seven levels, the same count as SFIA. A level blends three things: how independently you work (autonomy), how far your work reaches (scope: you, your team, your organisation, the field), and what you actually do (knowing, using, building, leading). Not every skill uses every level, and each skill has a level_range. Definitions are in data/levels.yaml.
 
 Each level has a plain name for formal outputs such as position descriptions and CVs, and a title for the profile and badge views. The titles follow the Kzin naming custom in Larry Niven's Known Space stories: a Kzin goes from a description to an occupation title (Speaker-to-Animals) and then to a name, each earned by deeds. Here too, a level is earned through evidence, not claimed. A title can be written in full, as in Shaper-of-Machines.
 
@@ -89,13 +89,9 @@ The framework is kept as YAML files under data/, edited by hand or by pull reque
 - examples.yaml: the examples layer, keyed by code, with one as_of
 - levels.yaml: level definitions and titles, plus the framework's name, version and licence
 
-A validator checks each file against a JSON Schema and checks level-range coverage, code format and uniqueness, no collision with SFIA codes, that replaced_by codes exist, and that no descriptor names a product from examples.yaml. It runs locally and in CI on every pull request. A build bundles the files into one generated JSON file for the site, and render_review.py regenerates docs/skills-review.md. Versions are tagged releases: major when a code is retired or a level's meaning changes, minor when a skill or level is added, patch for wording or examples only. A maintenance interface is a future goal the layout must allow; it is not part of the first build.
+A validator checks each file against a JSON Schema and checks level-range coverage, code format and uniqueness, no collision with SFIA codes, that replaced_by codes exist, and that no descriptor names a product from examples.yaml. It runs locally and in CI on every pull request. A build bundles the files into one generated JSON file for the site, and regenerates docs/skills-review.md (`npm run build`; `npm run validate` checks only). Versions are tagged releases: major when a code is retired or a level's meaning changes, minor when a skill or level is added, patch for wording or examples only. A maintenance interface is a future goal the layout must allow; it is not part of the first build.
 
-Until the migration is done, data/build_skills.py and data/descriptors.py hold this data and build data/skills.json, a tree of category, then subcategory, then skill name, then the record. Each record has these fields:
-- level_range: [min, max]
-- levels: {"1": "...", ...}, filled only within level_range
-- examples: {as_of, items[]}, the current tools and models
-- map: {sfia[], appliedai[]}
+Each skill file holds code, name, category, subcategory, order (within its subcategory), description, level_range [min, max], levels (a descriptor per level, filled only within level_range) and map {sfia[], appliedai[]}. The generated bundle adds each skill's examples {as_of, items[]} from examples.yaml.
 
 A person's logbook is a separate file. The person owns it, and it lives in their browser or on their own machine, never on a server (ADR 0002). Terms are defined in CONTEXT.md. It holds:
 - an evidence log: one editable list of evidence items, each with a date, one or more skill codes, type (learned / used / built / taught / published), a note, an optional link and optional tools (examples-layer names or free text)

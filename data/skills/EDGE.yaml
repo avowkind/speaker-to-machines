@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: EDGE
+name: Edge and IoT AI
+category: Physical and embodied AI
+subcategory: Sensing and perception
+order: 2
+description: >-
+  Running AI on constrained devices and sensor networks, balancing accuracy, power, latency and
+  connectivity.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Sets up ready-made AI features on edge devices or sensors by following instructions, and checks
+    they work in place.
+  3: >-
+    Deploys AI models to constrained devices (single-board computers, cameras, microcontrollers),
+    handles connectivity and power limits and monitors them in the field.
+  4: >-
+    Builds edge AI solutions: optimises models for size and speed, manages fleets of devices,
+    updates them securely and combines local and cloud processing sensibly.
+  5: >-
+    Designs edge and IoT AI systems others rely on, balancing accuracy, power, latency, cost,
+    privacy and maintainability over the device lifetime.
+  6: >-
+    Sets organisational strategy for AI at the edge, including platforms, security and device
+    lifecycle.
+map:
+  sfia: [ RESD ]
+  appliedai: []

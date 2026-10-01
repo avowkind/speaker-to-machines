@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: MLFN
+name: Machine learning foundations
+category: Understanding AI
+subcategory: Concepts
+order: 2
+description: >-
+  Understanding how models learn from data: training, validation, generalisation, overfitting,
+  metrics and the main families of learning.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows that machine learning systems learn patterns from data rather than following written
+    rules, and that their quality depends on the data and on how they are tested.
+  2: >-
+    Understands the basic workflow of training data, a model, validation and predictions, and common
+    terms such as features, labels, accuracy, overfitting and bias in data.
+  3: >-
+    Understands the main learning approaches (supervised, unsupervised and reinforcement learning),
+    how models are evaluated and why results fail to generalise. Reads and critiques simple ML
+    results and metrics with confidence.
+  4: >-
+    Applies ML understanding to design choices and critiques: problem framing, data suitability,
+    choice of metric, leakage, uncertainty and the limits of what a model can show. Explains these
+    to non-specialists.
+  5: >-
+    Has the depth to guide ML work others do: reviews methods and results, spots flawed evaluation,
+    and advises on approach and feasibility across a range of problems.
+map:
+  sfia: [ MLNG ]
+  appliedai: [ sc_0119, sc_0121 ]

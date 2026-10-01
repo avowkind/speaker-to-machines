@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: PRIV
+name: Information hygiene with AI
+category: Working with AI
+subcategory: Communicating with AI
+order: 3
+description: >-
+  Protecting personal, client and confidential information when using AI: knowing what data goes
+  where, how it is retained or trained on, and choosing settings and tools accordingly.
+level_range: [ 1, 5 ]
+levels:
+  1: >-
+    Knows that what is typed or uploaded to an AI service may be stored, reviewed or used for
+    training, and that personal, client and confidential information needs care.
+  2: >-
+    Follows given rules on what may be shared with which AI tools. Removes obvious personal or
+    confidential details before use and uses the approved tool for work data.
+  3: >-
+    Chooses tools, plans and settings according to the sensitivity of the data: checks retention and
+    training terms, uses organisational or local options for confidential work, limits connector
+    access, and knows what agents can read on their behalf.
+  4: >-
+    Sets up safe defaults for self and team, such as approved tools by data class, redaction steps,
+    account and connector settings, and guidance for new tools. Advises colleagues on specific
+    cases.
+  5: >-
+    Designs data-handling controls for AI use that others rely on: classification rules, technical
+    controls on what reaches external models, logging and review. Works with privacy and security
+    specialists on assessments.
+map:
+  sfia: [ SCPE ]
+  appliedai: [ sc_0041, sc_0117 ]

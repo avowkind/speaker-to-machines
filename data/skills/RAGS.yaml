@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: RAGS
+name: Retrieval and knowledge systems
+category: Building with AI
+subcategory: AI application engineering
+order: 2
+description: >-
+  Designing systems that ground AI in organisational knowledge: search, embeddings, retrieval
+  pipelines, knowledge graphs and their evaluation.
+level_range: [ 3, 6 ]
+levels:
+  3: >-
+    Builds a basic retrieval system over a document set, covering chunking, embeddings, search and
+    grounded answers with citations, and checks answers against the sources.
+  4: >-
+    Improves retrieval quality systematically with hybrid search, re-ranking, metadata filters,
+    query rewriting and evaluation sets, and handles updates, permissions and source attribution.
+  5: >-
+    Designs knowledge systems others rely on, choosing between retrieval, long context, knowledge
+    graphs and agentic search. Designs access control, freshness and evaluation, and sets team
+    patterns.
+  6: >-
+    Sets organisational architecture for grounding AI in enterprise knowledge: sources of truth,
+    indexing platforms, access policy and quality measures.
+map:
+  sfia: [ IRMG ]
+  appliedai: [ sc_0002, sc_0098, sc_0008 ]

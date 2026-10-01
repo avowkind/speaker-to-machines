@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: INST
+name: Instructing AI
+category: Working with AI
+subcategory: Communicating with AI
+order: 1
+description: >-
+  Communicating intent to AI systems: framing the task, supplying context, examples and constraints,
+  and iterating to get useful results.
+level_range: [ 1, 6 ]
+levels:
+  1: >-
+    Knows that how a request is phrased, and what context is supplied, changes the result. Can write
+    a simple request to a chat assistant and rephrase it when the answer misses.
+  2: >-
+    Writes clear requests for routine tasks using examples, templates or advice from others. Adds
+    basic context such as audience, format and length, and revises when results are poor.
+  3: >-
+    Routinely briefs AI systems for varied tasks in own work: states goal, context, constraints and
+    what good looks like; supplies source material and examples; splits large requests into steps.
+    Recognises when a task is poorly suited to AI and stops.
+  4: >-
+    Builds reusable instructions (system prompts, project instructions, templates, style guides)
+    that give consistent results across tasks and for colleagues. Diagnoses failures such as missing
+    context, ambiguity or conflicting instructions, and adapts technique to different models and
+    modalities.
+  5: >-
+    Designs the instruction and context strategy for AI products or team workflows, including
+    structured outputs, testing prompt changes against a set of cases, and version control. Reviews
+    others' instructions and sets team conventions.
+  6: >-
+    Sets organisational standards and shared libraries for instructing AI. Judges when to rely on
+    instructions versus retrieval, fine-tuning or tooling across the organisation's AI portfolio.
+map:
+  sfia: []
+  appliedai: [ sc_0010, sc_0097, sc_0135, sc_0001 ]

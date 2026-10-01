@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: DLDV
+name: Deep learning development
+category: Building AI models
+subcategory: Data and modelling
+order: 3
+description: >-
+  Designing and training neural networks, including reinforcement learning, for vision, language,
+  audio and other domains.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Trains and adapts neural network models for defined tasks using established architectures and
+    frameworks, and monitors training and evaluation.
+  4: >-
+    Designs and trains deep learning models for new problems: architecture choices, training at
+    scale, debugging training failures and rigorous evaluation. May include reinforcement learning.
+  5: >-
+    Leads deep learning development for systems others rely on, making trade-offs between accuracy,
+    compute, latency and robustness, and sets team methods.
+  6: >-
+    Sets organisational strategy for deep learning capability, including research directions,
+    compute and talent.
+  7: >-
+    Advances deep learning through original research, new architectures or training methods, or
+    widely used open models and tools.
+map:
+  sfia: [ MLNG ]
+  appliedai: [ sc_0123, sc_0124, sc_0127 ]

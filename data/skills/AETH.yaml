@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AETH
+name: AI ethics and societal impact
+category: Understanding AI
+subcategory: Responsibility
+order: 1
+description: >-
+  Recognising and acting on ethical issues raised by AI: fairness, bias, transparency, labour and
+  environmental effects, and impacts on human autonomy.
+level_range: [ 1, 7 ]
+levels:
+  1: >-
+    Knows the main ethical issues raised by AI: fairness and bias, transparency, privacy,
+    accountability, effects on work and on the environment, and misuse.
+  2: >-
+    Recognises ethical issues in own use of AI and raises concerns through appropriate channels.
+  3: >-
+    Considers ethical impacts routinely in own AI work: who is affected, possible harm or
+    unfairness, disclosure and consent. Adjusts or declines uses accordingly.
+  4: >-
+    Brings ethical analysis into team AI work through impact assessments, bias checks, stakeholder
+    input and documented decisions. Helps others reason through difficult cases.
+  5: >-
+    Designs ethical safeguards into AI systems and processes others rely on, including fairness
+    testing, human oversight and redress. Reviews and challenges designs on ethical grounds.
+  6: >-
+    Sets organisational AI ethics principles and makes sure they are applied, with review processes,
+    escalation and accountability.
+  7: >-
+    Shapes ethical thinking and practice on AI beyond one organisation through research, public
+    policy, standards or widely influential work.
+map:
+  sfia: [ AIDE ]
+  appliedai: [ sc_0109, sc_0111, sc_0114, sc_0115, sc_0160, sc_0047, sc_0077, sc_0078 ]

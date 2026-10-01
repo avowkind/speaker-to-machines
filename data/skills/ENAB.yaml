@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ENAB
+name: Enabling others with AI
+category: Leading AI adoption
+subcategory: People and change
+order: 2
+description: >-
+  Teaching, coaching and building communities of practice so others adopt AI well.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Shares useful AI tips and examples with colleagues or friends informally.
+  3: >-
+    Helps others adopt AI through demonstrations, answering questions and pairing, and adapts
+    explanations to their level.
+  4: >-
+    Designs and runs AI learning for a team or community (workshops, guides, practice sessions and
+    communities of practice) and gauges whether people's practice changes.
+  5: >-
+    Designs AI capability programmes for an area of the organisation or a professional community,
+    with learning paths, assessment and sustained support.
+  6: >-
+    Sets organisational strategy for AI capability building, and is accountable for AI literacy and
+    skills across the workforce.
+  7: >-
+    Shapes AI education beyond one organisation through widely used curricula, frameworks,
+    publications or public teaching.
+map:
+  sfia: [ TMCR, ETDL ]
+  appliedai: [ sc_0023, sc_0036, sc_0146 ]

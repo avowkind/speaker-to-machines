@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: DPRE
+name: Data preparation for AI
+category: Building AI models
+subcategory: Data and modelling
+order: 1
+description: >-
+  Collecting, cleaning, labelling, generating and documenting data for training and evaluating AI.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Prepares data for AI use under guidance, by cleaning, formatting, labelling to instructions and
+    checking for obvious errors and missing values.
+  3: >-
+    Prepares datasets for training or evaluation: sourcing, cleaning, labelling, splitting and
+    documenting them, checking quality, representativeness and licensing, and generating synthetic
+    data where appropriate.
+  4: >-
+    Builds repeatable data preparation for AI projects: pipelines, labelling guidelines and quality
+    control, versioning, dataset documentation and bias checks.
+  5: >-
+    Designs data strategies for AI systems others rely on, covering sourcing, rights and consent,
+    labelling at scale, synthetic data, quality measures and governance.
+  6: >-
+    Sets organisational policy and investment for AI data, including acquisition, rights, quality
+    standards and platforms.
+map:
+  sfia: [ DENG, DATM ]
+  appliedai: [ sc_0021, sc_0052, sc_0009 ]

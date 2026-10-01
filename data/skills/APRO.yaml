@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: APRO
+name: AI procurement
+category: Leading AI adoption
+subcategory: Strategy and governance
+order: 3
+description: >-
+  Evaluating, buying and managing AI products and services, including contract terms for data, IP,
+  liability and model change.
+level_range: [ 3, 6 ]
+levels:
+  3: >-
+    Evaluates AI products for own or team use against needs, data terms and security requirements,
+    and follows procurement processes.
+  4: >-
+    Runs evaluations and procurement of AI products and services for a team: trials, criteria,
+    contract terms on data, intellectual property, liability and model change, and supplier
+    monitoring.
+  5: >-
+    Designs AI sourcing approaches for an area of the organisation, including vendor assessment,
+    standard contract terms, exit plans and management of AI suppliers.
+  6: >-
+    Sets organisational AI sourcing strategy and policy, including vendor concentration, sovereignty
+    and commercial models.
+map:
+  sfia: [ SORC, SUPP ]
+  appliedai: [ sc_0028 ]

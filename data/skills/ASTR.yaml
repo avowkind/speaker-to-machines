@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ASTR
+name: AI strategy and value
+category: Leading AI adoption
+subcategory: Strategy and governance
+order: 1
+description: >-
+  Deciding where AI creates value for an organisation, setting direction and investment, and
+  measuring results.
+level_range: [ 4, 7 ]
+levels:
+  4: >-
+    Identifies and assesses AI opportunities for a team or function, builds business cases and
+    measures results against them.
+  5: >-
+    Develops AI strategy for a business unit or product area: priorities, roadmap, investment, build
+    or buy choices and benefits tracking.
+  6: >-
+    Sets organisational AI strategy aligned with business goals, allocates investment across the
+    portfolio and is accountable for the value delivered.
+  7: >-
+    Shapes AI strategy beyond one organisation, for an industry, sector or nation, through
+    leadership, policy or widely influential work.
+map:
+  sfia: [ ITSP, INOV, INVA ]
+  appliedai:
+    [
+      sc_0024,
+      sc_0025,
+      sc_0027,
+      sc_0030,
+      sc_0033,
+      sc_0035,
+      sc_0038,
+      sc_0026,
+      sc_0031,
+      sc_0032,
+      sc_0034,
+      sc_0037
+    ]

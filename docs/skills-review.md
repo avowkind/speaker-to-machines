@@ -1,6 +1,6 @@
 # Speaker-to-Machines: skills and level descriptions (review copy)
 
-Generated from data/skills.json by data/render_review.py. Do not edit here.
+Generated from the YAML files in data/ by `npm run build`. Do not edit here.
 
 ## Understanding AI
 

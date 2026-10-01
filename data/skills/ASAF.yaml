@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ASAF
+name: AI safety concepts
+category: Understanding AI
+subcategory: Responsibility
+order: 3
+description: >-
+  Understanding risks from advanced AI and the methods used to reduce them: alignment, misuse
+  prevention, evaluations for dangerous capabilities, and deployment safeguards.
+level_range: [ 1, 7 ]
+levels:
+  1: >-
+    Knows that advanced AI raises safety concerns beyond everyday errors, including misuse, loss of
+    human control and systems pursuing unintended goals, and that developers use safeguards and
+    evaluations to reduce them.
+  2: >-
+    Understands common safety measures in deployed systems (refusals, usage policies, monitoring,
+    staged releases) and why they exist.
+  3: >-
+    Understands the main safety approaches (alignment training, red-teaming, dangerous-capability
+    evaluations, interpretability, control and monitoring) and applies safety thinking to own
+    deployments of capable models and agents.
+  4: >-
+    Assesses safety risks of AI systems for a team, using published safety frameworks and system
+    documentation, and designs appropriate safeguards and limits.
+  5: >-
+    Leads safety work on AI systems others rely on, such as evaluations, safety cases, incident
+    analysis and mitigations, and advises on deployment decisions.
+  6: >-
+    Sets organisational policy on AI safety, including thresholds for deployment, required
+    evaluations and governance of high-capability systems.
+  7: >-
+    Advances AI safety through research, standards, policy or widely adopted methods.
+map:
+  sfia: []
+  appliedai: []

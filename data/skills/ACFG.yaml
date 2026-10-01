@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ACFG
+name: Agent configuration
+category: Delegating to AI agents
+subcategory: Configuration
+order: 1
+description: >-
+  Setting up AI assistants and no- or low-code agents for specific purposes: projects, custom
+  agents, connectors, scheduled tasks and triggers.
+level_range: [ 2, 5 ]
+levels:
+  2: >-
+    Sets up a ready-made assistant or agent for a purpose by following instructions: gives it
+    instructions, attaches files and turns on offered connectors.
+  3: >-
+    Configures assistants and no-code agents for own recurring needs: custom instructions, knowledge
+    files, connectors with limited access, scheduled or triggered runs. Tests them and adjusts from
+    results.
+  4: >-
+    Configures agents for team use: shared agents, consistent instructions, managed connectors and
+    credentials, schedules, and documentation so others can use and maintain them. Retires or
+    updates agents as needs change.
+  5: >-
+    Designs the configuration standards and catalogue of agents for an area of the organisation,
+    covering ownership, access, review, cost and lifecycle, and supports others building within
+    them.
+map:
+  sfia: []
+  appliedai: [ sc_0143 ]

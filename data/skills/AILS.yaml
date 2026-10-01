@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: AILS
+name: AI landscape awareness
+category: Understanding AI
+subcategory: Concepts
+order: 4
+description: >-
+  Tracking AI models, vendors, capabilities and benchmarks, and separating credible evidence from
+  hype when judging what is now possible.
+level_range: [ 2, 6 ]
+levels:
+  2: >-
+    Follows general news about AI and knows the main vendors, products and recent developments.
+  3: >-
+    Keeps up to date with capabilities relevant to own work: tracks model and product releases,
+    tries new capabilities and separates demonstrated capability from marketing claims.
+  4: >-
+    Monitors the AI landscape for a team: evaluates new models and tools against real needs,
+    maintains shared notes on what works and advises on when to adopt or wait.
+  5: >-
+    Provides informed assessment of AI developments for decisions others make, drawing on primary
+    sources such as technical reports, benchmarks and evaluations, and states uncertainty clearly.
+  6: >-
+    Advises organisational leadership on the direction of AI capability and its implications for
+    strategy, investment and risk.
+map:
+  sfia: [ EMRG ]
+  appliedai: [ sc_0039 ]

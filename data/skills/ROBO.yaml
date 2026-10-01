@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: ROBO
+name: Robotics and embodied AI
+category: Physical and embodied AI
+subcategory: Acting in the world
+order: 1
+description: >-
+  Applying AI to machines that sense and act in the physical world: perception, planning, control
+  and learning for robots, with attention to physical safety.
+level_range: [ 1, 7 ]
+levels:
+  1: >-
+    Understands how AI-driven robots differ from fixed automation (sensing, uncertainty, learning)
+    and the main safety and social issues. Can describe current applications such as warehouse,
+    domestic, surgical and humanoid robots.
+  2: >-
+    Operates or supervises AI-enabled robots or consumer robotic devices under defined procedures.
+    Follows safety rules and reports faults or unexpected behaviour.
+  3: >-
+    Configures, programs and tunes robotic systems using existing AI components (perception models,
+    planners, simulation) for defined tasks. Tests in simulation before deployment and diagnoses
+    common perception and control failures.
+  4: >-
+    Integrates perception, planning and control into working robotic applications. Adapts or trains
+    models for new tasks or environments, uses simulation and real-world data to close the gap
+    between them, and applies relevant safety standards.
+  5: >-
+    Designs robotic AI systems other people rely on, balancing capability, safety, cost and
+    reliability. Leads validation and safety cases and sets team engineering practice.
+  6: >-
+    Sets organisational strategy for robotics and embodied AI. Accountable for safety assurance and
+    deployment at scale.
+  7: >-
+    Advances the field through research, widely used platforms, robot foundation models or safety
+    standards.
+map:
+  sfia: [ RESD, SFEN ]
+  appliedai: []

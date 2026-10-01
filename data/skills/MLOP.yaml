@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: MLOP
+name: ML operations
+category: Building AI models
+subcategory: Platforms and research
+order: 1
+description: >-
+  Deploying, serving and maintaining models in production, including local and edge inference,
+  retraining and drift monitoring.
+level_range: [ 3, 6 ]
+levels:
+  3: >-
+    Deploys models to serving environments, local machines or edge devices using established tools,
+    and monitors their performance.
+  4: >-
+    Builds ML pipelines for training, registration, deployment, monitoring and retraining, with
+    versioning of data and models, drift detection and rollback.
+  5: >-
+    Designs ML platforms and operational practice others rely on, covering reliability, scaling,
+    cost, reproducibility and governance of models in production.
+  6: >-
+    Sets organisational strategy and standards for ML operations and platforms.
+map:
+  sfia: [ ITOP, RELM ]
+  appliedai:
+    [
+      sc_0081,
+      sc_0086,
+      sc_0088,
+      sc_0089,
+      sc_0090,
+      sc_0093,
+      sc_0083,
+      sc_0087,
+      sc_0091,
+      sc_0092,
+      sc_0094
+    ]

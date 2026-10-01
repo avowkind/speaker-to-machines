@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: HRIS
+name: Human–robot interaction and safety
+category: Physical and embodied AI
+subcategory: Acting in the world
+order: 3
+description: >-
+  Designing and assuring safe, understandable interaction between people and AI-driven machines.
+level_range: [ 2, 7 ]
+levels:
+  2: >-
+    Works safely alongside AI-driven machines by following procedures, and reports unexpected
+    behaviour and near misses.
+  3: >-
+    Applies safety and usability requirements when setting up robots or AI devices that work near
+    people, including zones, speeds, stops, signals and user instructions.
+  4: >-
+    Designs interactions between people and robots for a deployment (communication of intent,
+    handover, shared workspaces) and carries out risk assessments against relevant standards.
+  5: >-
+    Leads safety assurance and interaction design for AI-driven machines others rely on: safety
+    cases, validation with users and incident investigation.
+  6: >-
+    Sets organisational policy for safety and interaction design of embodied AI.
+  7: >-
+    Advances human–robot interaction or physical AI safety through research or standards.
+map:
+  sfia: [ SFAS, HCEV ]
+  appliedai: []

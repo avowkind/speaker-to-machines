@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=../../site/schemas/skill.schema.json
+
+code: SIMU
+name: Simulation and digital twins
+category: Physical and embodied AI
+subcategory: Acting in the world
+order: 4
+description: >-
+  Using simulation and digital twins to train, test and validate AI systems that act physically.
+level_range: [ 3, 7 ]
+levels:
+  3: >-
+    Uses existing simulators or digital twins to test AI behaviour for defined scenarios, and
+    interprets results with awareness of the gap between simulation and reality.
+  4: >-
+    Builds simulation environments and scenario sets for training and testing, generates synthetic
+    data and calibrates simulations against real-world measurements.
+  5: >-
+    Designs simulation and digital-twin strategies that validation and training others rely on,
+    including coverage of scenarios, fidelity and evidence of real-world transfer.
+  6: >-
+    Sets organisational investment and standards for simulation-based development and assurance.
+  7: >-
+    Advances simulation methods for AI through research or widely used platforms.
+map:
+  sfia: []
+  appliedai: []
